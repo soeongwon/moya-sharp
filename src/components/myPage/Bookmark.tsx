@@ -1,24 +1,131 @@
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import BookmarkNav from "./BookmarkNav";
+import  BookmarkNav  from "./BookmarkNav";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Pagination from "./Pagination"
+
+
+interface Airline {
+  id: number;
+  name: string;
+  country: string;
+  logo: string;
+  slogan: string;
+  head_quaters: string;
+  website: string;
+  established: string;
+}
+
+interface Passenger {
+  _id: string;
+  name: string;
+  trips: number;
+  airline: Airline,
+  __v: number;
+}
+
+interface Response {
+  totalPassengers: number;
+  totalPages: number;
+  data: Array<Passenger>;
+}
+
+const Bookmark = () => {
+  const [page, setPage] = useState<number>(0)
+  const [totalPages, setTotalPages] = useState<number>(0)
+  const [items, setItems] = useState<Array<Passenger>>([])
+
+  const handlePageChange = (crrentPage: number): void => {
+    setPage(crrentPage)
+  }
+
+  useEffect(() => {
+    const fetch = async () => {
+      const params = { page, size: 6 }
+      const { data: { totalPages, data }} = await axios.get<Response>("https://api.instantwebtools.net/v1/passenger", { params });
+
+      setTotalPages(totalPages)
+      setItems(data)
+    }
+    fetch()
+  }, [page]);
+
+  return (
+  <Wrap>
+    <Container>
+      <SideBar>
+        <h2>스크랩한 뉴스</h2>
+        <SideContainer>
+          <BookmarkNav/>
+        </SideContainer>
+      </SideBar>
+      <Content>
+        <ContContainer>
+          <FilterList>
+            <select name="filter">
+              <option value="none">정렬순</option>
+              <option value="최신순">최신순</option>
+              <option value="인기순">인기순</option>
+            </select>
+          </FilterList>
+          <BookmarkList>
+            {items.map((item) => (
+              <li>
+                <h2>{item.name}</h2>
+                <LogoPress></LogoPress>
+                <PressName>{item.name}</PressName>
+                <Wtime>3 minutes ago</Wtime>
+                <Link to={"/"}>
+                <MoreIcon><img src="../images/More.svg" alt="more icon" /></MoreIcon>
+              </Link>
+              </li>
+            ))}
+          </BookmarkList>
+
+          <PageNationItems>
+            <span>pages {page + 1} of {totalPages}</span>
+            <Pagination count={totalPages} page={page} onPageChange={handlePageChange} />
+          </PageNationItems>
+        </ContContainer>
+      </Content>
+    </Container>
+  </Wrap>
+  );
+}
+
+export default Bookmark;
 
 const Wrap = styled.div`
   background-color: #f9faff;
-  width: 1920px;
-  margin: 0 auto;
+  height: 120vh;
 `;
+
+const Container = styled.div`
+  width: 1240px;
+  height: 740px;
+  margin: 0 auto;
+  display: flex;
+`
+
 const SideContainer = styled.div`
-  margin: 78px 62px 0 340px;
+  background-color: #144056;
+  text-align: center;
+  border-radius: 5px;
 `
 
 const ContContainer = styled.div`
   margin-left: 50px;
-  margin-top: 83px;
+  margin-top: 55px;
 `
 const SideBar = styled.div`
-  width: 605px;
-  height: 1050px;
-  background-color: #144056;
   float: left;
+  h2 {
+    margin-top: 85px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #144056;
+  }
 `
 const Content = styled.div`
   background-color: #f9faff;
@@ -87,156 +194,16 @@ const Wtime = styled.div`
 `
 
 const PageNationItems = styled.div`
-  margin-top: 81px;
   display: flex;
   span {
     font-weight: 300;
     font-size: 14px;
     color: #90A4AE;
     line-height: 30px;
+    margin-top: 81px;
   }
 `
-
-const PageNation = styled.ul`
-  margin-left: 325px;
-  li {
-    display: inline-block;
-  }
-`
-const Pages = styled.li`
-  font-size: 14px;
-  color: #9BA3A7;
-  line-height: 1.5;
-  text-align: center;
-  a{
-    display: block;
-    width: 24px;
-    height: 24px;
-  }
-  a.on {
-    background-color: #C3EAE7;
-    color: #37474F;
-  }
-`
-
 const MoreIcon = styled.div`
   width: 16px;
   height: 4px;
-  background: url("More.svg") no-repeat;
 `
-
-const DoubleLeftIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  background: url("DoubleLeft.svg") no-repeat;
-`
-const DoubleRightIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  background: url("DoubleRight.svg") no-repeat;
-`
-const LeftIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  background: url("Left.svg") no-repeat;
-`
-const RightIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  background: url("Right.svg") no-repeat;
-`
-
-const PageArrow = styled.li`
-  width: 40px;
-  height: 40px;
-`
-const Bookmark = () => {
-  return (
-  <Wrap>
-    <SideBar>
-      <SideContainer>
-        <BookmarkNav/>
-      </SideContainer>
-    </SideBar>
-    <Content>
-      <ContContainer>
-        <FilterList>
-          <select name="filter">
-            <option value="none">정렬순</option>
-            <option value="최신순">최신순</option>
-            <option value="인기순">인기순</option>
-          </select>
-        </FilterList>
-        <BookmarkList>
-          <li>
-            <h2>Elon Musk donated over $5.7 bn in Tesla shares to charity in November</h2>
-            <LogoPress/>
-            <PressName>NDTV</PressName>
-            <Wtime>3 minutes ago</Wtime>
-            <a href="/">
-              <MoreIcon/>
-              </a>
-          </li>
-          <li>
-            <h2>Elon Musk donated over $5.7 bn in Tesla shares to charity in November</h2>
-            <LogoPress/>
-            <PressName>NDTV</PressName>
-            <Wtime>3 minutes ago</Wtime>
-            <a href="/">
-              <MoreIcon/>
-            </a>
-          </li>
-          <li>
-            <h2>Elon Musk donated over $5.7 bn in Tesla shares to charity in November</h2>
-            <LogoPress/>
-            <PressName>NDTV</PressName>
-            <Wtime>3 minutes ago</Wtime>
-            <a href="/">
-              <MoreIcon/>
-            </a>
-          </li>
-          <li>
-            <h2>Elon Musk donated over $5.7 bn in Tesla shares to charity in November</h2>
-            <LogoPress/>
-            <PressName>NDTV</PressName>
-            <Wtime>3 minutes ago</Wtime>
-            <a href="/">
-              <MoreIcon/>
-            </a>
-          </li>
-          <li>
-            <h2>Elon Musk donated over $5.7 bn in Tesla shares to charity in November</h2>
-            <LogoPress/>
-            <PressName>NDTV</PressName>
-            <Wtime>3 minutes ago</Wtime>
-            <a href="/"><MoreIcon/></a>
-          </li>
-          <li>
-            <h2>Elon Musk donated over $5.7 bn in Tesla shares to charity in November</h2>
-            <LogoPress/>
-            <PressName>NDTV</PressName>
-            <Wtime>3 minutes ago</Wtime>
-            <a href="/"><MoreIcon/></a>
-          </li>
-        </BookmarkList>
-
-        <PageNationItems>
-          <span>pages 2 of 10</span>
-          <PageNation>
-            <PageArrow><a href="/"><DoubleLeftIcon/></a></PageArrow>
-            <PageArrow><a href="/"><LeftIcon/></a></PageArrow>
-            <Pages><a href="/">1</a></Pages>
-            <Pages><a className="on" href="/">2</a></Pages>                       
-            <Pages>...</Pages>
-            <Pages><a href="/">10</a></Pages>
-            <PageArrow><a href="/"><RightIcon/></a></PageArrow>
-            <PageArrow><a href="/"><DoubleRightIcon/></a></PageArrow>
-          </PageNation>
-        </PageNationItems>
-      </ContContainer>
-    </Content>
-  </Wrap>
-  );
-}
-
-export default Bookmark;

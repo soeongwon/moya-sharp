@@ -1,25 +1,31 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+
+const User = () => {
+  return (
+    <Usercard>
+      <Profic></Profic>
+      <h4>kim hana</h4>
+      <p>kimhana1234@gamil.com</p>
+      <EditBtn>프로필 편집</EditBtn>
+      <BottomLine/>
+    </Usercard>
+  )
+}
+
+export default User;
+
 const Usercard = styled.div`
-  margin-bottom: 75px;
-  padding-bottom: 75px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  margin-bottom: 36px;
+  padding-top: 43px;
+  padding-left: 30px;
+  padding-right: 32px;
   color: rgba(255, 255, 255, 0.6);
-h2 {
-  font-size: 22px;
-  font-weight: 600;
-  color: #fff;
-  }
-h4 {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-p {
-  margin-top: 0;
-  margin-bottom: 20px;
-}
+  ;
 `
+
+
 const Profic = styled.div`
   width: 64px;
   height: 64px;
@@ -38,15 +44,10 @@ const EditBtn = styled.div`
   color: #48c0b7;
   text-align: center;
   line-height: 2.3;
+  margin-left: 43px;
+  margin-bottom: 36px;
 `
-export const User = () => {
-  return (
-    <Usercard>
-      <h2>마이페이지</h2>
-      <Profic></Profic>
-      <h4>kim hana</h4>
-      <p>kimhana1234@gamil.com</p>
-      <EditBtn>프로필 편집</EditBtn>
-    </Usercard>
-  )
-}
+const BottomLine = styled.div`
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+`
+

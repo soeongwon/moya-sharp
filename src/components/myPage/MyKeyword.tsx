@@ -1,6 +1,18 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+const MyKeyword = () => {
+  return (
+    <KeywordsWarp>
+      <h3>마이키워드</h3>
+      <Keywords className="on">accelerators</Keywords>
+      <Keywords>Social Media Marketing & Advertising</Keywords>
+    </KeywordsWarp>
+  )
+}
+
+export default MyKeyword;
+
 const KeywordsWarp = styled.div`
   margin-top: 40px;  
   .on {
@@ -27,14 +39,3 @@ const Keywords = styled.div`
   margin-right: 20px;
   
 `
-
-
-export const MyKeyword = () => {
-  return (
-    <KeywordsWarp>
-      <h3>마이키워드</h3>
-      <Keywords className="on">accelerators</Keywords>
-      <Keywords>Social Media Marketing & Advertising</Keywords>
-    </KeywordsWarp>
-  )
-}
