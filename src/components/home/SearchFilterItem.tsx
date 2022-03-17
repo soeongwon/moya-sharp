@@ -1,10 +1,15 @@
 import styled from "@emotion/styled";
-import { filterItem } from "./Search";
+import { useEffect, useState } from "react";
+import { FilterItemType } from "./Search";
 
 type Props = {
-  filterItem: filterItem;
+  filterItem: FilterItemType;
   isOpen: boolean;
   index: number;
+  filterList: string[];
+  setLanguage: (arg: string) => void;
+  setTimeFilter: (arg: string) => void;
+  setCategories: (arg: string) => void;
   openFilterList: (
     index: number,
     event: React.MouseEvent<HTMLDivElement>
@@ -19,21 +24,78 @@ export const SearchFilterItem = ({
   filterItem,
   isOpen,
   openFilterList,
-  index
-}: Props) => (
-  <FilterItem>
-    <Label>{filterItem.label}</Label>
-    <DefaultValue onClick={e => openFilterList(index, e)}>
-      <strong>{filterItem.defaultValue}</strong>
-      <img src="images/filterArrow.svg" alt="필터리스트 열기 아이콘" />
-    </DefaultValue>
-    <SelectList isOpen={isOpen}>
-      {filterItem.list.map(item => {
-        return <SelectItem key={item}>{item}</SelectItem>;
-      })}
-    </SelectList>
-  </FilterItem>
-);
+  index,
+  filterList,
+  setLanguage,
+  setTimeFilter,
+  setCategories
+}: Props) => {
+  const [defaultLanguage, setDefaultLanguage] = useState("영어");
+  const [defaultTimeFilter, setDefaultTimeFilter] = useState("한달");
+  const [defaultCategory, setDefaultCategory] = useState("ALL");
+
+  useEffect(() => {
+    setLanguage(defaultLanguage); // api에 현재 디폴트 상태 셋팅하기
+    setTimeFilter(defaultTimeFilter);
+  }, []);
+
+  const clickLanguageName = (lanName: string) => {
+    setDefaultLanguage(lanName); // UI에 디폴드 상태 나타내기
+    setLanguage(lanName); // api에 디폴트 상태 보내주기
+  };
+  const clickTimeFiterName = (timeName: string) => {
+    setDefaultTimeFilter(timeName);
+    setTimeFilter(timeName);
+  };
+  const clickCategoryName = (categoryName: string) => {
+    setDefaultCategory(categoryName);
+    setCategories(categoryName);
+  };
+
+  const setDefaultName = (filterItem: FilterItemType) => {
+    if (filterItem.label === "언어") {
+      return defaultLanguage;
+    } else if (filterItem.label === "발행일") {
+      return defaultTimeFilter;
+    } else if (filterItem.label === "언론사") {
+      return defaultCategory;
+    } else {
+      return filterItem.defaultValue;
+    }
+  };
+  return (
+    <FilterItem>
+      <Label>{filterItem.label}</Label>
+      <DefaultValue onClick={e => openFilterList(index, e)}>
+        <strong>{setDefaultName(filterItem)}</strong>
+        <img src="images/filterArrow.svg" alt="필터리스트 열기 아이콘" />
+      </DefaultValue>
+      <SelectList isOpen={isOpen}>
+        {filterList.map(item => {
+          if (filterItem.label === "언어") {
+            return (
+              <SelectItem key={item} onClick={() => clickLanguageName(item)}>
+                {item}
+              </SelectItem>
+            );
+          } else if (filterItem.label === "발행일") {
+            return (
+              <SelectItem key={item} onClick={() => clickTimeFiterName(item)}>
+                {item}
+              </SelectItem>
+            );
+          } else if (filterItem.label === "언론사") {
+            return (
+              <SelectItem key={item} onClick={() => clickCategoryName(item)}>
+                {item}
+              </SelectItem>
+            );
+          }
+        })}
+      </SelectList>
+    </FilterItem>
+  );
+};
 
 const Label = styled.span`
   color: #717171;
@@ -55,13 +117,14 @@ const DefaultValue = styled.div`
 const SelectList = styled.ul<SelecListProps>`
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   position: absolute;
-  top: 50px;
+  top: 60px;
   left: 0;
   width: 100%;
+  max-height: 300px;
+  overflow-y: scroll;
   background: #ffffff;
   box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
   border-radius: 5px;
-  border: 1px solid black;
   padding: 11px 0;
 `;
 
@@ -76,14 +139,16 @@ const SelectItem = styled.li`
   &:hover {
     background: rgba(72, 192, 183, 0.1);
   }
+  transition: all 0.2s ease;
 `;
 
 const FilterItem = styled.div`
+  box-sizing: border-box;
   position: relative;
   padding: 4px 4px 4px 0;
-  width: 165px;
-  height: 100%;
   display: flex;
+  width: 179px;
+  height: 100%;
   padding-left: 20px;
   flex-direction: column;
   border-right: 1px solid #c4c4c4;

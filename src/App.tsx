@@ -7,7 +7,9 @@ import Mypage from "./pages/Mypage";
 import { Layout } from "./components/layout/Layout";
 import EditContainer from "./components/edit/EditContainer";
 
+
 const App = () => {
+
   return (
     <BrowserRouter>
       <Layout>

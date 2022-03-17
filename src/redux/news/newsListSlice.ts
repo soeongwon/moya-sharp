@@ -1,33 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getNewList, NewsType } from "./newsListApi";
+import { getNewList, NewsType, SearchPayload } from "../../api/newsListApi";
 
 export const fetchNewList = createAsyncThunk(
   "newlist/fetchNewsList",
-  async () => {
-    let searchPayload = {
-      identifier_type: "assets",
-      identifiers: "McDonald's, General Electric, FTSE 100",
-      time_filter: "mth1",
-      categories: "mp,op",
-      min_cityfalcon_score: 0,
-      order_by: "top",
-      access_token:
-        "ea67d29c683a69e808a26cc6dc5a1445df84876e9e2d7aaf3d6f084210dce775"
-    };
-    return getNewList(searchPayload);
+  async (searchPayload: SearchPayload, thunkApi) => {
+    const response = await getNewList(searchPayload);
+
+    if (response.status !== 200) {
+      return thunkApi.rejectWithValue(response.data.error);
+    }
+    return response.data;
   }
 );
 
 type NewsListState = {
   newListData: NewsType[];
+  nextPageToken: string | undefined;
   loading: boolean;
-  error: string | null;
+  error: any;
 };
 
 const initialState: NewsListState = {
   newListData: [],
+  nextPageToken: "",
   loading: false,
-  error: ""
+  error: null
 };
 
 const NewsListSlice = createSlice({
@@ -39,18 +36,21 @@ const NewsListSlice = createSlice({
       state.loading = true;
       state.newListData = [];
       state.error = null;
+      state.nextPageToken = "";
     });
 
-    builder.addCase(fetchNewList.fulfilled, (state, { payload }) => {
+    builder.addCase(fetchNewList.fulfilled, (state, action) => {
+      console.log(action);
       state.loading = false;
-      state.newListData = payload;
-      state.error = "";
+      state.newListData.push(...state.newListData, ...action.payload.stories);
+      state.nextPageToken = action.payload.nextPageToken;
     });
 
-    builder.addCase(fetchNewList.rejected, (state, { payload }) => {
+    builder.addCase(fetchNewList.rejected, (state, action: any) => {
+      console.log(action);
       state.loading = false;
-      state.newListData = [];
-      state.error = "";
+      state.error = action.error.message;
+      state.nextPageToken = "";
     });
   }
 });
