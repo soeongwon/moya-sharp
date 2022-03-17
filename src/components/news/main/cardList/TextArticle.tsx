@@ -1,28 +1,45 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { useState } from "react";
-import React, { MouseEvent } from "react";
-import { NewsFeatures } from "../common/NewsCommon";
-import { ArticleBody } from "./ImageFormatNews";
+import { ArticleBody } from "./ImageArticle";
+import { NewsFeatures } from "./../../common/NewsCommon";
+import { changeMoment } from "./ImageArticle";
 
 interface Props {
   newsTitle: string;
   newsContent: string;
+  newsSource: any;
+  newsLink: any;
+  publishTime: string;
 }
 
-const TextformatNews = ({ newsTitle, newsContent }: Props) => {
+const TextArticle = ({
+  newsTitle,
+  newsContent,
+  newsSource,
+  newsLink,
+  publishTime
+}: Props) => {
   const [isActive, setIsActive] = useState<boolean>(false);
 
-  function showContent(event: MouseEvent<HTMLElement>) {
+  function showContent() {
     setIsActive(!isActive);
   }
 
   return (
     <Wrap>
       <NewsFeatures></NewsFeatures>
-      <Title>{newsTitle}</Title>
+      <Title>
+        <a href={`${newsLink}`} target="_blank" rel="noreferrer">
+          {newsTitle}
+        </a>
+      </Title>
       <ArticleFooter>
-        <i className="Jounal-mark"></i>
-        <div className="article-time">3 minutes ago</div>
+        <div className="logo">
+          <img src={`${newsSource.imageUrl}`} alt="기사1" />
+          {newsSource.brandName}
+          <div className="article-time">{changeMoment(publishTime)}</div>
+        </div>
         <i className="nav-btn" role="button" onClick={showContent}>
           미리 보기
         </i>
@@ -34,10 +51,11 @@ const TextformatNews = ({ newsTitle, newsContent }: Props) => {
   );
 };
 
-export default TextformatNews;
+export default TextArticle;
 
 const Wrap = styled.article`
   width: 100%;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.05);
 `;
 
 const Title = styled.h2`
@@ -45,6 +63,10 @@ const Title = styled.h2`
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 14px;
+  a {
+    text-decoration: none;
+    color: #1d1d1d;
+  }
 `;
 
 const ArticleFooter = styled.footer`
@@ -66,6 +88,18 @@ const ArticleFooter = styled.footer`
     background-color: #c4c4c4;
     border-radius: 50%;
   }
+  .logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+  }
+
   .article-time {
     font-size: 14px;
     font-weight: 300;
@@ -76,6 +110,7 @@ const ArticleFooter = styled.footer`
     text-align: left;
     color: #313131;
     margin-right: 70px;
+    margin-left: 28px;
   }
   .nav-btn {
     position: absolute;

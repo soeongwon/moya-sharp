@@ -143,11 +143,12 @@ const SelectItem = styled.li`
 `;
 
 const FilterItem = styled.div`
+  box-sizing: border-box;
   position: relative;
   padding: 4px 4px 4px 0;
-  width: 165px;
-  height: 100%;
   display: flex;
+  width: 179px;
+  height: 100%;
   padding-left: 20px;
   flex-direction: column;
   border-right: 1px solid #c4c4c4;

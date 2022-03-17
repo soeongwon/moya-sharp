@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface Props {
-  newsSortState: "정렬순" | "인기순" | "최신순";
+  newsSortState: "top" | "latest" | "populer";
 }
 
 const initialState: Props = {
-  newsSortState: "정렬순"
+  newsSortState: "top" 
 };
 
 const newsSortSlice = createSlice({

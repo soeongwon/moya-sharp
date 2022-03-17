@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
-import { useNewsList } from "../hooks/useNewsList";
+import React, { useState } from "react";
+import { MouseEvent } from "react";
+import { useNewsFilter } from "./../../hooks/useNewsFilter";
+import { useNewsSorts } from "./../../hooks/useNewsSorts";
 
 const options: string[] = ["정렬순", "최신순", "인기순"];
 
@@ -9,19 +11,12 @@ interface Props {
   setNewsCurOption: React.Dispatch<React.SetStateAction<String>>;
 }
 
-const SortOptionList = ({ newsCurOption, setNewsCurOption }: Props) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
-
-  const { reportOptionToAPI } = useNewsList();
-
-  function showDropDown(option: string) {
-    setNewsCurOption(option);
-    setIsActive(!isActive);
-  }
-
+const SortOptionList = () => {
+  const { reportOptionToAPI } = useNewsFilter();
+  const { showDropDown, newsCurOption, isActive, setIsActive } = useNewsSorts();
   return (
     <ListWrap>
-      <DropDownBtn onClick={e => setIsActive(!isActive)}>
+      <DropDownBtn onClick={(e: MouseEvent) => setIsActive(!isActive)}>
         {newsCurOption}
         <i className="nav-bottom"></i>
       </DropDownBtn>
@@ -30,7 +25,7 @@ const SortOptionList = ({ newsCurOption, setNewsCurOption }: Props) => {
           options.map(option => (
             <li
               className="dropdown-item"
-              onClick={() => {
+              onClick={(e: MouseEvent) => {
                 showDropDown(option);
                 reportOptionToAPI(option);
               }}
@@ -57,6 +52,8 @@ const DropDownBtn = styled.div`
   box-sizing: border-box;
   position: relative;
   background-color: #fff;
+  border-radius: 3px;
+  margin-right: 20px;
   cursor: pointer;
   .nav-bottom {
     position: absolute;
@@ -65,7 +62,7 @@ const DropDownBtn = styled.div`
     transform: translateY(-50%);
     width: 40px;
     height: 40px;
-    background-image: url("/images/icon-navi-bottom.svg");
+    background-image: url("images/icon-navi-bottom.svg");
     background-size: cover;
   }
 `;

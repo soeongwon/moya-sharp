@@ -1,13 +1,32 @@
+import React from "react";
 import styled from "@emotion/styled";
-import { NewsFeatures } from "../common/NewsCommon";
+import { NewsFeatures } from "../../common/NewsCommon";
+import moment from "moment";
+
 
 interface Props {
   newsTitle: string;
   newsContent: string;
   newsimageUrls: string[] | null;
+  newsSource: any;
+  newsLink: any;
+  publishTime: string;
 }
 
-const ImageFormatNews = ({ newsTitle, newsContent, newsimageUrls }: Props) => {
+export function changeMoment(publishTime: string) {
+  const changeTime = moment(publishTime).fromNow(); // 15 minutes ago
+
+  return changeTime;
+}
+
+const ImageArticle = ({
+  newsTitle,
+  newsContent,
+  newsimageUrls,
+  newsSource,
+  newsLink,
+  publishTime
+}: Props) => {
   return (
     <Wrap>
       <Inner>
@@ -17,23 +36,32 @@ const ImageFormatNews = ({ newsTitle, newsContent, newsimageUrls }: Props) => {
           </Figure>
         ) : null}
         <NewsFeatures />
-        <Title>{newsTitle}</Title>
+        <Title>
+          <a href={`${newsLink}`} target="_blank" rel="noreferrer">
+            {newsTitle}
+          </a>
+        </Title>
         <ArticleBody>{newsContent}</ArticleBody>
         <ArticleFooter>
-          <i className="Jounal-mark"></i>
-          <div className="article-time">3 minutes ago</div>
+          <div className="Jounal-mark">
+            <img src={`${newsSource.imageUrl}`} alt="기사1" />
+            <span>{newsSource.brandName}</span>
+          </div>
+          <div className="article-time">{changeMoment(publishTime)}</div>
         </ArticleFooter>
       </Inner>
     </Wrap>
   );
 };
 
-export default ImageFormatNews;
+export default ImageArticle;
 
 const Wrap = styled.article`
+  display: inline-block;
   width: 400px;
   box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
+  margin-bottom: 22px;
 `;
 const Inner = styled.div`
   padding-top: 20px;
@@ -57,26 +85,45 @@ export const ArticleBody = styled.p`
   font-stretch: normal;
   line-height: 1.5rem;
   letter-spacing: -0.16px;
+  padding-bottom: 19.5px;
+  border-bottom: 1px solid #dfdfdf; ;
 `;
 const Title = styled.h2`
   font-family: NotoSans-Display;
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 14px;
+  a {
+    text-decoration: none;
+    color: #1d1d1d;
+  }
 `;
 
 const ArticleFooter = styled.footer`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 0;
   box-sizing: content-box;
+  margin: 14px 0;
   .Jounal-mark {
-    display: block;
-    width: 30px;
+    display: flex;
+    align-items: center;
     height: 30px;
-    background-color: #c4c4c4;
-    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    span {
+      font-size: 14px;
+      font-weight: 300;
+      font-stretch: normal;
+      line-height: 0.86;
+      color: #313131;
+      margin-left: 5px;
+    }
   }
   .article-time {
     font-size: 14px;

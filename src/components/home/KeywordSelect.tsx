@@ -146,8 +146,8 @@ const StartupKeywordList = styled.div`
 
 const KeywordSelectWrap = styled.div`
   margin-top: 14px;
-  width: 1240px;
   background: #fff;
+  border-radius: 0px 0px 5px 5px;
 `;
 
 const KeywordSelectTitles = styled.div`
@@ -239,8 +239,10 @@ const KeywordListItem = styled.p`
   height: 37px;
   padding-left: 20px;
   align-items: center;
-  font-style: normal;
+  font-family: "Noto Sans";
   font-weight: 500;
+  font-size: 16px;
+  line-height: 30px;
   color: #4f4f4f;
   cursor: pointer;
 `;

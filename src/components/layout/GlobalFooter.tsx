@@ -1,3 +1,6 @@
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import CommonContainer from "./CommonContainer";
@@ -28,9 +31,27 @@ const GlobalFooter = () => {
             <Link to="/">Partners</Link>
           </Service>
           <Sns>
-            <Link to="/">FaceBook</Link>
-            <Link to="/">Instagram </Link>
-            <Link to="/">KakaoTalk</Link>
+            <a
+              href="https://www.facebook.com/MOYAAI/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              FaceBook
+            </a>
+            <a
+              href="https://www.instagram.com/moya.ai/?hl=ko"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Instagram{" "}
+            </a>
+            <a
+              href="https://pf.kakao.com/_sRNkxl"
+              target="_blank"
+              rel="noreferrer"
+            >
+              KakaoTalk
+            </a>
           </Sns>
         </FooterInner>
       </CommonContainer>
@@ -55,7 +76,7 @@ const FooterInner = styled.div`
 const Logo = styled.div`
   width: 62.6px;
   height: 24px;
-  background-image: url("/images/icon-Moya-logo.svg");
+  background-image: url("/images/footer-logo.svg");
   background-size: cover;
   background-repeat: no-repeat;
   cursor: pointer;

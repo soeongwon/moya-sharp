@@ -1,9 +1,9 @@
+import React from "react";
 import styled from "@emotion/styled";
 import KeywordSelectContainer from "../../../containers/home/KeywordSelectContainer";
 import Search from "../../home/Search";
 import CommonContainer from "../../layout/CommonContainer";
-import NewsTabList from "./NewsTabList";
-import { useSearch } from "../../../hooks/useSearch";
+import { useSearch } from "./../../../hooks/useSearch";
 
 const PersonalizeNav = () => {
   const {
@@ -34,7 +34,6 @@ const PersonalizeNav = () => {
             />
           )}
         </div>
-        <NewsTabList />
       </CommonContainer>
     </Wrap>
   );
@@ -50,7 +49,9 @@ const Wrap = styled.section`
     #fdddd2 185%
   );
   height: auto;
+  /* height: 373px; */
   .pt-31 {
-    padding-top: 31px;
+    padding-top: 113px;
+    padding-bottom: 140px;
   }
 `;

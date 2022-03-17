@@ -1,13 +1,13 @@
-import PersonalizeNav from "./personalizeNav";
-import NewsListContainer from "./newsList/NewsListContainer";
-import Options from "./options";
-const NewsContainer = () => {
+import PersonalizeNav from "./nav";
+import TabListContainer from "./tabs/TabListContainer";
+import MainContainer from './main/MainContainer';
 
+const NewsContainer = () => {
   return (
     <>
       <PersonalizeNav />
-      <Options />
-      <NewsListContainer></NewsListContainer>
+      <TabListContainer></TabListContainer>
+      <MainContainer />
     </>
   );
 };
