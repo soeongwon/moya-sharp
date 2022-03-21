@@ -1,13 +1,15 @@
 import styled from "@emotion/styled";
 import { SearchFilterItem } from "./SearchFilterItem";
 import { SetStateAction, useState } from "react";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useFetchLanguageCode } from "../../hooks/useFetchLanguageCode";
+import { useLanguageCode } from "../../hooks/useLanguageCode";
 import { useTimeFilter } from "../../hooks/useTimeFilter";
 import { useCategories } from "../../hooks/useCategories";
 import { SearchTitleType } from "../../api/newsListApi";
 import { useSearch } from "./../../hooks/useSearch";
 import searchKeyword from "../../assets/csvjson.json";
+// import { useSearchKeywordSort } from "../../hooks/useSearchKeywordSort";
 
 type Props = {
   openKeywordList: (arg: boolean) => void;
@@ -45,9 +47,8 @@ const Search = ({
   const [instanseKeyword, setInstanseKeyword] = useState<Array<keyWordEntity>>(
     []
   );
-
   const { isOpendKeywordList } = useSearch();
-  const languageCode = useFetchLanguageCode();
+  const languageCode = useLanguageCode();
   const languageName = languageCode.languages.map(obj => obj.name);
 
   const timeFilterArr = useTimeFilter();
@@ -88,6 +89,7 @@ const Search = ({
   };
 
   const closeAll = () => {
+    // console.log("closeAll");
     setOpen(null);
   };
 
@@ -138,9 +140,10 @@ const Search = ({
       return;
     }
     //TODO: any 타입정의 다시해야함
-    const keyword: any = searchKeyword.filter(item =>
-      item.name.includes(inputText)
+    const sorted = searchKeyword.sort(
+      (a: any, b: any) => a.name.charCodeAt() - b.name.charCodeAt()
     );
+    const keyword: any = sorted.filter(item => item.name.includes(inputText));
     if (!keyword || keyword.length === 0) {
       setIsOpenInstanseSearch(false);
       return;
@@ -160,12 +163,26 @@ const Search = ({
     };
   });
 
+  // const searchHighlight = (string: string) => {
+  //   let regex = new RegExp(inputText, "g");
+  //   string.replace(regex, "<span class='highlight'>" + inputText + "</span>");
+  //   console.log(
+  //     string.replace(regex, "<span class='highlight'>" + inputText + "</span>")
+  //   );
+  // };
+
+  function closeKeywordList(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    openKeywordList(false);
+  }
+
   return (
     <SearchArea>
       <div>
         <KeywordSearchButton>
-          키워드 전체보기
-          <i className="icon-keyword"></i>
+          <Link to={"/edit"}>
+            키워드 전체보기 <i className="icon-keyword"></i>
+          </Link>
         </KeywordSearchButton>
       </div>
       <SearchWarp>
@@ -204,6 +221,11 @@ const Search = ({
                 placeholder="AAPL, MSFT, 005930, Gold, Oil, DJIA, Nikkei eg... "
               />
             </SearchBox>
+            <KeywordListClose>
+              <button onClick={closeKeywordList}>
+                <i>키워드 리스트 버튼</i>
+              </button>
+            </KeywordListClose>
           </SearchFilterSelectWrap>
         </form>
       </SearchWarp>
@@ -213,6 +235,7 @@ const Search = ({
           {instanseKeyword.map(item => (
             <div key={item.name} onClick={() => search(item)}>
               {item.name}
+              {item.sub_name}
             </div>
           ))}
         </InstanseSearchDropDown>
@@ -222,9 +245,33 @@ const Search = ({
 };
 
 export default Search;
+const KeywordListClose = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid #c4c4c4;
+  align-items: center;
+  button {
+    width: 100%;
+    height: 100%;
+    padding-left: 20px;
+    border: none;
+    font-size: 0;
+    background: none;
+  }
+  i {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url("/images/main-keyword-list-arrow.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+  }
+`;
 
 const InstanseSearchDropDown = styled.div`
-  width: 519px;
+  width: 555px;
   height: 300px;
   border: 1px solid #ededed;
   box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
@@ -250,6 +297,10 @@ const InstanseSearchDropDown = styled.div`
       background: #f0fcfb;
     }
   }
+  .highlight {
+    font-weight: bold;
+    color: #ff0000;
+  }
 `;
 
 export const SearchArea = styled.div`
@@ -263,22 +314,29 @@ export const SearchArea = styled.div`
 const KeywordSearchButton = styled.button`
   border: none;
   background: none;
-  font-family: "Noto Sans";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 22px;
-  color: #48c0b7;
   cursor: pointer;
-
+  a {
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #48c0b7;
+    text-decoration: none;
+  }
   .icon-keyword {
     display: inline-block;
     width: 10px;
     height: 10px;
-    margin-left: 7px;
+    margin-left: 3px;
     background-repeat: no-repeat;
-    background-image: url("images/keyword-arrow.svg");
+    background-image: url("/images/keyword-arrow.svg");
     background-size: contain;
+    cursor: pointer;
+  }
+  a {
+    text-decoration: none;
+    color: #48c0b7;
   }
 `;
 
@@ -296,9 +354,10 @@ const SearchWarp = styled.div`
   width: 1240px;
   height: 120px;
   margin: 32px 0 0;
-  padding: 26px 76.1px 24px 0;
+  padding: 26px 26px 24px 0;
   border-radius: 5px;
-  border: solid 1px #f1f1f1;
+  border: 1px solid #f1f1f1;
+  border-radius: 5px;
   background-color: #fff;
 `;
 
@@ -309,9 +368,9 @@ type SearchBoxProps = {
 const SearchBox = styled.div<SearchBoxProps>`
   display: flex;
   align-items: center;
-  width: 506px;
+  width: 41%;
   background: ${({ focused }) =>
-      focused ? "url(images/search-focused.svg)" : "url(images/search.svg)"}
+      focused ? "url(/images/search-focused.svg)" : "url(/images/search.svg)"}
     no-repeat 4.5%;
   transition: background 0.3s ease;
   input {

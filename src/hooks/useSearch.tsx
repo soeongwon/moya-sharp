@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchTitleType } from "../api/newsListApi";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { fetchNewList } from "../redux/news/newsListSlice";
+import { cameltoCababString } from "../utils";
 
 export const useSearch = () => {
   const dispatch = useAppDispatch();
+  const sorted_by = useAppSelector(state => state.newsSorts.newsSortState);
   const navigate = useNavigate();
 
   const [isOpendKeywordList, setIsOpendKeywordList] = useState(false);
@@ -31,17 +33,30 @@ export const useSearch = () => {
     setCategories(categoriesCode);
   };
 
-  const searchNews = (searchTitle?: SearchTitleType, str?: string) => {
+  const searchNews = async (
+    searchTitle?: SearchTitleType,
+    str?: string,
+    order_by?: "top" | "latest" | "popular"
+  ) => {
     const identifier = str ? str : identifiers;
+    if (str) {
+      cameltoCababString(str);
+    }
     const searchPayload = {
+      order_by: sorted_by,
       searchTitle,
       identifiers: identifier,
       language,
       timeFilter,
       categories
     };
-    dispatch(fetchNewList(searchPayload));
-    navigate("/news");
+    try {
+      const search = await dispatch(fetchNewList(searchPayload));
+      navigate(`/news/${cameltoCababString(identifier)}`);
+      return search
+    } catch (error) {
+      console.log("searchError", error);
+    }
   };
 
   return {
@@ -51,6 +66,9 @@ export const useSearch = () => {
     setLanguageCode,
     setTimeFilterCode,
     setCategoriesCode,
-    searchNews
+    searchNews,
+    language,
+    timeFilter,
+    categories
   };
 };

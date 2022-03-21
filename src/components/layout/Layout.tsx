@@ -18,7 +18,4 @@ export const Layout: React.FC<AuxProps> = props => {
 };
 
 const Root = styled.div`
-  /* display: grid;
-  height: 100vh;
-  grid-template-rows: 66px auto 198px; */
 `;

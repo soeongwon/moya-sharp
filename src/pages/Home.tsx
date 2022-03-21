@@ -23,11 +23,12 @@ const HomeWrap = styled.div`
     rgba(223, 248, 244, 0.7) 49.34%,
     rgba(253, 221, 210, 0.7) 94.11%
   );
+  min-height: 100vh;
   padding-bottom: 267px;
 `;
 
 const BackgroundImage = styled.div`
-  background-image: url("images/image_main.svg");
+  background-image: url("/images/image_main.svg");
   background-position: 82% 285px;
   background-repeat: no-repeat;
 `;

@@ -1,19 +1,36 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
 import { MouseEvent } from "react";
-import { useNewsFilter } from "./../../hooks/useNewsFilter";
-import { useNewsSorts } from "./../../hooks/useNewsSorts";
-
-const options: string[] = ["정렬순", "최신순", "인기순"];
-
-interface Props {
-  newsCurOption: String;
-  setNewsCurOption: React.Dispatch<React.SetStateAction<String>>;
-}
+import { useNewsSorts } from "../hooks/useNewsSorts";
+import { useSearch } from "../../../hooks/useSearch";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const SortOptionList = () => {
-  const { reportOptionToAPI } = useNewsFilter();
-  const { showDropDown, newsCurOption, isActive, setIsActive } = useNewsSorts();
+  const {
+    showDropDown,
+    newsCurOption,
+    isActive,
+    setIsActive,
+    reportOptionToAPI
+  } = useNewsSorts();
+  const { searchNews } = useSearch();
+  const { identifier } = useParams();
+
+  const options = [
+    {
+      name: "정렬순",
+      status: "top"
+    },
+    { name: "최신순", status: "latest" },
+    { name: "인기순", status: "popular" }
+  ];
+
+  interface DropDown {
+    name: string;
+    status: string;
+  }
+
+
   return (
     <ListWrap>
       <DropDownBtn onClick={(e: MouseEvent) => setIsActive(!isActive)}>
@@ -22,15 +39,16 @@ const SortOptionList = () => {
       </DropDownBtn>
       <DropDownList>
         {isActive &&
-          options.map(option => (
+          options.map((option: DropDown) => (
             <li
               className="dropdown-item"
               onClick={(e: MouseEvent) => {
-                showDropDown(option);
-                reportOptionToAPI(option);
+                searchNews("Sector", identifier);
+                showDropDown(option.name);
+                reportOptionToAPI(option.status);
               }}
             >
-              {option}
+              {option.name}
             </li>
           ))}
       </DropDownList>
@@ -62,7 +80,7 @@ const DropDownBtn = styled.div`
     transform: translateY(-50%);
     width: 40px;
     height: 40px;
-    background-image: url("images/icon-navi-bottom.svg");
+    background-image: url("/images/icon-navi-bottom.svg");
     background-size: cover;
   }
 `;
@@ -77,6 +95,7 @@ const DropDownList = styled.ul`
     padding-left: 20px;
     border: 1px solid #dadada;
     box-sizing: border-box;
+    cursor: pointer;
   }
   .sort-item {
     cursor: pointer;

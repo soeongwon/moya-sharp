@@ -1,6 +1,6 @@
-import React from "react";
 import styled from "@emotion/styled";
-import { NewsFeatures } from "../../common/NewsCommon";
+import { NewsFeatures } from './../common/NewsCommon';
+import { useNewsFormats } from './../hooks/useNewsFormat';
 import moment from "moment";
 
 
@@ -27,12 +27,24 @@ const ImageArticle = ({
   newsLink,
   publishTime
 }: Props) => {
+  const { textSize } = useNewsFormats();
+
+  const imageFail = (event: any) => {
+    const url = event.currentTarget;
+    url.src = `/images/img-error.png`;
+  };
   return (
     <Wrap>
       <Inner>
         {newsimageUrls !== null ? (
           <Figure>
-            <img src={`${newsimageUrls}`} alt="기사1" />
+            <img
+              // onLoad={imageOnLoadHandler}
+              // onError={imageOnErrorHandler}
+              src={`${newsimageUrls}`}
+              onError={imageFail}
+              alt="기사1"
+            />
           </Figure>
         ) : null}
         <NewsFeatures />
@@ -41,7 +53,11 @@ const ImageArticle = ({
             {newsTitle}
           </a>
         </Title>
-        <ArticleBody>{newsContent}</ArticleBody>
+        <ArticleBody>
+          <p className={`${textSize === true ? "small" : "big"}`}>
+            {newsContent}
+          </p>
+        </ArticleBody>
         <ArticleFooter>
           <div className="Jounal-mark">
             <img src={`${newsSource.imageUrl}`} alt="기사1" />
@@ -77,16 +93,24 @@ const Figure = styled.figure`
   }
 `;
 
-export const ArticleBody = styled.p`
-  color: #7a7a7a;
-  font-family: NotoSans-Display;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 1.5rem;
-  letter-spacing: -0.16px;
-  padding-bottom: 19.5px;
-  border-bottom: 1px solid #dfdfdf; ;
+const ArticleBody = styled.div`
+  p {
+    color: #7a7a7a;
+    font-family: NotoSans-Display;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 1.5rem;
+    letter-spacing: -0.16px;
+    padding-bottom: 19.5px;
+    border-bottom: 1px solid #dfdfdf;
+  }
+  .small {
+    font-size: 16px;
+  }
+  .big {
+    font-size: 32px;
+  }
 `;
 const Title = styled.h2`
   font-family: NotoSans-Display;

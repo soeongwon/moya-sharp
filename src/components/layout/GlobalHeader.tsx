@@ -59,6 +59,7 @@ const Wrap = styled.header`
   left: 0;
   height: 68px;
   background-color: #fff;
+  z-index: 400;
 `;
 
 const Inner = styled.div`
@@ -132,7 +133,6 @@ const Profile = styled.div`
 // 비회원
 
 const NonMember = styled.div`
-  /* display:flex; */
   display: none;
   align-items: center;
   height: 100%;

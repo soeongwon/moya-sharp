@@ -4,7 +4,8 @@ import KeywordSelectContainer from "../../../containers/home/KeywordSelectContai
 import Search from "../../home/Search";
 import CommonContainer from "../../layout/CommonContainer";
 import { useSearch } from "./../../../hooks/useSearch";
-
+import { useScrollHeader } from "../../layout/useScrollHeader";
+import { useEffect } from "react";
 const PersonalizeNav = () => {
   const {
     isOpendKeywordList,
@@ -15,40 +16,30 @@ const PersonalizeNav = () => {
     setCategoriesCode,
     searchNews
   } = useSearch();
+
+  const { updateScroll, scrollPosition } = useScrollHeader();
+
+  useEffect(() => {
+    window.addEventListener("scroll", updateScroll);
+  });
+
   return (
-    <Wrap>
-      <CommonContainer>
-        <div className="pt-31">
-          <Search
-            openKeywordList={openKeywordList}
-            setLanguageCode={setLanguageCode}
-            setTimeFilterCode={setTimeFilterCode}
-            setIdentifiersString={setIdentifiersString}
-            setCategoriesCode={setCategoriesCode}
-            searchNews={searchNews}
-          />
-          {isOpendKeywordList && (
-            <KeywordSelectContainer searchNews={searchNews} />
-          )}
-        </div>
-      </CommonContainer>
-    </Wrap>
+    <CommonContainer>
+      <Search
+        openKeywordList={openKeywordList}
+        setLanguageCode={setLanguageCode}
+        setTimeFilterCode={setTimeFilterCode}
+        setIdentifiersString={setIdentifiersString}
+        setCategoriesCode={setCategoriesCode}
+        searchNews={searchNews}
+      />
+      {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
+    </CommonContainer>
   );
 };
 
 export default PersonalizeNav;
 
-const Wrap = styled.section`
-  background-image: linear-gradient(
-    179deg,
-    #fff -207%,
-    #dff8f4 6%,
-    #fdddd2 185%
-  );
-  height: auto;
-  /* height: 373px; */
-  .pt-31 {
-    padding-top: 113px;
-    padding-bottom: 140px;
-  }
-`;
+interface Props {
+  scrollPosition: number;
+}

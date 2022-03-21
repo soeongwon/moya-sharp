@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 
 import usePagination from "./usePagination";
 
-
 interface Props {
   count: number;
   page: number;
@@ -12,9 +11,9 @@ interface Props {
   siblingCount?: number;
   boundaryCount?: number;
 }
+
 const Pagination: React.FC<Props> = ({ count, page, onPageChange, disabled, siblingCount = 1, boundaryCount = 1 }) => {
   const getLabel = (item: number | string) => {
-    console.log(item, typeof(item))
     if (typeof item === 'number') return item;
     else if (item.indexOf('ellipsis') > -1) return '...'
     else if (item.indexOf('prev') > -1) return <img src="../images/Left.svg" alt="이전 페이지"/>

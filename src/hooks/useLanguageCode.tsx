@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { getLanguagesCode } from "../api/languagesApi";
+import { useState } from "react";
 
 type codeType = {
   code: string;
@@ -10,7 +9,7 @@ type LanguageCodeType = {
   languages: Array<codeType>;
 };
 
-export const useFetchLanguageCode = () => {
+export const useLanguageCode = () => {
   const [languageCode, setLanguageCode] = useState<LanguageCodeType>({
     languages: [
       {
@@ -107,14 +106,6 @@ export const useFetchLanguageCode = () => {
       }
     ]
   });
-
-  useEffect(() => {
-    // async function fetchLanguage() {
-    //   const response: any = await getLanguagesCode();
-    //   setLanguageCode(response);
-    // }
-    // fetchLanguage();
-  }, []);
 
   return languageCode;
 };

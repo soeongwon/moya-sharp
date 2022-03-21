@@ -5,15 +5,17 @@ import styled from "@emotion/styled";
 
 const TabListContainer = () => {
   return (
-    <PositionTop60>
-      <CommonContainer>
+    <CommonContainer>
+      <PositionTop60>
         <NewsTabList />
-      </CommonContainer>
-    </PositionTop60>
+      </PositionTop60>
+    </CommonContainer>
   );
 };
 
 export default TabListContainer;
 const PositionTop60 = styled.section`
-  margin-top: -60px;
+  position: absolute;
+  top: calc(100% - 60px);
+  z-index: -1;
 `;

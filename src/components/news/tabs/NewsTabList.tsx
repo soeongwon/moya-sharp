@@ -1,5 +1,9 @@
 import styled from "@emotion/styled";
 import { useNewsTabList } from "../hooks/useNewsTabList";
+import Modal from "../../edit/Modal";
+import { useState } from "react";
+import AddKeyword from "../../edit/AddKeyword";
+import { SearchTitleType } from "../../../api/newsListApi";
 
 const NewsTabList = () => {
   const {
@@ -11,6 +15,14 @@ const NewsTabList = () => {
     dragEnd,
     drop
   } = useNewsTabList();
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
+  interface Map {
+    list: object;
+  }
   return (
     <Wrap>
       <TabList>
@@ -28,13 +40,18 @@ const NewsTabList = () => {
             }
             onClick={() => selectMenuHandler(index)}
           >
-            {list.title}
+            {list.data}
           </li>
         ))}
-        <TabAddBtn role="button">
+        <TabAddBtn role="button" onClick={handleOpen}>
           <i>+</i>
           <span>키워드 추가</span>
         </TabAddBtn>
+        <Modal isOpen={isOpen} onClose={handleClose}>
+          <ModalBody>
+            <AddKeyword/>
+          </ModalBody>
+        </Modal>
       </TabList>
     </Wrap>
   );
@@ -47,6 +64,7 @@ const Wrap = styled.div``;
 const TabList = styled.ul`
   display: flex;
   text-decoration: none;
+  position: relative;
   .keywordTab {
     display: flex;
     align-items: center;
@@ -102,10 +120,19 @@ const TabAddBtn = styled.li`
   i {
     width: 40px;
     height: 40px;
-    background-image: url("images/icon-add-white.svg");
+    background-image: url("/images/icon-add-white.svg");
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 0;
     box-sizing: border-box;
   }
+`;
+
+const ModalBody = styled.div`
+  border-radius: 5px;
+  max-height: calc(100vh - 16px);
+  overflow: hidden auto;
+  position: relative;
+  padding-block: 12px;
+  padding-inline: 24px;
 `;

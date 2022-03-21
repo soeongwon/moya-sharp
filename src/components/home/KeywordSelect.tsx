@@ -16,7 +16,7 @@ type sectorKeywordType = {
 type Title = "Category" | "Sector" | "Startup";
 
 const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
-  const [keywordTitle, setKeywordTitle] = useState<Title>("Sector");
+  const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
   const [sectorKeyword] = useState<sectorKeywordType>(sector);
 
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
@@ -220,7 +220,8 @@ const CategoryListItem = styled.li`
     display: block;
   }
 `;
-const KeywordListWrap = styled.div`
+
+export const KeywordListWrap = styled.div`
   width: 100%;
   padding: 10px;
   display: grid;
@@ -254,3 +255,6 @@ const KeywordListItem = styled.p`
   color: #4f4f4f;
   cursor: pointer;
 `;
+function addKeyword(item: string): any {
+  throw new Error("Function not implemented.");
+}

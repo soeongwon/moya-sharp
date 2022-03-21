@@ -33,7 +33,7 @@ export type QuarystringType = {
   categories: string;
   min_cityfalcon_score?: Number;
   languages: string;
-  order_by: "top" | "latest" | "populer";
+  order_by?: "top" | "latest" | "popular";
   access_token: string;
   nextPageToken?: string;
   limit: number;
@@ -46,6 +46,7 @@ export type SearchPayload = {
   timeFilter: string;
   categories: string;
   nextPageToken?: string;
+  order_by?: "top" | "latest" | "popular";
 };
 
 export type SearchTitleType =
@@ -72,16 +73,16 @@ function serchType(type: SearchTitleType) {
 
 export async function getNewList(searchPayload: SearchPayload) {
   let payload: QuarystringType = {
-    identifier_type: searchPayload.searchTitle,
+    identifier_type: searchPayload.searchTitle || "index",
     identifiers: searchPayload.identifiers,
     time_filter: searchPayload.timeFilter,
     categories: searchPayload.categories,
     min_cityfalcon_score: 0,
     languages: searchPayload.language,
-    order_by: "top",
+    order_by: searchPayload.order_by || "top",
     access_token,
     nextPageToken: searchPayload.nextPageToken,
-    limit: 10
+    limit: 30
   };
 
   //조건에 따른 다른 파라미터 넣어주는 객체들
@@ -90,7 +91,7 @@ export async function getNewList(searchPayload: SearchPayload) {
     time_filter: payload.time_filter,
     categories: payload.categories,
     languages: payload.languages,
-    order_by: "top",
+    order_by: payload.order_by,
     access_token,
     nextPageToken: payload.nextPageToken,
     limit: payload.limit
@@ -101,7 +102,7 @@ export async function getNewList(searchPayload: SearchPayload) {
     time_filter: payload.time_filter,
     categories: payload.categories,
     languages: payload.languages,
-    order_by: "top",
+    order_by: payload.order_by,
     limit: payload.limit,
     access_token,
     nextPageToken: payload.nextPageToken
@@ -114,7 +115,7 @@ export async function getNewList(searchPayload: SearchPayload) {
     categories: payload.categories,
     languages: payload.languages,
     min_cityfalcon_score: 0,
-    order_by: "top",
+    order_by: payload.order_by,
     limit: payload.limit,
     access_token,
     nextPageToken: payload.nextPageToken

@@ -21,5 +21,3 @@ export const cameltoCababString = (str: string) => {
 function hasWhiteSpace(s: string) {
   return /\s/g.test(s);
 }
-
-//TODO:특수문자 처리 필요

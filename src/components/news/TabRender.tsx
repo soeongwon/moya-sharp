@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import React from "react";
-import MainContainer from "./main/MainContainer";
 import TabListContainer from "./tabs/TabListContainer";
+import MainContainer from "./List/MainContainer";
+
 const TabRender = () => {
   return <TabView></TabView>;
 };

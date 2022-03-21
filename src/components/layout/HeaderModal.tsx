@@ -20,6 +20,7 @@ const Modal = styled.div`
   box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
   border-radius: 5px;
   background-color: #fff;
+  z-index: 199;
   a {
     display: block;
     width: 100%;
