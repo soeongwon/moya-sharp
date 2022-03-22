@@ -24,7 +24,7 @@ const HomeWrap = styled.div`
     rgba(253, 221, 210, 0.7) 94.11%
   );
   /* min-height: 100vh; */
-  padding-bottom: 267px;
+  padding-bottom: 186px;
 `;
 
 const BackgroundImage = styled.div`

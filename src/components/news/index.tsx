@@ -15,5 +15,5 @@ const NewsContainer = () => {
 export default NewsContainer;
 
 const ResponseView = styled.section`
-  padding-top: 340px;
+  padding-top: 280px;
 `;
