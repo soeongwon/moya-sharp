@@ -17,6 +17,7 @@ type NewsListState = {
   newListData: NewsType[];
   nextPageToken: string | undefined;
   loading: boolean;
+  order_by: "top" | "latest" | "popular";
   error: any;
 };
 
@@ -24,7 +25,8 @@ const initialState: NewsListState = {
   newListData: [],
   nextPageToken: "",
   loading: false,
-  error: null
+  error: null,
+  order_by:"top"
 };
 
 const NewsListSlice = createSlice({
@@ -42,6 +44,7 @@ const NewsListSlice = createSlice({
     builder.addCase(fetchNewList.fulfilled, (state, action) => {
       console.log(action);
       state.loading = false;
+      state.order_by=action.payload
       state.newListData.push(...state.newListData, ...action.payload.stories);
       state.nextPageToken = action.payload.nextPageToken;
     });

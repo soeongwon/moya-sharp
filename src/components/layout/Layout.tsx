@@ -11,11 +11,17 @@ export const Layout: React.FC<AuxProps> = props => {
   return (
     <Root>
       <GlobalHeader />
-      {props.children}
+      <main>{props.children}</main>
       <GlobalFooter />
     </Root>
   );
 };
 
 const Root = styled.div`
+  position: relative;
+  main {
+    height: 100%;
+    margin-top: 68px;
+    margin-bottom: 198px;
+  }
 `;

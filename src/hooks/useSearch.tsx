@@ -4,10 +4,11 @@ import { SearchTitleType } from "../api/newsListApi";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { fetchNewList } from "../redux/news/newsListSlice";
 import { cameltoCababString } from "../utils";
+import { useNewsSorts } from "./../components/news/hooks/useNewsSorts";
 
 export const useSearch = () => {
   const dispatch = useAppDispatch();
-  const sorted_by = useAppSelector(state => state.newsSorts.newsSortState);
+  const { order_by } = useAppSelector(state => state.newsList);
   const navigate = useNavigate();
 
   const [isOpendKeywordList, setIsOpendKeywordList] = useState(false);
@@ -19,7 +20,6 @@ export const useSearch = () => {
   function openKeywordList(isOpend: boolean) {
     setIsOpendKeywordList(isOpend);
   }
-
   function setIdentifiersString(Identifier: string) {
     setIdentifiers(Identifier);
   }
@@ -43,7 +43,7 @@ export const useSearch = () => {
       cameltoCababString(str);
     }
     const searchPayload = {
-      order_by: sorted_by,
+      order_by: order_by,
       searchTitle,
       identifiers: identifier,
       language,
@@ -53,7 +53,7 @@ export const useSearch = () => {
     try {
       const search = await dispatch(fetchNewList(searchPayload));
       navigate(`/news/${cameltoCababString(identifier)}`);
-      return search
+      return search;
     } catch (error) {
       console.log("searchError", error);
     }

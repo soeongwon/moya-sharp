@@ -3,16 +3,9 @@ import { MouseEvent } from "react";
 import { useNewsSorts } from "../hooks/useNewsSorts";
 import { useSearch } from "../../../hooks/useSearch";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 
 const SortOptionList = () => {
-  const {
-    showDropDown,
-    newsCurOption,
-    isActive,
-    setIsActive,
-    reportOptionToAPI
-  } = useNewsSorts();
+  const { showDropDown, newsCurOption, isActive, setIsActive } = useNewsSorts();
   const { searchNews } = useSearch();
   const { identifier } = useParams();
 
@@ -30,7 +23,6 @@ const SortOptionList = () => {
     status: string;
   }
 
-
   return (
     <ListWrap>
       <DropDownBtn onClick={(e: MouseEvent) => setIsActive(!isActive)}>
@@ -39,13 +31,12 @@ const SortOptionList = () => {
       </DropDownBtn>
       <DropDownList>
         {isActive &&
-          options.map((option: DropDown) => (
+          options.map((option: DropDown, index) => (
             <li
+              key={index}
               className="dropdown-item"
               onClick={(e: MouseEvent) => {
-                searchNews("Sector", identifier);
                 showDropDown(option.name);
-                reportOptionToAPI(option.status);
               }}
             >
               {option.name}

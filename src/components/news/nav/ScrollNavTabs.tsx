@@ -8,31 +8,32 @@ const ScrollNavTabs = () => {
   const [height, setHeight] = useState<boolean>(true);
   const [none, setNone] = useState<boolean>(false);
 
-  const changeBackground = (e: Event) => {
+  function ScrollEvent(e: Event) {
     if (window.scrollY < 399) {
       setNavbar(true);
     } else if (window.scrollY >= 399) {
       setNavbar(false);
     }
-  };
-  const changeHeight = (e: Event) => {
+
     if (window.scrollY >= 600) {
       setHeight(false);
     } else {
       setHeight(true);
     }
-  };
-  const changeNone = (e: Event) => {
+
     if (window.scrollY > 601) {
       setNone(true);
     } else {
       setNone(false);
     }
-  };
+  }
   useEffect(() => {
-    window.addEventListener("scroll", changeBackground);
-    window.addEventListener("scroll", changeHeight);
-    window.addEventListener("scroll", changeNone);
+    window.addEventListener("scroll", ScrollEvent);
+    return function cleanUp() {
+      setNavbar(true);
+      setHeight(true);
+      setNone(false);
+    };
   }, []);
 
   return (
@@ -71,7 +72,11 @@ const ScrollView = styled.div<Props>`
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   height: ${({ viewHeight, none }) =>
-    viewHeight === true ? `345px` : "274px" || none === true ? "101px" : `345px`};
+    viewHeight === true
+      ? `345px`
+      : "274px" || none === true
+      ? "101px"
+      : `345px`};
   .pt-30 {
     margin-top: 30px;
   }

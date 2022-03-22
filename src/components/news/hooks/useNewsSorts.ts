@@ -1,33 +1,28 @@
 import type { RootState } from "../../../redux/store";
-import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
 import { useEffect, useState } from "react";
-import { changeNewsOption } from "../../../redux/news/newsSortSlice";
-
+// import { useParams } from "react-router-dom";
+// import { useSearch } from "../../../hooks/useSearch";
 export const useNewsSorts = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [newsCurOption, setNewsCurOption] = useState<string>("정렬순");
+  const [newsCurOption, setNewsCurOption] = useState<any>("정렬순");
 
-  const dispatch = useAppDispatch();
-  const { newsSortState } = useAppSelector(
-    (state: RootState) => state.newsSorts
-  );
+  // const dispatch = useAppDispatch();
+  // const { searchNews } = useSearch();
+  // const { identifier } = useParams();
 
-  const showDropDown = (option: string) => {
+  const showDropDown = (option: any) => {
     setNewsCurOption(option);
     setIsActive(!isActive);
   };
 
-  const reportOptionToAPI = (NewsSortoption: string): void => {
-    dispatch(changeNewsOption(NewsSortoption));
-  };
-  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   searchNews('Sector',identifier,newsCurOption.status)
+  // }, [identifier, newsCurOption]);
 
   return {
-    newsSortState,
     isActive,
     setIsActive,
     newsCurOption,
-    showDropDown,
-    reportOptionToAPI
+    showDropDown
   };
 };

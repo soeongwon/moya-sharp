@@ -4,8 +4,6 @@ import KeywordSelectContainer from "../../../containers/home/KeywordSelectContai
 import Search from "../../home/Search";
 import CommonContainer from "../../layout/CommonContainer";
 import { useSearch } from "./../../../hooks/useSearch";
-import { useScrollHeader } from "../../layout/useScrollHeader";
-import { useEffect } from "react";
 const PersonalizeNav = () => {
   const {
     isOpendKeywordList,
@@ -16,12 +14,6 @@ const PersonalizeNav = () => {
     setCategoriesCode,
     searchNews
   } = useSearch();
-
-  const { updateScroll, scrollPosition } = useScrollHeader();
-
-  useEffect(() => {
-    window.addEventListener("scroll", updateScroll);
-  });
 
   return (
     <CommonContainer>
@@ -39,7 +31,3 @@ const PersonalizeNav = () => {
 };
 
 export default PersonalizeNav;
-
-interface Props {
-  scrollPosition: number;
-}
