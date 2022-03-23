@@ -15,7 +15,7 @@ const TextArticleList = ({ newListData }: any) => {
         />
       ))}
     </>
-  );
+  )
 };
 
 export default TextArticleList;

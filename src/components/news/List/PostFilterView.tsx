@@ -24,11 +24,11 @@ const PostFilterView = () => {
                   <ImageContent>
                     <ImageArticleList newListData={newListData} />
                   </ImageContent>
-                );
+                )
               } else if (NewsFormats === "Text") {
                 return (
                   <TextContent>
-                    <TextArticleList newListData={newListData} />;
+                    <TextArticleList newListData={newListData} />
                   </TextContent>
                 );
               }

@@ -15,13 +15,13 @@ const ScrollNavTabs = () => {
       setNavbar(false);
     }
 
-    if (window.scrollY >= 600) {
+    if (window.scrollY >= 500) {
       setHeight(false);
     } else {
       setHeight(true);
     }
 
-    if (window.scrollY > 601) {
+    if (window.scrollY > 501) {
       setNone(true);
     } else {
       setNone(false);
@@ -59,7 +59,7 @@ const ScrollView = styled.div<Props>`
   top: 68px;
   right: 0;
   left: 0;
-  z-index: 100;
+  z-index: 1000;
   background-image: ${({ navbar }) =>
     navbar
       ? `linear-gradient(
@@ -69,13 +69,14 @@ const ScrollView = styled.div<Props>`
     #fdddd2 185%
   );`
       : null};
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: ${({ navbar }) =>
+    navbar ? null : `0px 5px 5px rgba(0, 0, 0, 0.2)`};
   background-color: #fff;
   height: ${({ viewHeight, none }) =>
     viewHeight === true
       ? `345px`
       : "274px" || none === true
-      ? "101px"
+      ? "98px"
       : `345px`};
   .pt-30 {
     margin-top: 30px;

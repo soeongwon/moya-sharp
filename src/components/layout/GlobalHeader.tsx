@@ -76,16 +76,15 @@ const Wrap = styled.header`
     height: 68px;
     background-color: #f1fcfa;
     z-index: 400;
+    box-shadow: none;
     .header {
     }
   }
   &.scrolled {
     background-color: #fff;
     transition: 0.5s;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
     /* box-shadow: 0 0 10px black; */
-    .header {
-      /* transition: 0.5s; */
-    }
   }
 `;
 
