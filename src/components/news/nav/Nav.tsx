@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 import KeywordSelectContainer from "../../../containers/home/KeywordSelectContainer";
 import Search from "../../home/Search";
 import CommonContainer from "../../layout/CommonContainer";
-import { useSearch } from "./../../../hooks/useSearch";
-const PersonalizeNav = () => {
+import { useSearch } from "../../../hooks/useSearch";
+const Nav = () => {
   const {
     isOpendKeywordList,
     openKeywordList,
@@ -30,4 +30,4 @@ const PersonalizeNav = () => {
   );
 };
 
-export default PersonalizeNav;
+export default Nav;

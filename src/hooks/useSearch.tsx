@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { fetchNewList } from "../redux/news/newsListSlice";
 import { cameltoCababString } from "../utils";
 import { useNewsSorts } from "./../components/news/hooks/useNewsSorts";
-
 export const useSearch = () => {
   const dispatch = useAppDispatch();
   const { order_by } = useAppSelector(state => state.newsList);
@@ -43,16 +42,24 @@ export const useSearch = () => {
       cameltoCababString(str);
     }
     const searchPayload = {
-      order_by: order_by,
+      order_by:order_by,
       searchTitle,
       identifiers: identifier,
       language,
       timeFilter,
       categories
     };
+    const {
+      order_by: 정렬,
+      searchTitle: 검색타입, // assets | ticker | full
+      identifiers: 식별자,
+      language: 언어,
+      timeFilter: 시간
+    } = searchPayload;
     try {
+      const query = `?identifier_type=${검색타입}&identifiers=${식별자}&time_filter=${시간}&categories=mp%2Cop&order_by=${정렬}&${언어}`;
       const search = await dispatch(fetchNewList(searchPayload));
-      navigate(`/news/${cameltoCababString(identifier)}`);
+      navigate(`/news/${cameltoCababString(query)}`);
       return search;
     } catch (error) {
       console.log("searchError", error);

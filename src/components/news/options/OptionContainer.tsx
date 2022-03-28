@@ -2,25 +2,25 @@ import styled from "@emotion/styled";
 import React from "react";
 import CommonContainer from "../../layout/CommonContainer";
 import { useNewsFormats } from "../hooks/useNewsFormat";
-import SortOptionList from "./SortOptionList";
+import SortController from "./SortController";
 
-const Options = () => {
-  const { changeToTextFormat, changeToImgFormat, focused, handleTextSize } =
+const OptionContainer = () => {
+  const { changeToTextFormat, changeToImgFormat, clicked, handleTextSize } =
     useNewsFormats();
   return (
     <CommonContainer style={{ marginTop: "80px" }}>
       <Features>
         {/* <span className="result">Results of ‘Silver’</span> */}
-        <SortOptionList />
+        <SortController />
         <TextSizeControl onClick={handleTextSize} />
-        <ImageFormatViewBtn onClick={changeToImgFormat} focused={focused} />
-        <TextFormatViewBtn focused={focused} onClick={changeToTextFormat} />
+        <ImageFormatViewBtn onClick={changeToImgFormat} icon={clicked} />
+        <TextFormatViewBtn icon={clicked} onClick={changeToTextFormat} />
       </Features>
     </CommonContainer>
   );
 };
 
-export default Options;
+export default OptionContainer;
 
 const Features = styled.div`
   position: relative;
@@ -50,17 +50,19 @@ const TextSizeControl = styled.div`
   background-repeat: no-repeat;
   cursor: pointer;
 `;
+
 type Props = {
-  focused: boolean;
+  icon: boolean;
 };
+
 const ImageFormatViewBtn = styled.div<Props>`
   width: 40px;
   height: 40px;
   background-size: cover;
   background-repeat: no-repeat;
   cursor: pointer;
-  background: ${({ focused }) =>
-      focused === true
+  background: ${({ icon }) =>
+      icon === true
         ? "url(/images/icon-Grid-filled.svg)"
         : "url(/images/icon-Grid.svg)"}
     no-repeat 4.5%;
@@ -69,8 +71,8 @@ const ImageFormatViewBtn = styled.div<Props>`
 const TextFormatViewBtn = styled.div<Props>`
   width: 40px;
   height: 40px;
-  background: ${({ focused }) =>
-      focused === true
+  background: ${({ icon }) =>
+      icon === true
         ? "url(/images/icon-Grid-list.svg)"
         : "url(/images/icon-hamburger-button.svg)"}
     no-repeat 4.5%;

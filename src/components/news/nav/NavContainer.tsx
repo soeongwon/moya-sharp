@@ -1,18 +1,18 @@
-import PersonalizeNav from ".";
+import Nav from "./Nav";
 import TabListContainer from "../tabs/TabListContainer";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 
-const ScrollNavTabs = () => {
-  const [navbar, setNavbar] = useState<boolean>(true);
+const NavContainer = () => {
+  const [background, setBackground] = useState<boolean>(true);
   const [height, setHeight] = useState<boolean>(true);
   const [none, setNone] = useState<boolean>(false);
 
   function ScrollEvent(e: Event) {
     if (window.scrollY < 399) {
-      setNavbar(true);
+      setBackground(true);
     } else if (window.scrollY >= 399) {
-      setNavbar(false);
+      setBackground(false);
     }
 
     if (window.scrollY >= 500) {
@@ -29,18 +29,18 @@ const ScrollNavTabs = () => {
   }
   useEffect(() => {
     window.addEventListener("scroll", ScrollEvent);
-    return function cleanUp() {
-      setNavbar(true);
+    return () => {
+      setBackground(true);
       setHeight(true);
       setNone(false);
     };
   }, []);
 
   return (
-    <ScrollView navbar={navbar} viewHeight={height} none={none}>
+    <ScrollView background={background} viewHeight={height} none={none}>
       {none ? null : (
         <div className="pt-30">
-          <PersonalizeNav />
+          <Nav />
         </div>
       )}
       <TabListContainer />
@@ -48,36 +48,31 @@ const ScrollNavTabs = () => {
   );
 };
 interface Props {
-  navbar: boolean;
+  background: boolean;
   viewHeight: boolean;
   none: boolean;
 }
 
-export default ScrollNavTabs;
+export default NavContainer;
 const ScrollView = styled.div<Props>`
   position: fixed;
   top: 68px;
   right: 0;
   left: 0;
-  z-index: 1000;
-  background-image: ${({ navbar }) =>
-    navbar
-      ? `linear-gradient(
+  z-index: 100;
+  background-image: ${({ background }) =>
+    background &&
+    `linear-gradient(
     179deg,
     #fff -207%,
     #dff8f4 6%,
     #fdddd2 185%
-  );`
-      : null};
-  box-shadow: ${({ navbar }) =>
-    navbar ? null : `0px 5px 5px rgba(0, 0, 0, 0.2)`};
+  );`};
+  box-shadow: ${({ background }) =>
+    background === false && `0px 5px 5px rgba(0, 0, 0, 0.2)`};
   background-color: #fff;
   height: ${({ viewHeight, none }) =>
-    viewHeight === true
-      ? `345px`
-      : "274px" || none === true
-      ? "98px"
-      : `345px`};
+    viewHeight ? `345px` : "274px" || none ? "98px" : `345px`};
   .pt-30 {
     margin-top: 30px;
   }

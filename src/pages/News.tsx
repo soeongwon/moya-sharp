@@ -2,7 +2,8 @@
 
 import NewsContainer from "../components/news";
 
-const News = () => {
+const News = ({ history }:any) => {
+  console.log(history,'news')
   return <NewsContainer />;
 };
 

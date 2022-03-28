@@ -4,16 +4,14 @@ import { useNewsSorts } from "../hooks/useNewsSorts";
 import { useSearch } from "../../../hooks/useSearch";
 import { useParams } from "react-router-dom";
 
-const SortOptionList = () => {
-  const { showDropDown, newsCurOption, isActive, setIsActive } = useNewsSorts();
-  const { searchNews } = useSearch();
-  const { identifier } = useParams();
+const SortController = () => {
+  // const { searchNews } = useSearch();
+  // const { identifier } = useParams();
+  const { handleOption, newsCurOption, isOpen, openDropDown, closeDropDown } =
+    useNewsSorts();
 
   const options = [
-    {
-      name: "정렬순",
-      status: "top"
-    },
+    { name: "정렬순", status: "top" },
     { name: "최신순", status: "latest" },
     { name: "인기순", status: "popular" }
   ];
@@ -24,35 +22,36 @@ const SortOptionList = () => {
   }
 
   return (
-    <ListWrap>
-      <DropDownBtn onClick={(e: MouseEvent) => setIsActive(!isActive)}>
+    <DropDownView>
+      <CurrentOption role="button" onClick={(e: MouseEvent) => openDropDown()}>
         {newsCurOption}
         <i className="nav-bottom"></i>
-      </DropDownBtn>
-      <DropDownList>
-        {isActive &&
+      </CurrentOption>
+      <OptionList>
+        {isOpen &&
           options.map((option: DropDown, index) => (
             <li
-              key={index}
               className="dropdown-item"
+              key={index}
               onClick={(e: MouseEvent) => {
-                showDropDown(option.name);
+                handleOption(option.name);
+                closeDropDown();
               }}
             >
               {option.name}
             </li>
           ))}
-      </DropDownList>
-    </ListWrap>
+      </OptionList>
+    </DropDownView>
   );
 };
 
-export default SortOptionList;
+export default SortController;
 
-const ListWrap = styled.div`
+const DropDownView = styled.div`
   position: relative;
 `;
-const DropDownBtn = styled.div`
+const CurrentOption = styled.div`
   width: 160px;
   height: 40px;
   line-height: 40px;
@@ -75,7 +74,7 @@ const DropDownBtn = styled.div`
     background-size: cover;
   }
 `;
-const DropDownList = styled.ul`
+const OptionList = styled.ul`
   position: absolute;
   top: 100%;
   background-color: #fff;

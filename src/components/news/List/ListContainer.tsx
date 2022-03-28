@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import TextArticleList from "./TextArticleList";
 import ImageArticleList from "./ImageArticleList";
-import CommonContainer from "./../../layout/CommonContainer";
+import CommonContainer from "../../layout/CommonContainer";
 import { useAppSelector } from "../../../redux/hooks";
-import { useNewsFormats } from "./../hooks/useNewsFormat";
+import { useNewsFormats } from "../hooks/useNewsFormat";
 import { RootState } from "../../../redux/store";
-const PostFilterView = () => {
+const ListContainer = () => {
   const { NewsFormats } = useNewsFormats();
   const { newListData, loading } = useAppSelector(
     (state: RootState) => state.newsList
@@ -18,13 +18,13 @@ const PostFilterView = () => {
           <div>....isLoading</div>
         ) : (
           <>
-            {(function test() {
+            {(function render() {
               if (NewsFormats === "Image") {
                 return (
                   <ImageContent>
                     <ImageArticleList newListData={newListData} />
                   </ImageContent>
-                )
+                );
               } else if (NewsFormats === "Text") {
                 return (
                   <TextContent>
@@ -40,7 +40,7 @@ const PostFilterView = () => {
   );
 };
 
-export default PostFilterView;
+export default ListContainer;
 
 const ImageContent = styled.div`
   column-count: 3;

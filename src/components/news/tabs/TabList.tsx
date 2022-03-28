@@ -3,30 +3,32 @@ import { useNewsTabList } from "../hooks/useNewsTabList";
 import Modal from "../../edit/Modal";
 import { useState } from "react";
 import AddKeyword from "../../edit/AddKeyword";
-import { SearchTitleType } from "../../../api/newsListApi";
+import { useAppSelector } from "../../../redux/hooks";
 
-const NewsTabList = () => {
+const TabList = () => {
   const {
-    keywordList,
     currentTab,
-    selectMenuHandler,
+    changeCurrentTab,
     dragstart,
     dragOver,
     dragEnd,
-    drop
+    dragdrop
   } = useNewsTabList();
+  const userTabList = useAppSelector(state => state.keywords);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
-  interface Map {
-    list: object;
+
+  interface Keyword {
+    data: string;
   }
+
   return (
     <Wrap>
-      <TabList>
-        {keywordList.map((list: any, index: number) => (
+      <List>
+        {userTabList.map((userTab: Keyword, index: number) => (
           <li
             key={index}
             data-position={index}
@@ -34,13 +36,13 @@ const NewsTabList = () => {
             onDragOver={dragOver}
             onDragStart={dragstart}
             onDragEnd={dragEnd}
-            onDrop={drop}
+            onDrop={dragdrop}
             className={
               currentTab === index ? "keywordTab focused" : "keywordTab"
             }
-            onClick={() => selectMenuHandler(index)}
+            onClick={() => changeCurrentTab(index)}
           >
-            {list.data}
+            {userTab.data}
           </li>
         ))}
         <TabAddBtn role="button" onClick={handleOpen}>
@@ -49,19 +51,23 @@ const NewsTabList = () => {
         </TabAddBtn>
         <Modal isOpen={isOpen} onClose={handleClose}>
           <ModalBody>
-            <AddKeyword/>
+            <AddKeyword />
           </ModalBody>
         </Modal>
-      </TabList>
+      </List>
     </Wrap>
   );
 };
 
-export default NewsTabList;
+export default TabList;
 
-const Wrap = styled.div``;
+const Wrap = styled.section`
+  position: absolute;
+  top: calc(100% - 60px);
+  z-index: -1;
+`;
 
-const TabList = styled.ul`
+const List = styled.ul`
   display: flex;
   text-decoration: none;
   position: relative;

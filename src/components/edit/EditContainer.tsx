@@ -4,8 +4,8 @@ import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
 import { useKeywordList } from "../../hooks/useKeywordList";
 import { useAppDispatch } from "../../redux/hooks";
-import ScrollNavTabs from "../news/nav/ScrollNavTabs";
-
+import ScrollNavTabs from "../news/nav/NavContainer";
+import searchKeyword from "../../assets/csvjson.json";
 const EditContainer = () => {
   const keywordList = useKeywordList();
 
@@ -25,6 +25,9 @@ const EditContainer = () => {
                 ))}
               </KeywordArea>
             </KeywordList>
+          ))}
+          {searchKeyword.map((item, index) => (
+            <div>{item.sub_name}</div>
           ))}
         </KeywordListWrap>
       </CommonContainer>
