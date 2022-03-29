@@ -13,7 +13,9 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/news/:identifier" element={<News />} />
+          <Route path="/news/" element={<News />}>
+            <Route path="/news/:query" element={<News />} />
+          </Route>
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/mypage/bookmark" element={<Bookmark />} />
           <Route path="/edit" element={<EditContainer />} />

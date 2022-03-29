@@ -1,21 +1,20 @@
 import styled from "@emotion/styled";
-import ScrollNavTabs from "./nav/ScrollNavTabs";
-import MainContainer from './List/MainContainer';
+import ListContainer from "./List/ListContainer";
+import NavContainer from "./nav/NavContainer";
+import OptionContainer from "./options/OptionContainer";
+
 const NewsContainer = () => {
   return (
-    <ResponseView>
-      {/* <PersonalizeNav /> */}
-      <ResponsiveTag />
-      <ScrollNavTabs/>
-      {/* <TabListContainer></TabListContainer> */}
-      <MainContainer />
-    </ResponseView>
+    <Wrap>
+      <NavContainer />
+      <OptionContainer />
+      <ListContainer />
+    </Wrap>
   );
 };
 
 export default NewsContainer;
 
-const ResponseView = styled.section``;
-const ResponsiveTag = styled.div`
-  height: 340px;
+const Wrap = styled.section`
+  padding-top: 280px;
 `;

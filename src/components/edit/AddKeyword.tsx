@@ -3,14 +3,8 @@ import CommonContainer from "../layout/CommonContainer";
 import KeywordItem from "./KeywordItem";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
-import { SetStateAction, useState } from "react";
-import { SearchTitleType } from "../../api/newsListApi";
-import searchKeyword from "../../assets/csvjson.json";
-import { useSearch } from "../../hooks/useSearch";
-import { useKeywordList } from "../../hooks/useKeywordList";
 
 const AddKeyword = () => {
-  const keywordList = useKeywordList();
   const myKeywords = useAppSelector((state: RootState) => state.keywords);
 
   return (
@@ -95,6 +89,3 @@ const MyKeywordInner = styled.div`
   gap: 20px;
   padding-top: 16px;
 `;
-function addKeyword(item: string): any {
-  throw new Error("Function not implemented.");
-}

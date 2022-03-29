@@ -16,7 +16,6 @@ export const useFetch = () => {
   const [identifiers, setIdentifiers] = useState("");
   const { language, timeFilter, categories } = useSearch();
 
-  //정렬을 조회한다
   useEffect(() => {
     const searchNews = async (searchTitle?: SearchTitleType, str?: string) => {
       const identifier = str ? str : identifiers;

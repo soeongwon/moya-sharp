@@ -39,8 +39,6 @@ const ImageArticle = ({
         {newsimageUrls !== null ? (
           <Figure>
             <img
-              // onLoad={imageOnLoadHandler}
-              // onError={imageOnErrorHandler}
               src={`${newsimageUrls}`}
               onError={imageFail}
               alt="기사1"

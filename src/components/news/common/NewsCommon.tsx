@@ -20,7 +20,6 @@ export const NewsFeatures = () => {
   );
 };
 
-//NewsFeatures Style
 const Feautres = styled.div`
   display: flex;
   justify-content: space-between;
@@ -65,4 +64,3 @@ const Bookmark = styled.i<BookmarkProps>`
     no-repeat 4.5%;
 `;
 
-//ArticleFooter Style

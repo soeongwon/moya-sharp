@@ -1,4 +1,3 @@
-//탭을 클릭 할때마다 키워드 API를 쏘게합니다
 import { useSearch } from "../../../hooks/useSearch";
 import { fetchNewList } from "../../../redux/news/newsListSlice";
 import { SearchTitleType } from "../../../api/newsListApi";

@@ -24,6 +24,7 @@ const Introduction = styled.div`
   color: ${props => props.theme.primaryColor};
   margin-bottom: 65px;
   h1 {
+    padding-top: 104px;
     width: 538.7px;
     font-style: normal;
     font-weight: bold;
