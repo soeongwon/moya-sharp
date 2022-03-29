@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "@emotion/styled";
 import KeywordSelectContainer from "../../../containers/home/KeywordSelectContainer";
 import Search from "../../home/Search";
 import CommonContainer from "../../layout/CommonContainer";
@@ -16,7 +15,7 @@ const Nav = () => {
   } = useSearch();
 
   return (
-    <CommonContainer>
+    <CommonContainer style={{ marginTop: "30px" }}>
       <Search
         openKeywordList={openKeywordList}
         setLanguageCode={setLanguageCode}

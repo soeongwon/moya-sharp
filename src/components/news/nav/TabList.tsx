@@ -27,34 +27,36 @@ const TabList = () => {
 
   return (
     <Wrap>
-      <List>
-        {userTabList.map((userTab: Keyword, index: number) => (
-          <li
-            key={index}
-            data-position={index}
-            draggable
-            onDragOver={dragOver}
-            onDragStart={dragstart}
-            onDragEnd={dragEnd}
-            onDrop={dragdrop}
-            className={
-              currentTab === index ? "keywordTab focused" : "keywordTab"
-            }
-            onClick={() => changeCurrentTab(index)}
-          >
-            {userTab.data}
-          </li>
-        ))}
-        <TabAddBtn role="button" onClick={handleOpen}>
-          <i>+</i>
-          <span>키워드 추가</span>
-        </TabAddBtn>
-        <Modal isOpen={isOpen} onClose={handleClose}>
-          <ModalBody>
-            <AddKeyword />
-          </ModalBody>
-        </Modal>
-      </List>
+      <Inner>
+        <List>
+          {userTabList.map((userTab: Keyword, index: number) => (
+            <li
+              key={index}
+              data-position={index}
+              draggable
+              onDragOver={dragOver}
+              onDragStart={dragstart}
+              onDragEnd={dragEnd}
+              onDrop={dragdrop}
+              className={
+                currentTab === index ? "keywordTab focused" : "keywordTab"
+              }
+              onClick={() => changeCurrentTab(index)}
+            >
+              {userTab.data}
+            </li>
+          ))}
+          <TabAddBtn role="button" onClick={handleOpen}>
+            <i>+</i>
+            <span>키워드 추가</span>
+          </TabAddBtn>
+          <Modal isOpen={isOpen} onClose={handleClose}>
+            <ModalBody>
+              <AddKeyword />
+            </ModalBody>
+          </Modal>
+        </List>
+      </Inner>
     </Wrap>
   );
 };
@@ -62,11 +64,13 @@ const TabList = () => {
 export default TabList;
 
 const Wrap = styled.section`
+  
+`;
+const Inner = styled.div`
   position: absolute;
   top: calc(100% - 60px);
   z-index: -1;
 `;
-
 const List = styled.ul`
   display: flex;
   text-decoration: none;
