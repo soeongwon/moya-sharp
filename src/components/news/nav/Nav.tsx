@@ -15,7 +15,7 @@ const Nav = () => {
   } = useSearch();
 
   return (
-    <CommonContainer style={{ marginTop: "30px" }}>
+    <CommonContainer style={{ paddingTop: "40px" }}>
       <Search
         openKeywordList={openKeywordList}
         setLanguageCode={setLanguageCode}

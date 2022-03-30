@@ -52,4 +52,6 @@ const TextContent = styled.div`
   width: 100%;
   padding-bottom: 280px;
 `;
-const Wrap = styled.div``;
+const Wrap = styled.div`
+  min-height: 300px;
+`;

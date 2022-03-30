@@ -63,7 +63,7 @@ export default GlobalFooter;
 
 const Wrap = styled.footer`
   position: absolute;
-  top: 100%;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 198px;

@@ -63,13 +63,12 @@ const TabList = () => {
 
 export default TabList;
 
-const Wrap = styled.section`
-  
-`;
+const Wrap = styled.section``;
 const Inner = styled.div`
-  position: absolute;
+  /* position: absolute;
   top: calc(100% - 60px);
-  z-index: -1;
+  z-index: -1; */
+  margin-top: 69px;
 `;
 const List = styled.ul`
   display: flex;

@@ -1,21 +1,41 @@
 import styled from "@emotion/styled";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../../redux/hooks";
 import { onLogin } from "../../../redux/user/userSlice";
 
-const HeaderModal = () => {
+const HeaderModal = ({ open, onOpen }: any) => {
   const dispatch = useAppDispatch();
+
+  function ModalOffButton({ children }: any) {
+    function handleClick() {
+      if (open === true) onOpen(false);
+      else onOpen(true);
+    }
+    return <div onClick={handleClick}>{children}</div>;
+  }
+
+  function LogOutConfirmButton({ children, message }: any) {
+    function handleClick() {
+      if (window.confirm(`${message}`)) dispatch(onLogin(false));
+      else dispatch(onLogin(true));
+    }
+    return (
+      <div role="button" className="logout-btn" onClick={handleClick}>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <Modal>
-      <Link to="/myPage">마이페이지</Link>
-      <Link to="/myPage">키워드 관리</Link>
-      <div
-        className="logout-btn"
-        role="button"
-        onClick={event => dispatch(onLogin(false))}
-      >
-        로그아웃
-      </div>
+      <ModalOffButton>
+        <Link to="/myPage">마이페이지</Link>
+        <Link to="/myPage">키워드 관리</Link>
+        <LogOutConfirmButton message="로그아웃 하시겠습니까?">
+          <span>로그아웃</span>
+        </LogOutConfirmButton>
+      </ModalOffButton>
     </Modal>
   );
 };

@@ -12,11 +12,9 @@ const Member = () => {
 
   const area = useRef<HTMLDivElement>(null);
 
-  const handleClickOutside = (event: any) => {
-    if (area.current && !area.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
+  function handleClickOutside(event: any) {
+    if (area.current && !area.current.contains(event.target)) setIsOpen(false);
+  }
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -34,7 +32,7 @@ const Member = () => {
           onClick={hanldeModal}
           className="icon-arrow-bottom"
         ></i>
-        {isOpen === true ? <HeaderModal /> : null}
+        {isOpen === true ? <HeaderModal open={isOpen} onOpen={setIsOpen} /> : null}
       </Profile>
     </Wrap>
   );

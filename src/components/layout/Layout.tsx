@@ -17,11 +17,12 @@ export const Layout: React.FC<AuxProps> = props => {
   );
 };
 
-const Root = styled.div`
+export const Root = styled.div`
   position: relative;
+  min-height: 100vh;
   main {
     height: 100%;
     margin-top: 68px;
-    margin-bottom: 198px;
+    padding-bottom: 198px;
   }
 `;

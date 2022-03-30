@@ -7,14 +7,18 @@ const NewsContainer = () => {
   return (
     <Wrap>
       <NavContainer />
-      <OptionContainer />
-      <ListContainer />
+      <Body>
+        <OptionContainer />
+        <ListContainer />
+      </Body>
     </Wrap>
   );
 };
 
 export default NewsContainer;
 
-const Wrap = styled.section`
-  padding-top: 280px;
+const Wrap = styled.section``;
+
+const Body = styled.div`
+  padding-top: 400px;
 `;
