@@ -155,6 +155,8 @@ const StartupKeywordList = styled.div`
 `;
 
 const KeywordSelectWrap = styled.div`
+  position: relative;
+  z-index: 3;
   margin-top: 14px;
   background: #fff;
   border-radius: 0px 0px 5px 5px;
@@ -187,7 +189,7 @@ const KeywordTitleItem = styled.strong<KeywordTitleItemType>`
 
 const KeywordListContainer = styled.div`
   width: 100%;
-  height: 525px;
+  height: 450px;
   background: #fff;
   display: flex;
 `;

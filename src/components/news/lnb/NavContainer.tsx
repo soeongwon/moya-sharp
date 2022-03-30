@@ -1,18 +1,20 @@
 import Nav from "./Nav";
 import styled from "@emotion/styled";
 import { useAppSelector } from "../../../redux/hooks";
-import TabListContainer from "./TabListContainer";
-import { ConfirmButton } from "../common/ConfirmButton";
+import TabList from "./TabList";
+import ConfirmButton from "../../common/ConfirmButton";
 import { useEffect, useState } from "react";
+import Container from "../../common/Container";
+
 const NavContainer = () => {
   const { login } = useAppSelector(state => state.users.user);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!scrolled && window.scrollY > 200) {
+      if (!scrolled && window.scrollY > 130) {
         setScrolled(true);
-      } else if (scrolled && window.scrollY < 200) {
+      } else if (scrolled && window.scrollY < 30) {
         setScrolled(false);
       }
     };
@@ -24,53 +26,60 @@ const NavContainer = () => {
     };
   }, [scrolled]);
   return (
-    <>
-      {login ? (
+    <Wrap>
+      {login && (
         <MemberArea className="회원">
-          <Nav />
-          <TabListContainer />
+          <Container>
+            <Nav />
+            <TabList />
+          </Container>
         </MemberArea>
-      ) : (
+      )}
+      {!login && (
         <NonMemberArea
           className={scrolled ? "fix-container scrolled" : "fix-container"}
         >
-          {!scrolled && <Nav />}
-          <ConfirmButton message="회원 전용입니다. 로그인 하시겠습니까?">
-            <TabAddBtn role="button">
-              <i>+</i>
-              <span>키워드 추가</span>
-            </TabAddBtn>
-          </ConfirmButton>
+          <Container>
+            {!scrolled && <Nav />}
+            <ConfirmButton message="회원 전용입니다. 로그인 하시겠습니까?">
+              <TabAddBtn role="button">
+                <i>+</i>
+                <span>키워드 추가</span>
+              </TabAddBtn>
+            </ConfirmButton>
+          </Container>
         </NonMemberArea>
       )}
-    </>
+    </Wrap>
   );
 };
 //
 
 export default NavContainer;
+const Wrap = styled.div`
+  min-height: 250px;
+`;
+
 const NonMemberArea = styled.div`
-  flex-direction: column;
-  display: flex;
-  justify-content: space-between;
   &.fix-container {
-    position: fixed;
-    top: 68px;
-    right: 0;
-    left: 0;
-    z-index: 100;
     height: 345px;
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
     background: linear-gradient(
       210.25deg,
       #ffffff -118.14%,
       #dff8f4 22.93%,
       #fdddd2 141.11%
     );
-    &.scrolled {
-      background: #fff;
-      height: auto;
-    }
+    padding-top: 40px;
+    box-sizing: border-box;
+  }
+  &.fix-container.scrolled {
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 300;
+    height: auto;
+    background: #fff;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   }
 `;
 //345,274,98
@@ -86,6 +95,8 @@ const MemberArea = styled.div`
     #dff8f4 22.93%,
     #fdddd2 141.11%
   );
+  padding-top: 40px;
+  box-sizing: border-box;
 `;
 
 const TabAddBtn = styled.div`

@@ -32,7 +32,9 @@ const Member = () => {
           onClick={hanldeModal}
           className="icon-arrow-bottom"
         ></i>
-        {isOpen === true ? <HeaderModal open={isOpen} onOpen={setIsOpen} /> : null}
+        {isOpen === true ? (
+          <HeaderModal open={isOpen} onOpen={setIsOpen} />
+        ) : null}
       </Profile>
     </Wrap>
   );

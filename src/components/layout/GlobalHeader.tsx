@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
-import CommonContainer from "./CommonContainer";
+import Container from "../common/Container";
 import Member from "./header/Member";
 import NonMember from "./header/NonMember";
 const HeaderSeachbar = () => {
@@ -23,7 +23,7 @@ const GlobalHeader = () => {
 
   return (
     <Wrap className={scrolled ? "fix-container scrolled" : "fix-container"}>
-      <CommonContainer className="header">
+      <Container className="header">
         <Inner>
           <Link to="/">
             <Logo />
@@ -31,7 +31,7 @@ const GlobalHeader = () => {
           <HeaderSeachbar />
           {login ? <Member /> : <NonMember></NonMember>}
         </Inner>
-      </CommonContainer>
+      </Container>
     </Wrap>
   );
 };

@@ -1,34 +1,36 @@
 import styled from "@emotion/styled";
 import React from "react";
-import CommonContainer from "../../layout/CommonContainer";
+import Container from "../../common/Container";
 import { useNewsFormats } from "../hooks/useNewsFormat";
-import SortController from "./SortController";
+import SortController from "./ListSortController";
 
-const OptionContainer = () => {
+const ListFilterContainer = () => {
   const { changeToTextFormat, changeToImgFormat, clicked, handleTextSize } =
     useNewsFormats();
   return (
-    <CommonContainer>
-      <Features>
-        {/* <span className="result">Results of ‘Silver’</span> */}
-        <SortController />
-        <TextSizeControl onClick={handleTextSize} />
-        <ImageFormatViewBtn onClick={changeToImgFormat} icon={clicked} />
-        <TextFormatViewBtn icon={clicked} onClick={changeToTextFormat} />
-      </Features>
-    </CommonContainer>
+    <div id="snb" role="navigation">
+      <Container>
+        <ListFeatures>
+          {/* <span className="result">Results of ‘Silver’</span> */}
+          <SortController />
+          <TextSizeControl onClick={handleTextSize} />
+          <ImageFormatViewBtn onClick={changeToImgFormat} icon={clicked} />
+          <TextFormatViewBtn icon={clicked} onClick={changeToTextFormat} />
+        </ListFeatures>
+      </Container>
+    </div>
   );
 };
 
-export default OptionContainer;
-
-const Features = styled.div`
+export default ListFilterContainer;
+const ListFeatures = styled.div`
   position: relative;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   height: 99px;
   border-bottom: 1px solid #d9d9d9;
+
   .result {
     position: absolute;
     top: 50%;

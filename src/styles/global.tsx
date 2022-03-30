@@ -106,14 +106,10 @@ const style = css`
   }
   html {
     position: relative;
+    height: 100%;
   }
   body {
-    /* line-height: 1;
-    height: 100vh;
-    position: relative; */
-    display: grid;
-    height: 100vh;
-    grid-template-rows: 66px auto 198px;
+    height: 100%;
   }
   ol,
   ul {

@@ -1,24 +1,22 @@
 import styled from "@emotion/styled";
 import ListContainer from "./List/ListContainer";
-import NavContainer from "./nav/NavContainer";
-import OptionContainer from "./options/OptionContainer";
+import NavContainer from "./lnb/NavContainer";
+import ListFilterContainer from "./snb/ListFilterContainer";
 
 const NewsContainer = () => {
   return (
     <Wrap>
       <NavContainer />
-      <Body>
-        <OptionContainer />
-        <ListContainer />
-      </Body>
+      <ListFilterContainer />
+      <ListContainer />
     </Wrap>
   );
 };
 
 export default NewsContainer;
 
-const Wrap = styled.section``;
-
-const Body = styled.div`
-  padding-top: 400px;
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;

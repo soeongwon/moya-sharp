@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import CommonContainer from "../layout/CommonContainer";
+import Container from "../common/Container";
 import KeywordItem from "./KeywordItem";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
@@ -9,7 +9,7 @@ const AddKeyword = () => {
 
   return (
     <Wrap>
-      <CommonContainer>
+      <Container>
         <KeyWordSearch>
           <input type="text" placeholder="키워드 검색 " />
         </KeyWordSearch>
@@ -20,7 +20,7 @@ const AddKeyword = () => {
             <KeywordItem key={`mykeyword-${item.data}`} item={item.data} />
           ))}
         </MyKeywordInner>
-      </CommonContainer>
+      </Container>
     </Wrap>
   );
 };

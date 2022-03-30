@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import News from "./pages/News";
 import "./index.css";
@@ -6,10 +6,11 @@ import Bookmark from "./components/myPage/Bookmark";
 import Mypage from "./pages/Mypage";
 import { Layout } from "./components/layout/Layout";
 import EditContainer from "./components/edit/EditContainer";
-
+import AppScrollToTop from "./AppScrollToTop";
 const App = () => {
   return (
     <BrowserRouter>
+      <AppScrollToTop />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />

@@ -11,7 +11,7 @@ export const Layout: React.FC<AuxProps> = props => {
   return (
     <Root>
       <GlobalHeader />
-      <main>{props.children}</main>
+      <main id="main">{props.children}</main>
       <GlobalFooter />
     </Root>
   );

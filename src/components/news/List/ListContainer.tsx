@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import TextArticleList from "./TextArticleList";
 import ImageArticleList from "./ImageArticleList";
-import CommonContainer from "../../layout/CommonContainer";
+import Container from "../../common/Container";
 import { useAppSelector } from "../../../redux/hooks";
 import { useNewsFormats } from "../hooks/useNewsFormat";
 import { RootState } from "../../../redux/store";
@@ -12,7 +12,7 @@ const ListContainer = () => {
   );
 
   return (
-    <CommonContainer>
+    <Container>
       <Wrap>
         {loading === true ? (
           <div>....isLoading</div>
@@ -36,7 +36,7 @@ const ListContainer = () => {
           </>
         )}
       </Wrap>
-    </CommonContainer>
+    </Container>
   );
 };
 
@@ -52,6 +52,4 @@ const TextContent = styled.div`
   width: 100%;
   padding-bottom: 280px;
 `;
-const Wrap = styled.div`
-  min-height: 300px;
-`;
+const Wrap = styled.div``;

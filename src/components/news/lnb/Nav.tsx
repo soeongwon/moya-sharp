@@ -1,7 +1,7 @@
 import React from "react";
 import KeywordSelectContainer from "../../../containers/home/KeywordSelectContainer";
 import Search from "../../home/Search";
-import CommonContainer from "../../layout/CommonContainer";
+import Container from "../../common/Container";
 import { useSearch } from "../../../hooks/useSearch";
 const Nav = () => {
   const {
@@ -15,7 +15,7 @@ const Nav = () => {
   } = useSearch();
 
   return (
-    <CommonContainer style={{ paddingTop: "40px" }}>
+    <>
       <Search
         openKeywordList={openKeywordList}
         setLanguageCode={setLanguageCode}
@@ -25,7 +25,7 @@ const Nav = () => {
         searchNews={searchNews}
       />
       {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
-    </CommonContainer>
+    </>
   );
 };
 

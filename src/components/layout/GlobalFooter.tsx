@@ -3,12 +3,12 @@
 
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import CommonContainer from "./CommonContainer";
+import Container from "../common/Container";
 
 const GlobalFooter = () => {
   return (
     <Wrap>
-      <CommonContainer>
+      <Container>
         <FooterInner>
           <Logo />
           <MoyaCompanyInfo>
@@ -54,7 +54,7 @@ const GlobalFooter = () => {
             </a>
           </Sns>
         </FooterInner>
-      </CommonContainer>
+      </Container>
     </Wrap>
   );
 };

@@ -1,12 +1,8 @@
 import styled from "@emotion/styled";
 import { MouseEvent } from "react";
 import { useNewsSorts } from "../hooks/useNewsSorts";
-import { useSearch } from "../../../hooks/useSearch";
-import { useParams } from "react-router-dom";
 
-const SortController = () => {
-  // const { searchNews } = useSearch();
-  // const { identifier } = useParams();
+const ListSortController = () => {
   const { handleOption, newsCurOption, isOpen, openDropDown, closeDropDown } =
     useNewsSorts();
 
@@ -46,7 +42,7 @@ const SortController = () => {
   );
 };
 
-export default SortController;
+export default ListSortController;
 
 const DropDownView = styled.div`
   position: relative;

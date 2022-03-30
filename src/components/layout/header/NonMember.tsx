@@ -1,15 +1,16 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useLogin } from "../hooks/useLogin";
+import ConfirmButton from "../../common/ConfirmButton";
+import LoginConfirmButton from "../../common/LoginConfirmButton";
 const NonMember = () => {
-
-  const { loginConfirm } = useLogin();
   return (
     <Wrap>
       <div className="login">
         <i className="icon-login">로그인 아이콘</i>
-        <LoginButton onClick={loginConfirm}>로그인</LoginButton>
+        <LoginConfirmButton message="로그인하시겠습니까">
+          로그인
+        </LoginConfirmButton>
       </div>
       <div className="join">
         <i className="icon-join">회원가입 아이콘</i>
@@ -20,13 +21,14 @@ const NonMember = () => {
     </Wrap>
   );
 };
-export default NonMember
+export default NonMember;
 const Wrap = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
   .login {
     display: flex;
+    align-items: center;
     .icon-login {
       width: 40px;
       height: 40px;
@@ -55,16 +57,4 @@ const Wrap = styled.div`
       line-height: 19px;
     }
   }
-`;
-
-const LoginButton = styled.button`
-  background: none;
-  border: none;
-  outline: none;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 19px;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
 `;
