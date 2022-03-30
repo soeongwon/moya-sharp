@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { SearchTitleType } from "../../api/newsListApi";
 import sector from "../../assets/sector.json";
+import { useAppDispatch } from "../../redux/hooks";
+import { getSectorSagaStart } from "../../redux/keyword/keywordListSectorSlice";
 
 type Props = {
   startupData: string[];
@@ -16,6 +18,7 @@ type sectorKeywordType = {
 type Title = "Category" | "Sector" | "Startup";
 
 const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
+  const dispatch = useAppDispatch();
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
   const [sectorKeyword] = useState<sectorKeywordType>(sector);
 
@@ -28,7 +31,8 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
   };
 
   const fetchNewsApi = (identifier: string, searchTitle: SearchTitleType) => {
-    searchNews(searchTitle, identifier);
+    dispatch(getSectorSagaStart());
+    // searchNews(searchTitle, identifier);
   };
 
   const selectSortKey = (key: string) => {

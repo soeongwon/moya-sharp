@@ -7,7 +7,7 @@ import PostFilterView from "./PostFilterView";
 const NewsList = () => {
   const { newsSortState, newsCurOption } = useNewsSorts();
   console.log(newsSortState);
-  const newListData = useAppSelector(state => state.newsList.newListData);
+  const newListData = useAppSelector(state => state.newsList.data);
   console.log(newListData.length, newListData, "뉴스데이터 유무");
   return (
     <ViewFilter>

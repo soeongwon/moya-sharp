@@ -7,11 +7,11 @@ import { useSearch } from "../../hooks/useSearch";
 const HomeContainer = () => {
   const {
     isOpendKeywordList,
-    openKeywordList,
-    setIdentifiersString,
-    setLanguageCode,
-    setTimeFilterCode,
-    setCategoriesCode,
+    setIsOpendKeywordList,
+    setIdentifiers,
+    setLanguage,
+    setTimeFilter,
+    setCategories,
     searchNews
   } = useSearch();
 
@@ -19,11 +19,11 @@ const HomeContainer = () => {
     <>
       <Intro />
       <Search
-        openKeywordList={openKeywordList}
-        setLanguageCode={setLanguageCode}
-        setTimeFilterCode={setTimeFilterCode}
-        setIdentifiersString={setIdentifiersString}
-        setCategoriesCode={setCategoriesCode}
+        openKeywordList={setIsOpendKeywordList}
+        setLanguageCode={setLanguage}
+        setTimeFilterCode={setTimeFilter}
+        setIdentifiersString={setIdentifiers}
+        setCategoriesCode={setCategories}
         searchNews={searchNews}
       />
       {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}

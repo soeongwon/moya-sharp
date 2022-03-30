@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "@emotion/styled";
 import KeywordSelectContainer from "../../../containers/home/KeywordSelectContainer";
 import Search from "../../home/Search";
 import CommonContainer from "../../layout/CommonContainer";
@@ -9,11 +8,11 @@ import { useEffect } from "react";
 const PersonalizeNav = () => {
   const {
     isOpendKeywordList,
-    openKeywordList,
-    setIdentifiersString,
-    setLanguageCode,
-    setTimeFilterCode,
-    setCategoriesCode,
+    setIsOpendKeywordList,
+    setIdentifiers,
+    setLanguage,
+    setTimeFilter,
+    setCategories,
     searchNews
   } = useSearch();
 
@@ -26,11 +25,11 @@ const PersonalizeNav = () => {
   return (
     <CommonContainer>
       <Search
-        openKeywordList={openKeywordList}
-        setLanguageCode={setLanguageCode}
-        setTimeFilterCode={setTimeFilterCode}
-        setIdentifiersString={setIdentifiersString}
-        setCategoriesCode={setCategoriesCode}
+        openKeywordList={setIsOpendKeywordList}
+        setLanguageCode={setLanguage}
+        setTimeFilterCode={setTimeFilter}
+        setIdentifiersString={setIdentifiers}
+        setCategoriesCode={setCategories}
         searchNews={searchNews}
       />
       {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
