@@ -43,12 +43,12 @@ const NavContainer = () => {
         >
           <Container>
             {!scrolled && <Nav />}
-            <ConfirmButton message="회원 전용입니다. 로그인 하시겠습니까?">
-              <TabAddBtn role="button">
+            <TabAddBtn role="button">
+              <ConfirmButton message="회원 전용입니다. 로그인 하시겠습니까?">
                 <i>+</i>
                 <span>키워드 추가</span>
-              </TabAddBtn>
-            </ConfirmButton>
+              </ConfirmButton>
+            </TabAddBtn>
           </Container>
         </NonMemberArea>
       )}
@@ -58,7 +58,9 @@ const NavContainer = () => {
 //
 
 export default NavContainer;
-const Wrap = styled.section``;
+const Wrap = styled.section`
+  position: relative;
+`;
 
 const NonMemberArea = styled.div`
   &.fix-container {
@@ -77,9 +79,10 @@ const NonMemberArea = styled.div`
     right: 0;
     left: 0;
     z-index: 300;
-    height: auto;
+    height: 60px;
     background: #fff;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+    padding-top: 0;
   }
 `;
 //345,274,98
@@ -100,28 +103,38 @@ const MemberArea = styled.div`
     right: 0;
     left: 0;
     z-index: 300;
-    height: auto;
+    height: 60px;
     background: #fff;
+    padding-top: 0;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   }
 `;
 
-const TabAddBtn = styled.div`
-  display: flex;
-  align-items: center;
-  width: 166px;
-  height: 60px;
-  font-family: NotoSans-Display;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
-  color: #fff;
+const TabAddBtn = styled.button`
+  position: absolute;
+  bottom: 0;
+  background: none;
   outline: none;
   border: none;
-  background-color: ${props => props.theme.BlueGreenColor};
-  box-sizing: border-box;
-  border-radius: 5px 5px 0px 0px;
-  padding-left: 14px;
+  padding: 0;
+  height: 60px;
+  div {
+    display: flex;
+    align-items: center;
+    width: 166px;
+    height: 60px;
+    font-family: NotoSans-Display;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #fff;
+    outline: none;
+    border: none;
+    background-color: ${props => props.theme.BlueGreenColor};
+    box-sizing: border-box;
+    border-radius: 5px 5px 0px 0px;
+    padding-left: 14px;
+  }
   cursor: pointer;
   i {
     width: 40px;

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import HomeContainer from "../containers/home/HomeContainer";
 
-const Home = () => {
+const HomePage = () => {
   return (
     <HomeWrap>
       <InnerWrap className="Inner">
@@ -11,7 +11,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
 
 const HomeWrap = styled.main`
   position: relative;
