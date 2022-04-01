@@ -28,9 +28,11 @@ const NavContainer = () => {
   return (
     <Wrap>
       {login && (
-        <MemberArea className="회원">
+        <MemberArea
+          className={scrolled ? "fix-container scrolled" : "fix-container"}
+        >
           <Container>
-            <Nav />
+            {!scrolled && <Nav />}
             <TabList />
           </Container>
         </MemberArea>
@@ -56,9 +58,7 @@ const NavContainer = () => {
 //
 
 export default NavContainer;
-const Wrap = styled.div`
-  min-height: 250px;
-`;
+const Wrap = styled.section``;
 
 const NonMemberArea = styled.div`
   &.fix-container {
@@ -84,19 +84,26 @@ const NonMemberArea = styled.div`
 `;
 //345,274,98
 const MemberArea = styled.div`
-  position: fixed;
-  top: 68px;
-  right: 0;
-  left: 0;
-  z-index: 100;
-  background: linear-gradient(
-    210.25deg,
-    #ffffff -118.14%,
-    #dff8f4 22.93%,
-    #fdddd2 141.11%
-  );
-  padding-top: 40px;
-  box-sizing: border-box;
+  &.fix-container {
+    height: 345px;
+    background: linear-gradient(
+      210.25deg,
+      #ffffff -118.14%,
+      #dff8f4 22.93%,
+      #fdddd2 141.11%
+    );
+    padding-top: 40px;
+    box-sizing: border-box;
+  }
+  &.fix-container.scrolled {
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 300;
+    height: auto;
+    background: #fff;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const TabAddBtn = styled.div`

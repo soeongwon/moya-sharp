@@ -8,7 +8,7 @@ const ListFilterContainer = () => {
   const { changeToTextFormat, changeToImgFormat, clicked, handleTextSize } =
     useNewsFormats();
   return (
-    <div id="snb" role="navigation">
+    <section id="snb" role="navigation">
       <Container>
         <ListFeatures>
           {/* <span className="result">Results of ‘Silver’</span> */}
@@ -18,7 +18,7 @@ const ListFilterContainer = () => {
           <TextFormatViewBtn icon={clicked} onClick={changeToTextFormat} />
         </ListFeatures>
       </Container>
-    </div>
+    </section>
   );
 };
 

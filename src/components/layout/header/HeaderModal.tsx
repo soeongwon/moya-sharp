@@ -15,28 +15,14 @@ const HeaderModal = ({ open, onOpen }: any) => {
     }
     return <div onClick={handleClick}>{children}</div>;
   }
-  const divStyle = css`
-    background-color: hotpink;
-    font-size: 24px;
-    border-radius: 4px;
-    padding: 32px;
-    text-align: center;
-    &:hover {
-      color: white;
-    }
-  `;
+
   return (
     <Modal>
       <ModalOffButton>
         <Link to="/myPage">마이페이지</Link>
         <Link to="/myPage">키워드 관리</Link>
 
-        <LoginConfirmButton
-          css={css`
-            display: block;
-          `}
-          message="로그아웃 하시겠습니까?"
-        >
+        <LoginConfirmButton message="로그아웃 하시겠습니까?">
           <div className="logout-btn">로그아웃</div>
         </LoginConfirmButton>
       </ModalOffButton>

@@ -5,17 +5,17 @@ import Container from "../../common/Container";
 import { useAppSelector } from "../../../redux/hooks";
 import { useNewsFormats } from "../hooks/useNewsFormat";
 import { RootState } from "../../../redux/store";
-const ListContainer = () => {
+const List = () => {
   const { NewsFormats } = useNewsFormats();
   const { newListData, loading } = useAppSelector(
     (state: RootState) => state.newsList
   );
 
   return (
-    <Container>
-      <Wrap>
+    <Wrap>
+      <Container>
         {loading === true ? (
-          <div>....isLoading</div>
+          <div style={{ paddingBottom: "280px" }}>....isLoading</div>
         ) : (
           <>
             {(function render() {
@@ -35,21 +35,19 @@ const ListContainer = () => {
             })()}
           </>
         )}
-      </Wrap>
-    </Container>
+      </Container>
+    </Wrap>
   );
 };
 
-export default ListContainer;
-
+export default List;
+const Wrap = styled.section``;
 const ImageContent = styled.div`
   column-count: 3;
   column-gap: 20px;
   padding-bottom: 280px;
-  padding-top: 50px;
 `;
 const TextContent = styled.div`
   width: 100%;
   padding-bottom: 280px;
 `;
-const Wrap = styled.div``;

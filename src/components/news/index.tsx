@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import ListContainer from "./List/ListContainer";
+import List from "./List";
 import NavContainer from "./lnb/NavContainer";
 import ListFilterContainer from "./snb/ListFilterContainer";
 
@@ -8,7 +8,7 @@ const NewsContainer = () => {
     <Wrap>
       <NavContainer />
       <ListFilterContainer />
-      <ListContainer />
+      <List />
     </Wrap>
   );
 };

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import Container from "../common/Container";
 import Member from "./header/Member";
@@ -20,9 +20,8 @@ const HeaderSeachbar = () => {
 const GlobalHeader = () => {
   const [scrolled, setScrolled] = useState(false);
   const { login } = useAppSelector(state => state.users.user);
-
   return (
-    <Wrap className={scrolled ? "fix-container scrolled" : "fix-container"}>
+    <Wrap id="fixed-bar" className="fixed-bar-box-shadow">
       <Container className="header">
         <Inner>
           <Link to="/">
@@ -39,14 +38,14 @@ const GlobalHeader = () => {
 export default GlobalHeader;
 
 const Wrap = styled.header`
-  &.fix-container {
-    position: fixed;
+  &.fixed-bar-box-shadow {
+    position: sticky;
     top: 0;
     right: 0;
     left: 0;
+    z-index: 400;
     height: 68px;
     background-color: #fff;
-    z-index: 400;
     box-shadow: none;
   }
 `;

@@ -1,7 +1,13 @@
 import styled from "@emotion/styled";
 import { onLogin } from "../../redux/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-export default function LoginConfirmButton({ children, message }: any) {
+import { ChildProps } from "./../../types/Common";
+
+interface Confirm extends ChildProps {
+  message: string;
+}
+
+export default function LoginConfirmButton({ children, message }: Confirm) {
   const { login } = useAppSelector(state => state.users.user);
   const dispatch = useAppDispatch();
   function handleClick() {

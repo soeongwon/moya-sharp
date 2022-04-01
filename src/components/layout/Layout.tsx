@@ -9,20 +9,16 @@ interface AuxProps {
 
 export const Layout: React.FC<AuxProps> = props => {
   return (
-    <Root>
+    <Root className="layout">
       <GlobalHeader />
-      <main id="main">{props.children}</main>
+      {props.children}
       <GlobalFooter />
     </Root>
   );
 };
 
 export const Root = styled.div`
+  display: flex;
+  flex-direction: column;
   position: relative;
-  min-height: 100vh;
-  main {
-    height: 100%;
-    margin-top: 68px;
-    padding-bottom: 198px;
-  }
 `;

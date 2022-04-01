@@ -62,10 +62,6 @@ const GlobalFooter = () => {
 export default GlobalFooter;
 
 const Wrap = styled.footer`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   height: 198px;
   background-color: #405261;
 `;

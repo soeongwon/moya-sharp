@@ -108,6 +108,9 @@ const style = css`
     position: relative;
     height: 100%;
   }
+  #root {
+    height: 100%;
+  }
   body {
     height: 100%;
   }

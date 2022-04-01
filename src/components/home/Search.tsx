@@ -245,7 +245,7 @@ const Search = ({
 };
 
 export default Search;
-const KeywordListClose = styled.div`
+const KeywordListClose = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -303,12 +303,13 @@ const InstanseSearchDropDown = styled.div`
   }
 `;
 
-export const SearchArea = styled.div`
+export const SearchArea = styled.section`
   position: relative;
   & > div:nth-of-type(1) {
     display: flex;
     justify-content: end;
   }
+  z-index: 20;
 `;
 
 const KeywordSearchButton = styled.button`
