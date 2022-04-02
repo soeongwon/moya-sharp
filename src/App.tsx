@@ -6,6 +6,7 @@ import Bookmark from "./components/myPage/Bookmark";
 import Mypage from "./pages/Mypage";
 import { Layout } from "./components/layout/Layout";
 import EditContainer from "./components/edit/EditContainer";
+import { Login } from "./pages/Login";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/news/:identifier" element={<News />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/mypage/bookmark" element={<Bookmark />} />
