@@ -6,7 +6,6 @@ import { fetchNewList } from "../redux/news/newsListSlice";
 import { cameltoCababString } from "../utils/utils";
 export const useSearch = () => {
   const dispatch = useAppDispatch();
-  const { order_by } = useAppSelector(state => state.newsList);
   const navigate = useNavigate();
 
   const [isOpendKeywordList, setIsOpendKeywordList] = useState(false);

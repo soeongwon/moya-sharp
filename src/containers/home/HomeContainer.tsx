@@ -17,7 +17,7 @@ const HomeContainer = () => {
     searchNews
   } = useSearch();
 
-  const isLogin = useAppSelector(state => state.user.isLogin);
+  const isLogin = useAppSelector(state => state.users.isLogin);
   console.log("home isLogin", isLogin);
 
   return (

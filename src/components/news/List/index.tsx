@@ -10,7 +10,6 @@ const List = () => {
   const { newListData, loading } = useAppSelector(
     (state: RootState) => state.newsList
   );
-
   return (
     <Wrap>
       <Container>

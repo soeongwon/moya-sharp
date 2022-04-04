@@ -19,7 +19,7 @@ const HeaderSeachbar = () => {
 };
 const GlobalHeader = () => {
   const [scrolled, setScrolled] = useState(false);
-  const { login } = useAppSelector(state => state.users.user);
+  const { isLogin } = useAppSelector(state => state.users);
   return (
     <Wrap id="fixed-bar" className="fixed-bar-box-shadow">
       <Container className="header">
@@ -28,7 +28,7 @@ const GlobalHeader = () => {
             <Logo />
           </Link>
           <HeaderSeachbar />
-          {login ? <Member /> : <NonMember></NonMember>}
+          {isLogin ? <Member /> : <NonMember></NonMember>}
         </Inner>
       </Container>
     </Wrap>

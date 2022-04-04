@@ -8,12 +8,12 @@ interface Confirm extends ChildProps {
 }
 
 export default function LoginConfirmButton({ children, message }: Confirm) {
-  const { login } = useAppSelector(state => state.users.user);
+  const { isLogin } = useAppSelector(state => state.users);
   const dispatch = useAppDispatch();
   function handleClick() {
-    if (login && window.confirm(`${message}`)) dispatch(onLogin(false));
+    if (isLogin && window.confirm(`${message}`)) dispatch(onLogin(false));
 
-    if (!login && window.confirm(`${message}`)) dispatch(onLogin(true));
+    if (!isLogin && window.confirm(`${message}`)) dispatch(onLogin(true));
   }
   return (
     <Button role="button" onClick={handleClick}>

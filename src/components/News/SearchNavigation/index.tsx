@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Container from "../../layout/Container";
 
 const NavContainer = () => {
-  const { login } = useAppSelector(state => state.users.user);
+  const { isLogin } = useAppSelector(state => state.users);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -28,13 +28,13 @@ const NavContainer = () => {
   return (
     <Wrap>
       <Area className={scrolled ? "fix-container scrolled" : "fix-container"}>
-        {login && (
+        {isLogin && (
           <Container>
             {!scrolled && <Nav />}
             <TabList />
           </Container>
         )}
-        {!login && (
+        {!isLogin && (
           <Container>
             {!scrolled && <Nav />}
             <TabAddBtn role="button">
