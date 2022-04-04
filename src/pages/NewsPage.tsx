@@ -1,13 +1,13 @@
 // Personlized News Page
 
 import styled from "@emotion/styled";
-import NewsContainer from "../components/news";
+import News from "../components/News";
 
 const NewsPage = ({ history }: any) => {
   console.log(history, "news");
   return (
     <Main>
-      <NewsContainer />
+      <News />
     </Main>
   );
 };

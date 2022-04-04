@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import { useNewsTabList } from "../hooks/useNewsTabList";
 import Modal from "../../edit/Modal";
 import { useState } from "react";
 import AddKeyword from "../../edit/AddKeyword";
 import { useAppSelector } from "../../../redux/hooks";
+import { useNewsTabList } from "../hooks/useNewsTabList";
 
 const TabList = () => {
   const {
@@ -63,7 +63,10 @@ const TabList = () => {
 
 export default TabList;
 
-const Wrap = styled.section``;
+const Wrap = styled.section`
+  position: absolute;
+  bottom: 0;
+`;
 const Inner = styled.div`
   /* position: absolute;
   top: calc(100% - 60px);

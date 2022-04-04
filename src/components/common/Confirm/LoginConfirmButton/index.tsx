@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { onLogin } from "../../redux/user/userSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { ChildProps } from "./../../types/Common";
+import { onLogin } from "../../../../redux/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
+import { ChildProps } from "../../../../types/Common";
 
 interface Confirm extends ChildProps {
   message: string;

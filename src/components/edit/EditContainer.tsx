@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import Container from "../common/Container";
+import Container from "../layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
 import { useKeywordList } from "../../hooks/useKeywordList";
 import { useAppDispatch } from "../../redux/hooks";
-import ScrollNavTabs from "../news/lnb/NavContainer";
+import ScrollNavTabs from "../News/SearchNavigation";
 import searchKeyword from "../../assets/csvjson.json";
 const EditContainer = () => {
   const keywordList = useKeywordList();

@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@emotion/babel-preset-css-prop": "^11.2.0",
     "@types/react-transition-group": "^4.4.4",
     "prettier": "^2.5.1"
   }

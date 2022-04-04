@@ -1,10 +1,15 @@
 import styled from "@emotion/styled";
 import React from "react";
-import Container from "../../common/Container";
+import Container from "../../layout/Container";
 import { useNewsFormats } from "../hooks/useNewsFormat";
-import SortController from "./ListSortController";
+import AlignmentDropDown from "../../common/DropDown/AlignmentDropDown";
+const options = [
+  { name: "정렬순", status: "top" },
+  { name: "최신순", status: "latest" },
+  { name: "인기순", status: "popular" }
+];
 
-const ListFilterContainer = () => {
+const ListFiterOption = () => {
   const { changeToTextFormat, changeToImgFormat, clicked, handleTextSize } =
     useNewsFormats();
   return (
@@ -12,7 +17,7 @@ const ListFilterContainer = () => {
       <Container>
         <ListFeatures>
           {/* <span className="result">Results of ‘Silver’</span> */}
-          <SortController />
+          <AlignmentDropDown options={options} />
           <TextSizeControl onClick={handleTextSize} />
           <ImageFormatViewBtn onClick={changeToImgFormat} icon={clicked} />
           <TextFormatViewBtn icon={clicked} onClick={changeToTextFormat} />
@@ -22,7 +27,7 @@ const ListFilterContainer = () => {
   );
 };
 
-export default ListFilterContainer;
+export default ListFiterOption;
 const ListFeatures = styled.div`
   position: relative;
   display: flex;

@@ -3,7 +3,7 @@ import { css, jsx } from "@emotion/react";
 import { ChildProps } from "../../../types/Common";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../../redux/hooks";
-import LoginConfirmButton from "./../../common/LoginConfirmButton";
+import LoginConfirmButton from "../../common/Confirm/LoginConfirmButton";
 
 const HeaderModal = ({ open, onOpen }: any) => {
   const dispatch = useAppDispatch();
@@ -21,7 +21,6 @@ const HeaderModal = ({ open, onOpen }: any) => {
       <ModalOffButton>
         <Link to="/myPage">마이페이지</Link>
         <Link to="/myPage">키워드 관리</Link>
-
         <LoginConfirmButton message="로그아웃 하시겠습니까?">
           <div className="logout-btn">로그아웃</div>
         </LoginConfirmButton>

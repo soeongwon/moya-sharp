@@ -1,9 +1,9 @@
 import React from "react";
 import KeywordSelectContainer from "../../../containers/home/KeywordSelectContainer";
 import Search from "../../home/Search";
-import Container from "../../common/Container";
+import Container from "../../layout/Container";
 import { useSearch } from "../../../hooks/useSearch";
-const Nav = () => {
+const SearchNavigation = () => {
   const {
     isOpendKeywordList,
     openKeywordList,
@@ -29,4 +29,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default SearchNavigation;

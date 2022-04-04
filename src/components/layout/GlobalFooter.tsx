@@ -3,7 +3,7 @@
 
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import Container from "../common/Container";
+import Container from "./Container";
 
 const GlobalFooter = () => {
   return (

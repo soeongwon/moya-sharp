@@ -4,7 +4,7 @@ import { SearchTitleType } from "../api/newsListApi";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { fetchNewList } from "../redux/news/newsListSlice";
 import { cameltoCababString } from "../utils";
-import { useNewsSorts } from "./../components/news/hooks/useNewsSorts";
+import { useNewsSorts } from "../components/News/hooks/useNewsSorts";
 export const useSearch = () => {
   const dispatch = useAppDispatch();
   const { order_by } = useAppSelector(state => state.newsList);

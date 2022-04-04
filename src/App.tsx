@@ -6,8 +6,7 @@ import Bookmark from "./components/myPage/Bookmark";
 import MypagePage from "./pages/MypagePage";
 import { Layout } from "./components/layout/Layout";
 import AppScrollToTop from "./AppScrollToTop";
-import Example from "./pages/Example";
-
+import StyleGuide from "./components/common/StyleGuide";
 const App = () => {
   return (
     <BrowserRouter>
@@ -15,11 +14,12 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/news" element={<NewsPage />}>
+          <Route path="/search" element={<NewsPage />}>
             <Route path=":query" element={<NewsPage />} />
           </Route>
           <Route path="/mypage" element={<MypagePage />} />
           <Route path="/mypage/bookmark" element={<Bookmark />} />
+          <Route path="/style" element={<StyleGuide />} />
         </Routes>
       </Layout>
     </BrowserRouter>

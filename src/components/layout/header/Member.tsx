@@ -1,42 +1,32 @@
+/** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { MouseEvent } from "react";
-import HeaderModal from "./HeaderModal";
-import { useRef, useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
+import ModalDropDown from "../../common/DropDown/ModalDropDown";
+import LoginConfirmButton from "../../common/Confirm/LoginConfirmButton";
 const Member = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  function hanldeModal(event: MouseEvent<HTMLElement>) {
-    setIsOpen(!isOpen);
-  }
-
-  const area = useRef<HTMLDivElement>(null);
-
-  function handleClickOutside(event: any) {
-    if (area.current && !area.current.contains(event.target)) setIsOpen(false);
-  }
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
-
   return (
-    <Wrap ref={area}>
-      <span className="MemberShip-join">지금 멤버십 가입</span>
-      <Profile>
-        <i className="profile-icon"></i>
-        <span className="user-name">회원님</span>
-        <i
-          role="button"
-          onClick={hanldeModal}
-          className="icon-arrow-bottom"
-        ></i>
-        {isOpen === true ? (
-          <HeaderModal open={isOpen} onOpen={setIsOpen} />
-        ) : null}
-      </Profile>
-    </Wrap>
+    <>
+      <Wrap>
+        <span className="MemberShip-join">지금 멤버십 가입</span>
+        <Profile>
+          <i className="profile-icon"></i>
+          <span className="user-name">회원님</span>
+          <ModalDropDown>
+            <li className="dropdown-item">
+              <Link to="/mypage">마이페이지</Link>
+            </li>
+            <li className="dropdown-item">
+              <Link to="/mypage">프로필</Link>
+            </li>
+            <li className="dropdown-item">
+              <LoginConfirmButton message="로그아웃 하시겠습니까?">
+                로그아웃
+              </LoginConfirmButton>
+            </li>
+          </ModalDropDown>
+        </Profile>
+      </Wrap>
+    </>
   );
 };
 export default Member;
@@ -90,5 +80,35 @@ const Profile = styled.div`
     background-image: url("/images/icon-navi-bottom.svg");
     background-size: cover;
     cursor: pointer;
+  }
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    width: 183px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: 199;
+  }
+  .dropdown-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #d9d9d9;
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: #000;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 19px;
+      text-decoration: none;
+      text-align: center;
+    }
+    a:last-child {
+      border: none;
+    }
   }
 `;

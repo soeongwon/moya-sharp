@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../redux/hooks";
 import TabList from "./TabList";
 import ConfirmButton from "../../common/ConfirmButton";
 import { useEffect, useState } from "react";
-import Container from "../../common/Container";
+import Container from "../../layout/Container";
 
 const NavContainer = () => {
   const { login } = useAppSelector(state => state.users.user);
@@ -27,20 +27,14 @@ const NavContainer = () => {
   }, [scrolled]);
   return (
     <Wrap>
-      {login && (
-        <MemberArea
-          className={scrolled ? "fix-container scrolled" : "fix-container"}
-        >
+      <Area className={scrolled ? "fix-container scrolled" : "fix-container"}>
+        {login && (
           <Container>
             {!scrolled && <Nav />}
             <TabList />
           </Container>
-        </MemberArea>
-      )}
-      {!login && (
-        <NonMemberArea
-          className={scrolled ? "fix-container scrolled" : "fix-container"}
-        >
+        )}
+        {!login && (
           <Container>
             {!scrolled && <Nav />}
             <TabAddBtn role="button">
@@ -50,8 +44,8 @@ const NavContainer = () => {
               </ConfirmButton>
             </TabAddBtn>
           </Container>
-        </NonMemberArea>
-      )}
+        )}
+      </Area>
     </Wrap>
   );
 };
@@ -62,7 +56,7 @@ const Wrap = styled.section`
   position: relative;
 `;
 
-const NonMemberArea = styled.div`
+const Area = styled.div`
   &.fix-container {
     height: 345px;
     background: linear-gradient(
@@ -83,30 +77,6 @@ const NonMemberArea = styled.div`
     background: #fff;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
     padding-top: 0;
-  }
-`;
-//345,274,98
-const MemberArea = styled.div`
-  &.fix-container {
-    height: 345px;
-    background: linear-gradient(
-      210.25deg,
-      #ffffff -118.14%,
-      #dff8f4 22.93%,
-      #fdddd2 141.11%
-    );
-    padding-top: 40px;
-    box-sizing: border-box;
-  }
-  &.fix-container.scrolled {
-    position: fixed;
-    right: 0;
-    left: 0;
-    z-index: 300;
-    height: 60px;
-    background: #fff;
-    padding-top: 0;
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   }
 `;
 
