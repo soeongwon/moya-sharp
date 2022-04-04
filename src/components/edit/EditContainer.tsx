@@ -2,13 +2,16 @@ import styled from "@emotion/styled";
 import Container from "../layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
-import { useKeywordList } from "../../hooks/useKeywordList";
 import { useAppDispatch } from "../../redux/hooks";
+<<<<<<< HEAD
 import ScrollNavTabs from "../News/SearchNavigation";
 import searchKeyword from "../../assets/csvjson.json";
-const EditContainer = () => {
-  const keywordList = useKeywordList();
+=======
+import ScrollNavTabs from "../news/nav/ScrollNavTabs";
+import { keywordList } from "../../utils/keywordList";
 
+>>>>>>> f2ae2a00d6e2aa8eb794d5a61c9542bdf0fe8037
+const EditContainer = () => {
   return (
     <Wrap>
       <ScrollNavTabs />

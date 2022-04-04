@@ -1,5 +1,5 @@
 import axios from "axios";
-import { cameltoCababString } from "../utils";
+import { cameltoCababString } from "../utils/utils";
 
 export type NewsType = {
   additionalData: {};

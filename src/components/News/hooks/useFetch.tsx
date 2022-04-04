@@ -1,13 +1,13 @@
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
 import { useNavigate } from "react-router-dom";
 import { SearchTitleType } from "../../../api/newsListApi";
-import { cameltoCababString } from "../../../utils";
 import { useSearch } from "../../../hooks/useSearch";
 import { fetchNewList } from "../../../redux/news/newsListSlice";
 import { SetStateAction, useEffect, useState } from "react";
+import { cameltoCababString } from "../../../utils/utils";
 
 export const useFetch = () => {
-  const { newListData } = useAppSelector(state => state.newsList);
+  const { data } = useAppSelector(state => state.newsList.data);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   type State = "top" | "latest" | "popular";

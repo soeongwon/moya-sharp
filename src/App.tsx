@@ -1,23 +1,26 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import NewsPage from "./pages/NewsPage";
+import Home from "./pages/Home";
+import News from "./pages/News";
 import "./index.css";
 import Bookmark from "./components/myPage/Bookmark";
-import MypagePage from "./pages/MypagePage";
+import Mypage from "./pages/Mypage";
 import { Layout } from "./components/layout/Layout";
 import AppScrollToTop from "./AppScrollToTop";
 import StyleGuide from "./components/common/StyleGuide";
+import { Login } from "./pages/Login";
+
 const App = () => {
   return (
     <BrowserRouter>
       <AppScrollToTop />
       <Layout>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search" element={<NewsPage />}>
-            <Route path=":query" element={<NewsPage />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/news" element={<News />}>
+            <Route path=":identifier" element={<News />} />
           </Route>
-          <Route path="/mypage" element={<MypagePage />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/mypage/bookmark" element={<Bookmark />} />
           <Route path="/style" element={<StyleGuide />} />
         </Routes>
