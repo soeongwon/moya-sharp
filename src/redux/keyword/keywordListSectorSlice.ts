@@ -1,5 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
+import { fetchSectorKeyword } from "../../api/sectorApi";
 
 export const FETCH_NEWSLIST_START = "FETCH_NEWSLIST_START";
 
@@ -66,12 +67,14 @@ export default function reducer(state = initialState, action: any) {
 const SECTOR_SAGA_START = "SECTOR_SAGA_START";
 
 function* getSectorSaga(action: any) {
+  console.log(action);
   try {
     yield put(getFetchNewStart());
 
     const data: [] = yield call(
-      axios.get,
-      "http://54.180.136.0:3000/search/sectors/green-hydrogen"
+      fetchSectorKeyword,
+      action.keyType,
+      action.identifier
     );
 
     yield put(getFetchNewsSuccess(data));
@@ -80,62 +83,14 @@ function* getSectorSaga(action: any) {
   }
 }
 
-export function getSectorSagaStart() {
+export function getSectorSagaStart(identifier: string, keyType: string) {
   return {
-    type: SECTOR_SAGA_START
-  };
-}
-
-//category
-
-const CATEGORY_SAGA_START = "CATEGORY_SAGA_START";
-
-function* getCategorySaga(action: any) {
-  try {
-    yield put(getFetchNewStart());
-
-    const data: [] = yield call(
-      axios.get,
-      "http://54.180.136.0:3000/search/sectors/green-hydrogen"
-    );
-
-    yield put(getFetchNewsSuccess(data));
-  } catch (error) {
-    yield put(getFetchNewsFail(error));
-  }
-}
-
-export function getCategorySagaStart() {
-  return {
-    type: CATEGORY_SAGA_START
-  };
-}
-
-const STARTUP_SAGA_START = "STARTUP_SAGA_START";
-
-function* getStartupSaga(action: any) {
-  try {
-    yield put(getFetchNewStart());
-
-    const data: [] = yield call(
-      axios.get,
-      "http://54.180.136.0:3000/search/sectors/green-hydrogen"
-    );
-
-    yield put(getFetchNewsSuccess(data));
-  } catch (error) {
-    yield put(getFetchNewsFail(error));
-  }
-}
-
-export function getStartupSagaStart() {
-  return {
-    type: STARTUP_SAGA_START
+    type: SECTOR_SAGA_START,
+    identifier,
+    keyType
   };
 }
 
 export function* keywordListSectorSaga() {
   yield takeEvery(SECTOR_SAGA_START, getSectorSaga);
-  yield takeEvery(CATEGORY_SAGA_START, getCategorySaga);
-  yield takeEvery(STARTUP_SAGA_START, getStartupSaga);
 }

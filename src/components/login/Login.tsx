@@ -14,7 +14,6 @@ export const Login: React.FC<SigninProps> = ({ login }) => {
     login({ userId: email, password });
   }
 
-  console.log(email, password);
   return (
     <LoginWrap>
       <LoginFormWrap>

@@ -1,5 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
+import { fetchSectorKeyword } from "../../api/sectorApi";
 
 export const NEWSLIST_START = "NEWSLIST_START";
 
@@ -44,12 +45,14 @@ export default function reducer(state = initialState, action: any) {
 
     case NEWSLIST_SUCCESS:
       return {
-        ...state,
         loading: false,
-        data: action.data.newsList
+        data: action.data.newsList,
+        error: null
       };
 
     case NEWSLIST_FAIL:
+      console.log("NEWSLIST_FAIL error", action);
+
       return {
         ...state,
         loading: false,
@@ -71,16 +74,27 @@ type data = {
 };
 
 function* getNewslistSaga(action: any) {
-  console.log(action);
+  console.log("getNewslistSaga", action);
   try {
     yield put(getNewslistStart());
-
-    const res: data = yield call(
-      axios.get,
-      "http://54.180.136.0:3000/search?mediaType=mp,op&timeFilter=w1&language=en&orderBy=latest&keyType=tickers&keyParam=aapl&exchange=nasdaq"
-    );
-    console.log(res);
-    yield put(getNewslistSuccess(res.data));
+    if (
+      action.payload.keyType === "sectors" ||
+      action.payload.keyType === "startup" ||
+      action.payload.keyType === "category"
+    ) {
+      const res: data = yield call(
+        fetchSectorKeyword,
+        action.payload.keyType,
+        action.payload.identifier
+      );
+      yield put(getNewslistSuccess(res.data));
+    } else {
+      const res: data = yield call(
+        axios.get,
+        "http://54.180.136.0:3000/search?mediaType=mp,op&timeFilter=w1&language=en&orderBy=latest&keyType=tickers&keyParam=aapl&exchange=nasdaq"
+      );
+      yield put(getNewslistSuccess(res.data));
+    }
   } catch (error) {
     yield put(getNewslistFail(error));
   }

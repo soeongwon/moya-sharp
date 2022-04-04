@@ -3,6 +3,8 @@ import KeywordSelectContainer from "./KeywordSelectContainer";
 
 import Search from "../../components/home/Search";
 import { useSearch } from "../../hooks/useSearch";
+import { useCookies } from "react-cookie";
+import { useAppSelector } from "../../redux/hooks";
 
 const HomeContainer = () => {
   const {
@@ -14,6 +16,9 @@ const HomeContainer = () => {
     setCategories,
     searchNews
   } = useSearch();
+
+  const isLogin = useAppSelector(state => state.user.isLogin);
+  console.log("home isLogin", isLogin);
 
   return (
     <>

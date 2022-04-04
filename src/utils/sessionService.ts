@@ -1,4 +1,4 @@
-import { Cookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 
 const cookies = new Cookies();
 
@@ -6,6 +6,7 @@ const SESSION_KEY_NAME = "session";
 
 export default class TokenService {
   public static get(): string | null {
+    console.log(cookies.get(SESSION_KEY_NAME));
     return cookies.get(SESSION_KEY_NAME);
   }
 
