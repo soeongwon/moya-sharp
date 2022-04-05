@@ -3,13 +3,13 @@ import { SearchFilterItem } from "./SearchFilterItem";
 import { SetStateAction, useState } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useLanguageCode } from "../../hooks/useLanguageCode";
-import { useTimeFilter } from "../../hooks/useTimeFilter";
-import { useCategories } from "../../hooks/useCategories";
+
 import { SearchTitleType } from "../../api/newsListApi";
 import { useSearch } from "./../../hooks/useSearch";
 import searchKeyword from "../../assets/csvjson.json";
-// import { useSearchKeywordSort } from "../../hooks/useSearchKeywordSort";
+import { languageCode } from "../../utils/languageCode";
+import { timeFilter } from "../../utils/timeFilter";
+import { categories } from "../../utils/categories";
 
 type Props = {
   openKeywordList: (arg: boolean) => void;
@@ -48,14 +48,11 @@ const Search = ({
     []
   );
   const { isOpendKeywordList } = useSearch();
-  const languageCode = useLanguageCode();
-  const languageName = languageCode.languages.map(obj => obj.name);
+  const languageName = languageCode.map(obj => obj.name);
 
-  const timeFilterArr = useTimeFilter();
-  const timeFilterName = timeFilterArr.map(obj => obj.name);
+  const timeFilterName = timeFilter.map(obj => obj.name);
 
-  const categoriesArr = useCategories();
-  const categoriesName = categoriesArr.map(obj => obj.name);
+  const categoriesName = categories.map(obj => obj.name);
 
   const filterListArr: Array<FilterItemType> = [
     {
@@ -89,14 +86,11 @@ const Search = ({
   };
 
   const closeAll = () => {
-    // console.log("closeAll");
     setOpen(null);
   };
 
   const setLanguage = (langName: string) => {
-    const langItem = languageCode.languages.find(
-      item => item.name === langName
-    );
+    const langItem = languageCode.find(item => item.name === langName);
     if (!langItem) {
       return;
     }
@@ -104,7 +98,7 @@ const Search = ({
   };
 
   const setTimeFilter = (timeName: string) => {
-    const timeFilterItem = timeFilterArr.find(item => item.name === timeName);
+    const timeFilterItem = timeFilter.find(item => item.name === timeName);
     if (!timeFilterItem) {
       return;
     }
@@ -112,9 +106,7 @@ const Search = ({
   };
 
   const setCategories = (categorieName: string) => {
-    const categoriesItem = categoriesArr.find(
-      item => item.name === categorieName
-    );
+    const categoriesItem = categories.find(item => item.name === categorieName);
     if (!categoriesItem) {
       return;
     }
@@ -245,7 +237,7 @@ const Search = ({
 };
 
 export default Search;
-const KeywordListClose = styled.div`
+const KeywordListClose = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -303,12 +295,13 @@ const InstanseSearchDropDown = styled.div`
   }
 `;
 
-export const SearchArea = styled.div`
+export const SearchArea = styled.section`
   position: relative;
   & > div:nth-of-type(1) {
     display: flex;
     justify-content: end;
   }
+  z-index: 20;
 `;
 
 const KeywordSearchButton = styled.button`
@@ -356,7 +349,8 @@ const SearchWarp = styled.div`
   margin: 32px 0 0;
   padding: 26px 26px 24px 0;
   border-radius: 5px;
-  border: 1px solid #f1f1f1;
+  /* border: 1px solid #f1f1f1; */
+  border: 1px solid #c4c4c4;
   border-radius: 5px;
   background-color: #fff;
 `;

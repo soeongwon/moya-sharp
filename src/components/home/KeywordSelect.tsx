@@ -2,6 +2,9 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { SearchTitleType } from "../../api/newsListApi";
 import sector from "../../assets/sector.json";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { fetchNewList } from "../../redux/news/newsListSlice";
+import { Navigate } from "react-router-dom";
 
 type Props = {
   startupData: string[];
@@ -16,8 +19,10 @@ type sectorKeywordType = {
 type Title = "Category" | "Sector" | "Startup";
 
 const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
+  const dispatch = useAppDispatch();
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
   const [sectorKeyword] = useState<sectorKeywordType>(sector);
+  const newsListError = useAppSelector(state => state.newsList.error);
 
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
   const [selectedKey, setSelectedKey] = useState<string>("A");
@@ -27,8 +32,8 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
     setKeywordTitle(title);
   };
 
-  const fetchNewsApi = (identifier: string, searchTitle: SearchTitleType) => {
-    searchNews(searchTitle, identifier);
+  const fetchNewsApi = (identifier: string, keyType: string) => {
+    dispatch(fetchNewList({ identifier, keyType }));
   };
 
   const selectSortKey = (key: string) => {
@@ -71,7 +76,7 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
               <KeywordListItem
                 key={`Sector-${item}-${index}`}
                 onClick={() => {
-                  fetchNewsApi(item, "Sector");
+                  fetchNewsApi(item, "sectors");
                 }}
               >
                 {item}
@@ -88,7 +93,7 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
                 <li
                   key={`Startup-${item}`}
                   onClick={() => {
-                    fetchNewsApi(item, "Startup");
+                    fetchNewsApi(item, "startup");
                   }}
                 >
                   {item}
@@ -106,7 +111,7 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
                 <li
                   key={`Category-${item}`}
                   onClick={() => {
-                    fetchNewsApi(item, "Category");
+                    fetchNewsApi(item, "category");
                   }}
                 >
                   {item}
@@ -128,8 +133,6 @@ const StartupKeywordList = styled.div`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     margin: 10px;
-    /* border-top: 1px solid #c4c4c4;
-    border-left: 1px solid #c4c4c4; */
     grid-gap: 0;
 
     li {
@@ -155,6 +158,8 @@ const StartupKeywordList = styled.div`
 `;
 
 const KeywordSelectWrap = styled.div`
+  position: relative;
+  z-index: 3;
   margin-top: 14px;
   background: #fff;
   border-radius: 0px 0px 5px 5px;
@@ -187,7 +192,7 @@ const KeywordTitleItem = styled.strong<KeywordTitleItemType>`
 
 const KeywordListContainer = styled.div`
   width: 100%;
-  height: 525px;
+  height: 450px;
   background: #fff;
   display: flex;
 `;

@@ -20,11 +20,10 @@ const Intro = () => {
 
 export default Intro;
 
-const Introduction = styled.div`
+const Introduction = styled.section`
   color: ${props => props.theme.primaryColor};
   margin-bottom: 65px;
   h1 {
-    padding-top: 104px;
     width: 538.7px;
     font-style: normal;
     font-weight: bold;
