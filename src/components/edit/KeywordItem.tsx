@@ -1,16 +1,12 @@
 import styled from "@emotion/styled";
-import { ReactChild, ReactChildren } from "react";
-import { useKeywordList } from "../../hooks/useKeywordList";
 import { useAppDispatch } from "../../redux/hooks";
 import { addKeyword, deleteKeyword } from "../../redux/keyword/keywordsSlice";
 
 type Props = {
-  // children: ReactChild | ReactChildren;
   item: string;
 };
 
 const KeywordItem = ({ item }: Props) => {
-  const keywordList = useKeywordList();
   const dispatch = useAppDispatch();
   const handleAdd = () => dispatch(addKeyword(item));
   const handleDelete = () => dispatch(deleteKeyword(item));

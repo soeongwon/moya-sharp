@@ -1,7 +1,7 @@
 import MyPage from "../components/myPage/Mypage"
 
-const Mypage = () => {
+const MypagePage = () => {
   return <MyPage />;
 }
 
-export default Mypage;
+export default MypagePage;

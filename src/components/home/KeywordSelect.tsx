@@ -2,7 +2,13 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { SearchTitleType } from "../../api/newsListApi";
 import sector from "../../assets/sector.json";
+<<<<<<< HEAD
 import { Scrollbars } from 'react-custom-scrollbars';
+=======
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { fetchNewList } from "../../redux/news/newsListSlice";
+import { Navigate } from "react-router-dom";
+>>>>>>> aed8951bfe6d6374ef6214d88ec38d5e5251d744
 
 type Props = {
   startupData: string[];
@@ -17,8 +23,10 @@ type sectorKeywordType = {
 type Title = "Category" | "Sector" | "Startup";
 
 const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
-  const [keywordTitle, setKeywordTitle] = useState<Title>("Sector");
+  const dispatch = useAppDispatch();
+  const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
   const [sectorKeyword] = useState<sectorKeywordType>(sector);
+  const newsListError = useAppSelector(state => state.newsList.error);
 
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
   const [selectedKey, setSelectedKey] = useState<string>("A");
@@ -28,8 +36,8 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
     setKeywordTitle(title);
   };
 
-  const fetchNewsApi = (identifier: string, searchTitle: SearchTitleType) => {
-    searchNews(searchTitle, identifier);
+  const fetchNewsApi = (identifier: string, keyType: string) => {
+    dispatch(fetchNewList({ identifier, keyType }));
   };
 
   const selectSortKey = (key: string) => {
@@ -83,7 +91,7 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
               <KeywordListItem
                 key={`Sector-${item}-${index}`}
                 onClick={() => {
-                  fetchNewsApi(item, "Sector");
+                  fetchNewsApi(item, "sectors");
                 }}
               >
                 {item}
@@ -95,6 +103,7 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
       )}
       {keywordTitle === "Startup" && (
         <KeywordListContainer>
+<<<<<<< HEAD
           <Scrollbars 
           autoHeight
           autoHeightMin={0}
@@ -139,6 +148,41 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
               </ul>
             </StartupKeywordList>
           </KeywordListContainer>
+=======
+          <StartupKeywordList>
+            <ul>
+              {startupData.map(item => (
+                <li
+                  key={`Startup-${item}`}
+                  onClick={() => {
+                    fetchNewsApi(item, "startup");
+                  }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </StartupKeywordList>
+        </KeywordListContainer>
+      )}
+      {keywordTitle === "Category" && (
+        <KeywordListContainer>
+          <StartupKeywordList>
+            <ul>
+              {categoryData.map(item => (
+                <li
+                  key={`Category-${item}`}
+                  onClick={() => {
+                    fetchNewsApi(item, "category");
+                  }}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </StartupKeywordList>
+        </KeywordListContainer>
+>>>>>>> aed8951bfe6d6374ef6214d88ec38d5e5251d744
       )}
     </KeywordSelectWrap>
   );
@@ -152,8 +196,6 @@ const StartupKeywordList = styled.div`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     margin: 10px;
-    /* border-top: 1px solid #c4c4c4;
-    border-left: 1px solid #c4c4c4; */
     grid-gap: 0;
 
     li {
@@ -179,6 +221,8 @@ const StartupKeywordList = styled.div`
 `;
 
 const KeywordSelectWrap = styled.div`
+  position: relative;
+  z-index: 3;
   margin-top: 14px;
   background: #fff;
   border-radius: 0px 0px 5px 5px;
@@ -212,7 +256,7 @@ const KeywordTitleItem = styled.strong<KeywordTitleItemType>`
 
 const KeywordListContainer = styled.div`
   width: 100%;
-  height: 525px;
+  height: 450px;
   background: #fff;
   display: flex;
 `;

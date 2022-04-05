@@ -7,7 +7,7 @@ type Props = {
   searchNews: (
     searchTitle?: SearchTitleType,
     str?: string,
-    order_by?: "top" | "latest" | "populer"
+    order_by?: "top" | "latest" | "popular"
   ) => void;
 };
 

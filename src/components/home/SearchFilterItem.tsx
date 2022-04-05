@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { FilterItemType } from "./Search";
@@ -32,14 +33,14 @@ export const SearchFilterItem = ({
   setTimeFilter,
   setCategories
 }: Props) => {
-  const [defaultLanguage, setDefaultLanguage] = useState("영어");
+  const [defaultLanguage, setDefaultLanguage] = useState("English");
   const [defaultTimeFilter, setDefaultTimeFilter] = useState("한달");
   const [defaultCategory, setDefaultCategory] = useState("ALL");
 
   useEffect(() => {
     setLanguage(defaultLanguage); // api에 현재 디폴트 상태 셋팅하기
     setTimeFilter(defaultTimeFilter);
-  }, []);
+  }, [defaultLanguage, defaultTimeFilter, setLanguage, setTimeFilter]);
 
   const clickLanguageName = (lanName: string) => {
     setDefaultLanguage(lanName); // UI에 디폴드 상태 나타내기

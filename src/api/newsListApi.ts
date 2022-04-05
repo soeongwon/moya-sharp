@@ -1,5 +1,5 @@
 import axios from "axios";
-import { cameltoCababString } from "../utils";
+import { cameltoCababString } from "../utils/utils";
 
 export type NewsType = {
   additionalData: {};
@@ -33,7 +33,7 @@ export type QuarystringType = {
   categories: string;
   min_cityfalcon_score?: Number;
   languages: string;
-  order_by?: "top" | "latest" | "populer";
+  order_by?: "top" | "latest" | "popular";
   access_token: string;
   nextPageToken?: string;
   limit: number;
@@ -46,7 +46,7 @@ export type SearchPayload = {
   timeFilter: string;
   categories: string;
   nextPageToken?: string;
-  order_by?: "top" | "latest" | "populer";
+  order_by?: "top" | "latest" | "popular";
 };
 
 export type SearchTitleType =
@@ -82,7 +82,7 @@ export async function getNewList(searchPayload: SearchPayload) {
     order_by: searchPayload.order_by || "top",
     access_token,
     nextPageToken: searchPayload.nextPageToken,
-    limit: 10
+    limit: 30
   };
 
   //조건에 따른 다른 파라미터 넣어주는 객체들

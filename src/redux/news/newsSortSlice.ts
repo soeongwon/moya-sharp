@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface State {
-  newsSortState: "top" | "latest" | "populer";
+  newsSortState: "top" | "latest" | "popular";
 }
 
 const initialState: State = {
