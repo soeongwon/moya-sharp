@@ -14,7 +14,6 @@ import AppScrollToTop from "./AppScrollToTop";
 const AppRouter = () => {
   return (
     <Switch>
-      {/* <Layout /> */}
       <Route path="/edit" component={EditContainer} />
       <Route exact path="/mypage/bookmark/:id" component={Bookmark} />
       <Route exact path="/mypage" component={Mypage} />
