@@ -2,11 +2,11 @@
 import { loginReqType } from "../redux/user/auth";
 import api from "./Api";
 
-var params = new URLSearchParams();
 const USER_API_URL = "/auth/login";
 
 export default class UserService {
   public static async login(reqData: loginReqType) {
+    var params = new URLSearchParams();
     params.append("userId", reqData.userId);
     params.append("password", reqData.password);
 
