@@ -6,7 +6,6 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { fetchNewList } from "../../redux/news/newsListSlice";
-
 import { Navigate } from "react-router-dom";
 
 type Props = {
