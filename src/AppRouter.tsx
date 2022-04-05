@@ -7,9 +7,7 @@ import EditContainer from "./components/edit/EditContainer";
 import { Login } from "./pages/Login";
 import { Route, Switch } from "react-router-dom";
 
-import AppScrollToTop from "./AppScrollToTop";
-// import GlobalHeader from "./components/layout/GlobalHeader";
-// import GlobalFooter from "./components/layout/GlobalFooter";
+// import AppScrollToTop from "./AppScrollToTop";
 
 const AppRouter = () => {
   return (
