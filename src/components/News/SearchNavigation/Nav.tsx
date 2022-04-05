@@ -23,7 +23,7 @@ const SearchNavigation = () => {
         setIdentifiersString={setIdentifiers}
         setCategoriesCode={setCategories}
         searchNews={searchNews}
-      />
+      /> 
       {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
     </>
   );
