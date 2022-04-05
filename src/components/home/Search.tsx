@@ -6,10 +6,16 @@ import { useEffect } from "react";
 import { useFetchLanguageCode } from "../../hooks/useFetchLanguageCode";
 import { useTimeFilter } from "../../hooks/useTimeFilter";
 import { useCategories } from "../../hooks/useCategories";
+<<<<<<< HEAD
 import { SearchTitleType } from "../../api/newsListApi";
 import { useSearch } from "./../../hooks/useSearch";
 import searchKeyword from "../../assets/csvjson.json";
 // import { useSearchKeywordSort } from "../../hooks/useSearchKeywordSort";
+=======
+import Modal from "../edit/Modal"
+import EditContainer from "../edit/EditContainer"
+import { useSearch } from "./../../hooks/useSearch";
+>>>>>>> 3d20848d183770487f1a27c8f2e0f644f93105d3
 
 type Props = {
   openKeywordList: (arg: boolean) => void;
@@ -179,6 +185,16 @@ const Search = ({
   return (
     <SearchArea>
       <div>
+<<<<<<< HEAD
+=======
+        <KeywordSearchButton onClick={handleOpen}>키워드 전체보기</KeywordSearchButton>
+        <Modal isOpen={isOpen} onClose={handleClose}>
+          <ModalBody>
+            <EditContainer/>
+          </ModalBody>
+        </Modal>
+
+>>>>>>> 3d20848d183770487f1a27c8f2e0f644f93105d3
         <KeywordSearchButton>
           <Link to={"/edit"}>
             키워드 전체보기 <i className="icon-keyword"></i>
@@ -313,6 +329,7 @@ export const SearchArea = styled.div`
 const KeywordSearchButton = styled.button`
   border: none;
   background: none;
+<<<<<<< HEAD
   cursor: pointer;
   a {
     font-family: "Noto Sans";
@@ -323,6 +340,15 @@ const KeywordSearchButton = styled.button`
     color: #48c0b7;
     text-decoration: none;
   }
+=======
+  color: #515151;
+  cursor: pointer;
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+>>>>>>> 3d20848d183770487f1a27c8f2e0f644f93105d3
   .icon-keyword {
     display: inline-block;
     width: 10px;
