@@ -1,6 +1,7 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 import { fetchSectorKeyword } from "../../api/sectorApi";
+import { push } from "connected-react-router";
 
 export const NEWSLIST_START = "NEWSLIST_START";
 
@@ -95,6 +96,7 @@ function* getNewslistSaga(action: any) {
       );
       yield put(getNewslistSuccess(res.data));
     }
+    yield put(push(`/news/${action.payload.identifier}`));
   } catch (error) {
     yield put(getNewslistFail(error));
   }

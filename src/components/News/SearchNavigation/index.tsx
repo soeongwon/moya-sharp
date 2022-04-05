@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Container from "../../common/layout/Container";
 
 const NavContainer = () => {
-  const { isLogin } = useAppSelector(state => state.users);
+  const { isLogin } = useAppSelector(state => state.user);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
