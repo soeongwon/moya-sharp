@@ -12,6 +12,7 @@ const ImageArticleList = ({ newListData }: any) => {
           newsimageUrls={article.imageUrls}
           newsSource={article.source}
           publishTime={article.publishTime}
+          article={article}
         />
       ))}
     </>

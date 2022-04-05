@@ -1,14 +1,13 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchTitleType } from "../../api/newsListApi";
 import sector from "../../assets/sector.json";
-<<<<<<< HEAD
 import { Scrollbars } from 'react-custom-scrollbars';
-=======
+
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { fetchNewList } from "../../redux/news/newsListSlice";
+
 import { Navigate } from "react-router-dom";
->>>>>>> aed8951bfe6d6374ef6214d88ec38d5e5251d744
 
 type Props = {
   startupData: string[];
@@ -26,7 +25,6 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
   const dispatch = useAppDispatch();
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
   const [sectorKeyword] = useState<sectorKeywordType>(sector);
-  const newsListError = useAppSelector(state => state.newsList.error);
 
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
   const [selectedKey, setSelectedKey] = useState<string>("A");
@@ -103,7 +101,6 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
       )}
       {keywordTitle === "Startup" && (
         <KeywordListContainer>
-<<<<<<< HEAD
           <Scrollbars 
           autoHeight
           autoHeightMin={0}
@@ -126,7 +123,6 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
         </KeywordListContainer>
       )}
       {keywordTitle === "Category" && (
-        
           <KeywordListContainer>
             <StartupKeywordList>
               <ul>
@@ -144,26 +140,10 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
                       {item}
                     </li>
                   ))}
-                </Scrollbars> 
+                </Scrollbars>
               </ul>
             </StartupKeywordList>
           </KeywordListContainer>
-=======
-          <StartupKeywordList>
-            <ul>
-              {startupData.map(item => (
-                <li
-                  key={`Startup-${item}`}
-                  onClick={() => {
-                    fetchNewsApi(item, "startup");
-                  }}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </StartupKeywordList>
-        </KeywordListContainer>
       )}
       {keywordTitle === "Category" && (
         <KeywordListContainer>
@@ -182,7 +162,6 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
             </ul>
           </StartupKeywordList>
         </KeywordListContainer>
->>>>>>> aed8951bfe6d6374ef6214d88ec38d5e5251d744
       )}
     </KeywordSelectWrap>
   );

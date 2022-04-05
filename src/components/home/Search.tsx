@@ -3,29 +3,16 @@ import { SearchFilterItem } from "./SearchFilterItem";
 import { SetStateAction, useState } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-<<<<<<< HEAD
-import { useFetchLanguageCode } from "../../hooks/useFetchLanguageCode";
-import { useTimeFilter } from "../../hooks/useTimeFilter";
-import { useCategories } from "../../hooks/useCategories";
-<<<<<<< HEAD
-import { SearchTitleType } from "../../api/newsListApi";
-import { useSearch } from "./../../hooks/useSearch";
-import searchKeyword from "../../assets/csvjson.json";
-// import { useSearchKeywordSort } from "../../hooks/useSearchKeywordSort";
-=======
-import Modal from "../edit/Modal"
-import EditContainer from "../edit/EditContainer"
-import { useSearch } from "./../../hooks/useSearch";
->>>>>>> 3d20848d183770487f1a27c8f2e0f644f93105d3
-=======
 
 import { SearchTitleType } from "../../api/newsListApi";
 import { useSearch } from "./../../hooks/useSearch";
-import searchKeyword from "../../assets/csvjson.json";
+// import searchKeyword from "../../assets/csvjson.json";
 import { languageCode } from "../../utils/languageCode";
 import { timeFilter } from "../../utils/timeFilter";
 import { categories } from "../../utils/categories";
->>>>>>> aed8951bfe6d6374ef6214d88ec38d5e5251d744
+import { seachInstanceSearch } from "../../utils/seachInstanceSearch";
+import { master } from "../../utils/master";
+import { InstanseKeyword, Master } from "./InstanseKeyword";
 
 type Props = {
   openKeywordList: (arg: boolean) => void;
@@ -35,6 +22,7 @@ type Props = {
   setCategoriesCode: (arg: string) => void;
   searchNews: (searchTitle?: SearchTitleType, str?: string) => void;
 };
+
 export type FilterItemType = {
   label: string;
   defaultValue: string;
@@ -55,14 +43,14 @@ const Search = ({
   setIdentifiersString,
   setCategoriesCode,
   searchNews
-}: Props) => {
+}: // master
+Props) => {
   const [openIndex, setOpen] = useState<null | number>(null);
   const [focused, setFocused] = useState<boolean>(false);
   const [inputText, setInputText] = useState(" ");
   const [isOpenInstanseSearch, setIsOpenInstanseSearch] = useState(false);
-  const [instanseKeyword, setInstanseKeyword] = useState<Array<keyWordEntity>>(
-    []
-  );
+  const [instanseKeyword, setInstanseKeyword] = useState<Array<Master>>([]);
+
   const { isOpendKeywordList } = useSearch();
   const languageName = languageCode.map(obj => obj.name);
 
@@ -143,21 +131,13 @@ const Search = ({
 
   const instanseSearch = () => {
     if (inputText === " " || !inputText) {
-      setInstanseKeyword([]);
       setIsOpenInstanseSearch(false);
       return;
     }
-    //TODO: any 타입정의 다시해야함
-    const sorted = searchKeyword.sort(
-      (a: any, b: any) => a.name.charCodeAt() - b.name.charCodeAt()
-    );
-    const keyword: any = sorted.filter(item => item.name.includes(inputText));
-    if (!keyword || keyword.length === 0) {
-      setIsOpenInstanseSearch(false);
-      return;
-    }
+    let filterObj: Array<Master> = seachInstanceSearch(master, inputText);
+
+    setInstanseKeyword(filterObj);
     setIsOpenInstanseSearch(true);
-    setInstanseKeyword(keyword);
   };
 
   const search = (item: keyWordEntity) => {
@@ -187,16 +167,6 @@ const Search = ({
   return (
     <SearchArea>
       <div>
-<<<<<<< HEAD
-=======
-        <KeywordSearchButton onClick={handleOpen}>키워드 전체보기</KeywordSearchButton>
-        <Modal isOpen={isOpen} onClose={handleClose}>
-          <ModalBody>
-            <EditContainer/>
-          </ModalBody>
-        </Modal>
-
->>>>>>> 3d20848d183770487f1a27c8f2e0f644f93105d3
         <KeywordSearchButton>
           <Link to={"/edit"}>
             키워드 전체보기 <i className="icon-keyword"></i>
@@ -247,23 +217,14 @@ const Search = ({
           </SearchFilterSelectWrap>
         </form>
       </SearchWarp>
-      {isOpenInstanseSearch && (
-        <InstanseSearchDropDown>
-          <h3>Tickers</h3>
-          {instanseKeyword.map(item => (
-            <div key={item.name} onClick={() => search(item)}>
-              {item.name}
-              {item.sub_name}
-            </div>
-          ))}
-        </InstanseSearchDropDown>
-      )}
+      {isOpenInstanseSearch && <InstanseKeyword keyword={instanseKeyword} />}
     </SearchArea>
   );
 };
 
 export default Search;
-const KeywordListClose = styled.section`
+
+const KeywordListClose = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -288,40 +249,7 @@ const KeywordListClose = styled.section`
   }
 `;
 
-const InstanseSearchDropDown = styled.div`
-  width: 555px;
-  height: 300px;
-  border: 1px solid #ededed;
-  box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
-  right: 0;
-  background: #fff;
-  position: absolute;
-  overflow: scroll;
-  border-radius: 5px;
-
-  h3 {
-    padding: 10px 23px;
-    color: ${({ theme }) => theme.BlueGreenColor};
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 30px;
-  }
-
-  div {
-    padding: 11px 23px;
-    cursor: pointer;
-    color: #424242;
-    &:hover {
-      background: #f0fcfb;
-    }
-  }
-  .highlight {
-    font-weight: bold;
-    color: #ff0000;
-  }
-`;
-
-export const SearchArea = styled.section`
+export const SearchArea = styled.div`
   position: relative;
   & > div:nth-of-type(1) {
     display: flex;
@@ -333,7 +261,6 @@ export const SearchArea = styled.section`
 const KeywordSearchButton = styled.button`
   border: none;
   background: none;
-<<<<<<< HEAD
   cursor: pointer;
   a {
     font-family: "Noto Sans";
@@ -344,15 +271,6 @@ const KeywordSearchButton = styled.button`
     color: #48c0b7;
     text-decoration: none;
   }
-=======
-  color: #515151;
-  cursor: pointer;
-  font-family: "Noto Sans";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 22px;
->>>>>>> 3d20848d183770487f1a27c8f2e0f644f93105d3
   .icon-keyword {
     display: inline-block;
     width: 10px;
