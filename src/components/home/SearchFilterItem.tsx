@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { FilterItemType } from "./Search";
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 type Props = {
   filterItem: FilterItemType;
   isOpen: boolean;
@@ -64,6 +66,7 @@ export const SearchFilterItem = ({
     }
   };
   return (
+    
     <FilterItem>
       <Label>{filterItem.label}</Label>
       <DefaultValue onClick={e => openFilterList(index, e)}>
@@ -71,6 +74,9 @@ export const SearchFilterItem = ({
         <img src="/images/filterArrow.svg" alt="필터리스트 열기 아이콘" />
       </DefaultValue>
       <SelectList isOpen={isOpen}>
+      <Scrollbars autoHeight
+        autoHeightMin={0}
+        autoHeightMax={300}>
         {filterList.map(item => {
           if (filterItem.label === "언어") {
             return (
@@ -92,6 +98,7 @@ export const SearchFilterItem = ({
             );
           }
         })}
+      </Scrollbars>
       </SelectList>
     </FilterItem>
   );
@@ -121,7 +128,6 @@ const SelectList = styled.ul<SelecListProps>`
   left: 0;
   width: 100%;
   max-height: 300px;
-  overflow-y: scroll;
   background: #ffffff;
   box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
   border-radius: 5px;

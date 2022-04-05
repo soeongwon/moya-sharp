@@ -15,11 +15,15 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["node"]
+    "types": ["node"],
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "declaration": true,
+    "declarationDir": "./types"
   },
+  "typeRoots": ["./types", "./node_modules/@types"],
   "include": [
     "src",
     "src/styles/emotion.d.ts",
-    "src/components/news/ControlSection/.tsx"
+    "src/components/news/ControlSection/.tsx",
   ]
 }

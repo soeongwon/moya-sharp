@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { SearchTitleType } from "../../api/newsListApi";
 import sector from "../../assets/sector.json";
+import { Scrollbars } from 'react-custom-scrollbars';
 
 type Props = {
   startupData: string[];
@@ -49,9 +50,14 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
         ))}
       </KeywordSelectTitles>
       {keywordTitle === "Sector" && (
+        
         <KeywordListContainer>
           <CategoryList>
             <ul>
+            <Scrollbars 
+            autoHeight
+            autoHeightMin={0}
+            autoHeightMax={525}>
               {categoryList.map(sortKeyItem => (
                 <CategoryListItem
                   key={`Sector-${sortKeyItem}`}
@@ -64,8 +70,14 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
                   />
                 </CategoryListItem>
               ))}
+              </Scrollbars>
             </ul>
           </CategoryList>
+
+          <Scrollbars 
+          autoHeight
+          autoHeightMin={0}
+          autoHeightMax={525}>
           <KeywordListWrap>
             {sectorKeyword[selectedKey].map((item, index) => (
               <KeywordListItem
@@ -78,43 +90,55 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
               </KeywordListItem>
             ))}
           </KeywordListWrap>
+          </Scrollbars>
         </KeywordListContainer>
       )}
       {keywordTitle === "Startup" && (
         <KeywordListContainer>
-          <StartupKeywordList>
-            <ul>
-              {startupData.map(item => (
-                <li
-                  key={`Startup-${item}`}
-                  onClick={() => {
-                    fetchNewsApi(item, "Startup");
-                  }}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </StartupKeywordList>
+          <Scrollbars 
+          autoHeight
+          autoHeightMin={0}
+          autoHeightMax={525}>
+            <StartupKeywordList>
+              <ul>
+                {startupData.map(item => (
+                  <li
+                    key={`Startup-${item}`}
+                    onClick={() => {
+                      fetchNewsApi(item, "Startup");
+                    }}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </StartupKeywordList>
+          </Scrollbars>
         </KeywordListContainer>
       )}
       {keywordTitle === "Category" && (
-        <KeywordListContainer>
-          <StartupKeywordList>
-            <ul>
-              {categoryData.map(item => (
-                <li
-                  key={`Category-${item}`}
-                  onClick={() => {
-                    fetchNewsApi(item, "Category");
-                  }}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </StartupKeywordList>
-        </KeywordListContainer>
+        
+          <KeywordListContainer>
+            <StartupKeywordList>
+              <ul>
+                <Scrollbars 
+                autoHeight
+                autoHeightMin={0}
+                autoHeightMax={525}>
+                  {categoryData.map(item => (
+                    <li
+                      key={`Category-${item}`}
+                      onClick={() => {
+                        fetchNewsApi(item, "Category");
+                      }}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </Scrollbars> 
+              </ul>
+            </StartupKeywordList>
+          </KeywordListContainer>
       )}
     </KeywordSelectWrap>
   );
@@ -123,7 +147,7 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
 export default KeywordSelect;
 
 const StartupKeywordList = styled.div`
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   ul {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -158,6 +182,7 @@ const KeywordSelectWrap = styled.div`
   margin-top: 14px;
   background: #fff;
   border-radius: 0px 0px 5px 5px;
+  padding: 10px;
 `;
 
 const KeywordSelectTitles = styled.div`
@@ -194,9 +219,9 @@ const KeywordListContainer = styled.div`
 
 const CategoryList = styled.div`
   width: 324px;
-  overflow-y: scroll;
   ul {
     margin-left: 10px;
+    margin-right: 10px;
   }
 `;
 const CategoryListItem = styled.li`
@@ -223,12 +248,12 @@ const CategoryListItem = styled.li`
 
 export const KeywordListWrap = styled.div`
   width: 100%;
-  padding: 10px;
+  padding-top: 10px;
+  /* margin: 10px; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-content: start;
-  overflow-y: scroll;
-
+  /* overflow-y: scroll; */
   & > p:nth-of-type(3n) {
     border: none;
   }

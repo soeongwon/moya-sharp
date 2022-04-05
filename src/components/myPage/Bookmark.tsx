@@ -65,7 +65,6 @@ const SideBar = styled.div`
   }
 `
 const Content = styled.div`
-  background-color: #f9faff;
   height: 1050px;
   width: 1315px;
   float: left;
