@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import ModalDropDown from "../../common/DropDown/ModalDropDown";
-import LoginConfirmButton from "../../common/Confirm/LoginConfirmButton";
+import ModalDropDown from "../../DropDown/ModalDropDown";
+import LoginConfirmButton from "../../Confirm/LoginConfirmButton";
 const Member = () => {
   return (
     <>

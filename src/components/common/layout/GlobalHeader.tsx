@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppSelector } from "../../../redux/hooks";
 import Container from "./Container";
 import Member from "./header/Member";
 import NonMember from "./header/NonMember";

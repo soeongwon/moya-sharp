@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import TextArticleList from "./TextArticleList";
 import ImageArticleList from "./ImageArticleList";
-import Container from "../../layout/Container";
+import Container from "../../common/layout/Container";
 import { useAppSelector } from "../../../redux/hooks";
 import { useNewsFormats } from "../hooks/useNewsFormat";
 import { RootState } from "../../../redux/store";

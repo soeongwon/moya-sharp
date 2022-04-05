@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import Container from "../../layout/Container";
+import Container from "../../common/layout/Container";
 import { useNewsFormats } from "../hooks/useNewsFormat";
 import AlignmentDropDown from "../../common/DropDown/AlignmentDropDown";
 const options = [

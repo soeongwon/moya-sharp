@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Container from "../layout/Container";
+import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
