@@ -3,8 +3,9 @@ import KeywordSelectContainer from "./KeywordSelectContainer";
 
 import Search from "../../components/home/Search";
 import { useSearch } from "../../hooks/useSearch";
-import { useCookies } from "react-cookie";
 import { useAppSelector } from "../../redux/hooks";
+import { useEffect, useState } from "react";
+import { fetchMaster } from "../../utils/master";
 
 const HomeContainer = () => {
   const {
@@ -18,6 +19,13 @@ const HomeContainer = () => {
   } = useSearch();
 
   const isLogin = useAppSelector(state => state.user.isLogin);
+
+  // const [master, setMaster] = useState<{} | undefined>();
+
+  useEffect(() => {
+    fetchMaster();
+  }, []);
+
   console.log("home isLogin", isLogin);
 
   return (
@@ -30,6 +38,7 @@ const HomeContainer = () => {
         setIdentifiersString={setIdentifiers}
         setCategoriesCode={setCategories}
         searchNews={searchNews}
+        // master={master}
       />
       {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
     </>

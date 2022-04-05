@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchTitleType } from "../../api/newsListApi";
 import sector from "../../assets/sector.json";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { fetchNewList } from "../../redux/news/newsListSlice";
-import { Navigate } from "react-router-dom";
 
 type Props = {
   startupData: string[];
@@ -22,7 +21,6 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
   const dispatch = useAppDispatch();
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
   const [sectorKeyword] = useState<sectorKeywordType>(sector);
-  const newsListError = useAppSelector(state => state.newsList.error);
 
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
   const [selectedKey, setSelectedKey] = useState<string>("A");

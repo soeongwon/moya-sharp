@@ -1,5 +1,5 @@
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { SearchTitleType } from "../../../api/newsListApi";
 import { useSearch } from "../../../hooks/useSearch";
 import { fetchNewList } from "../../../redux/news/newsListSlice";
@@ -9,7 +9,7 @@ import { cameltoCababString } from "../../../utils/utils";
 export const useFetch = () => {
   const { data } = useAppSelector(state => state.newsList.data);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const navigate = useHistory();
   type State = "top" | "latest" | "popular";
 
   const [sortFilter, setSortFilter] = useState<State>("top");
@@ -33,7 +33,7 @@ export const useFetch = () => {
       };
       try {
         const search = await dispatch(fetchNewList(searchPayload));
-        navigate(`/news/${cameltoCababString(identifier)}`);
+        navigate.push(`/news/${cameltoCababString(identifier)}`);
         return search;
       } catch (error) {
         console.log("searchError", error);

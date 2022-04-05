@@ -24,14 +24,14 @@ const PersonalizeNav = () => {
 
   return (
     <CommonContainer>
-      <Search
+      {/* <Search
         openKeywordList={setIsOpendKeywordList}
         setLanguageCode={setLanguage}
         setTimeFilterCode={setTimeFilter}
         setIdentifiersString={setIdentifiers}
         setCategoriesCode={setCategories}
         searchNews={searchNews}
-      />
+      /> */}
       {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
     </CommonContainer>
   );

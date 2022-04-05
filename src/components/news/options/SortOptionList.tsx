@@ -3,8 +3,10 @@ import { MouseEvent } from "react";
 import { useNewsSorts } from "../hooks/useNewsSorts";
 import { useSearch } from "../../../hooks/useSearch";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 
+interface ParamTypes {
+  identifier: string;
+}
 const SortOptionList = () => {
   const {
     showDropDown,
@@ -14,7 +16,7 @@ const SortOptionList = () => {
     reportOptionToAPI
   } = useNewsSorts();
   const { searchNews } = useSearch();
-  const { identifier } = useParams();
+  const { identifier } = useParams<ParamTypes>();
 
   const options = [
     {
@@ -29,7 +31,6 @@ const SortOptionList = () => {
     name: string;
     status: string;
   }
-
 
   return (
     <ListWrap>
@@ -61,6 +62,7 @@ export default SortOptionList;
 const ListWrap = styled.div`
   position: relative;
 `;
+
 const DropDownBtn = styled.div`
   width: 160px;
   height: 40px;

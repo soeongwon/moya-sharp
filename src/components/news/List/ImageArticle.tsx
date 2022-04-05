@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
-import { NewsFeatures } from './../common/NewsCommon';
-import { useNewsFormats } from './../hooks/useNewsFormat';
+import { NewsFeatures } from "./../common/NewsCommon";
+import { useNewsFormats } from "./../hooks/useNewsFormat";
 import moment from "moment";
-
 
 interface Props {
   newsTitle: string;
@@ -11,6 +10,7 @@ interface Props {
   newsSource: any;
   newsLink: any;
   publishTime: string;
+  article: any;
 }
 
 export function changeMoment(publishTime: string) {
@@ -25,7 +25,8 @@ const ImageArticle = ({
   newsimageUrls,
   newsSource,
   newsLink,
-  publishTime
+  publishTime,
+  article
 }: Props) => {
   const { textSize } = useNewsFormats();
 
@@ -60,8 +61,8 @@ const ImageArticle = ({
         </ArticleBody>
         <ArticleFooter>
           <div className="Jounal-mark">
-            <img src={`${newsSource.imageUrl}`} alt="기사1" />
-            <span>{newsSource.brandName}</span>
+            <img src={`${article.brandImgUrl}`} alt="기사1" />
+            <span>{article.brandName}</span>
           </div>
           <div className="article-time">{changeMoment(publishTime)}</div>
         </ArticleFooter>
