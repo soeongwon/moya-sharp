@@ -1,14 +1,31 @@
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import Home from "./pages/Home";
+import News from "./pages/News";
+import "./index.css";
+import Bookmark from "./components/myPage/Bookmark";
+import Mypage from "./pages/Mypage";
 import { Layout } from "./components/common/layout/Layout";
-import AppRouter from "./AppRouter";
-import { ConnectedRouter } from "connected-react-router";
-import history from "./utils/history";
+import AppScrollToTop from "./AppScrollToTop";
+import StyleGuide from "./components/common/StyleGuide";
+import { Login } from "./pages/Login";
+
 const App = () => {
   return (
-    <ConnectedRouter history={history}>
+    <BrowserRouter>
+      <AppScrollToTop />
       <Layout>
-        <AppRouter />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/news" element={<News />}>
+            <Route path=":identifier" element={<News />} />
+          </Route>
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/mypage/bookmark" element={<Bookmark />} />
+          <Route path="/style" element={<StyleGuide />} />
+        </Routes>
       </Layout>
-    </ConnectedRouter>
+    </BrowserRouter>
   );
 };
 export default App;
