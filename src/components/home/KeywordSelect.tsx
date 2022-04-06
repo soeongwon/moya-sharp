@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SearchTitleType } from "../../api/newsListApi";
 import sector from "../../assets/sector.json";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { fetchNewList } from "../../redux/news/newsListSlice";
+import { Navigate } from "react-router-dom";
 
 type Props = {
   startupData: string[];
@@ -21,6 +22,7 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
   const dispatch = useAppDispatch();
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
   const [sectorKeyword] = useState<sectorKeywordType>(sector);
+  const newsListError = useAppSelector(state => state.newsList.error);
 
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
   const [selectedKey, setSelectedKey] = useState<string>("A");
@@ -156,6 +158,8 @@ const StartupKeywordList = styled.div`
 `;
 
 const KeywordSelectWrap = styled.div`
+  position: relative;
+  z-index: 3;
   margin-top: 14px;
   background: #fff;
   border-radius: 0px 0px 5px 5px;
@@ -188,7 +192,7 @@ const KeywordTitleItem = styled.strong<KeywordTitleItemType>`
 
 const KeywordListContainer = styled.div`
   width: 100%;
-  height: 525px;
+  height: 450px;
   background: #fff;
   display: flex;
 `;

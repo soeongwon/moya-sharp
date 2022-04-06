@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "typeRoots": ["./node_modules/@types", "./types"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,11 +16,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["node"]
+    "jsxImportSource": "@emotion/react",
+    "types": [
+      "node",
+      // "@emotion/react",
+      "http-proxy-middleware"
+    ],
+    "downlevelIteration": true
   },
-  "include": [
-    "src",
-    "src/styles/emotion.d.ts",
-    "src/components/news/ControlSection/.tsx"
-  ]
+  "include": ["src", "src/styles/emotion.d.ts", "index.d.ts"]
 }

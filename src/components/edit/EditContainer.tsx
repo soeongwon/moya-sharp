@@ -1,16 +1,14 @@
 import styled from "@emotion/styled";
-import CommonContainer from "../layout/CommonContainer";
+import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
 import { useAppDispatch } from "../../redux/hooks";
-import ScrollNavTabs from "../news/nav/ScrollNavTabs";
 import { keywordList } from "../../utils/keywordList";
 
 const EditContainer = () => {
   return (
     <Wrap>
-      <ScrollNavTabs />
-      <CommonContainer>
+      <Container>
         <KeyWordTitle>My Keyword</KeyWordTitle>
         <MykeyWordArea />
         <KeywordListWrap>
@@ -24,8 +22,11 @@ const EditContainer = () => {
               </KeywordArea>
             </KeywordList>
           ))}
+          {/* {searchKeyword.map((item, index) => (
+            <div>{item.sub_name}</div>
+          ))} */}
         </KeywordListWrap>
-      </CommonContainer>
+      </Container>
     </Wrap>
   );
 };
