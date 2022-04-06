@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import newsformatReducer from "./news/newsformatSlice";
 import userReducer from "./user/auth";
-import newsListReducer from "./news/newsListSlice_thunk";
+import newsListReducer from "./news/newsListSlice";
 import keywordListReducer from "./keyword/keywordsSlice";
 import createSagaMiddleware from "redux-saga";
 import { rootSaga } from "./rootSaga";

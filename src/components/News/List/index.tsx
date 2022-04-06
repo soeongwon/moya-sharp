@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
-import TextArticleList from "./TextArticleList";
-import ImageArticleList from "./ImageArticleList";
+
 import Container from "../../common/layout/Container";
 import { useAppSelector } from "../../../redux/hooks";
 import { useNewsFormats } from "../hooks/useNewsFormat";
 import { RootState } from "../../../redux/store";
+import ImageArticleList from "./ImageArticleList";
+import TextArticleList from "./TextArticleList";
 const List = () => {
   const { NewsFormats } = useNewsFormats();
-  const { newListData, loading } = useAppSelector(
+  const { data, loading } = useAppSelector(
     (state: RootState) => state.newsList
   );
   return (
@@ -21,13 +22,13 @@ const List = () => {
               if (NewsFormats === "Image") {
                 return (
                   <ImageContent>
-                    <ImageArticleList newListData={newListData} />
+                    <ImageArticleList newListData={data} />
                   </ImageContent>
                 );
               } else if (NewsFormats === "Text") {
                 return (
                   <TextContent>
-                    <TextArticleList newListData={newListData} />
+                    <TextArticleList newListData={data} />
                   </TextContent>
                 );
               }

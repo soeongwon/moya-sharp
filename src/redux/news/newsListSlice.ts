@@ -1,7 +1,8 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import axios from "axios";
 import { fetchSectorKeyword } from "../../api/sectorApi";
 import { push } from "connected-react-router";
+import { getNewList, SearchType } from "../../api/newsListApi";
+import { Action } from "redux-actions";
 
 export const NEWSLIST_START = "NEWSLIST_START";
 
@@ -74,7 +75,7 @@ type data = {
   nextToken: String;
 };
 
-function* getNewslistSaga(action: any) {
+function* getNewslistSaga(action: Action<SearchType>) {
   console.log("getNewslistSaga", action);
   try {
     yield put(getNewslistStart());
@@ -86,17 +87,15 @@ function* getNewslistSaga(action: any) {
       const res: data = yield call(
         fetchSectorKeyword,
         action.payload.keyType,
-        action.payload.identifier
+        action.payload.paramValue
       );
       yield put(getNewslistSuccess(res.data));
     } else {
-      const res: data = yield call(
-        axios.get,
-        "http://54.180.136.0:3000/search?mediaType=mp,op&timeFilter=w1&language=en&orderBy=latest&keyType=tickers&keyParam=aapl&exchange=nasdaq"
-      );
+      console.log("newsListSaga", action.payload);
+      const res: data = yield call(getNewList, action.payload);
       yield put(getNewslistSuccess(res.data));
+      // yield put(push(`/news/${action.payload.paramValue}`));
     }
-    yield put(push(`/news/${action.payload.identifier}`));
   } catch (error) {
     yield put(getNewslistFail(error));
   }
