@@ -41,6 +41,5 @@ export async function getNewList(searchPayload: SearchType) {
 
   const response = await api.get(NEWS_API_URL, { params });
 
-  console.log("search api response", response);
-  return response;
+  return response.data;
 }
