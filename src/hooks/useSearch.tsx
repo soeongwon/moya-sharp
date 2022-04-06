@@ -1,51 +1,52 @@
-import React, { useState } from "react";
-import { useAppDispatch } from "../redux/hooks";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { SearchTitleType } from "../api/newsListApi";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { fetchNewList } from "../redux/news/newsListSlice";
-
+import { cameltoCababString } from "../utils/utils";
 export const useSearch = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [isOpendKeywordList, setIsOpendKeywordList] = useState(false);
   const [language, setLanguage] = useState("en");
   const [timeFilter, setTimeFilter] = useState("m5");
   const [categories, setCategories] = useState("mp,op,r");
   const [identifiers, setIdentifiers] = useState("");
+  // http://54.180.136.0:3000/search?mediaType=mp,op&timeFilter=w1&language=en&orderBy=latest&keyType=tickers&keyParam=aapl&exchange=nasdaq
 
-  function openKeywordList(isOpend: boolean) {
-    setIsOpendKeywordList(isOpend);
-  }
-
-  function setIdentifiersString(Identifier: string) {
-    setIdentifiers(Identifier);
-  }
-  const setLanguageCode = (langCode: string) => {
-    setLanguage(langCode);
-  };
-  const setTimeFilterCode = (timeCode: string) => {
-    setTimeFilter(timeCode);
-  };
-  const setCategoriesCode = (categoriesCode: string) => {
-    setCategories(categoriesCode);
-  };
-
-  const searchNews = (str?: string) => {
+  const searchNews = async (
+    searchTitle?: SearchTitleType,
+    str?: string,
+    order_by?: "top" | "latest" | "popular"
+  ) => {
     const identifier = str ? str : identifiers;
+    if (str) {
+      cameltoCababString(str);
+    }
     const searchPayload = {
+      order_by:order_by,
+      searchTitle,
       identifiers: identifier,
       language,
       timeFilter,
       categories
     };
-    dispatch(fetchNewList(searchPayload));
+    const search = await dispatch(fetchNewList(searchPayload));
+    navigate(`/news/${cameltoCababString(identifier)}`);
+    return search;
   };
 
   return {
     isOpendKeywordList,
-    openKeywordList,
-    setIdentifiersString,
-    setLanguageCode,
-    setTimeFilterCode,
-    setCategoriesCode,
-    searchNews
+    setIsOpendKeywordList,
+    setIdentifiers,
+    setLanguage,
+    setTimeFilter,
+    setCategories,
+    searchNews,
+    language,
+    timeFilter,
+    categories
   };
 };

@@ -1,53 +1,112 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getNewList, NewsType, SearchPayload } from "../../api/newsListApi";
+import { call, put, takeEvery } from "redux-saga/effects";
+import axios from "axios";
+import { fetchSectorKeyword } from "../../api/sectorApi";
 
-export const fetchNewList = createAsyncThunk(
-  "newlist/fetchNewsList",
-  async (searchPayload: SearchPayload, thunkApi) => {
-    const response = await getNewList(searchPayload);
+export const NEWSLIST_START = "NEWSLIST_START";
 
-    if (response.status !== 200) {
-      return thunkApi.rejectWithValue(response.data.error);
-    }
-    return response.data;
-  }
-);
+export const NEWSLIST_SUCCESS = "NEWSLIST_SUCCESS";
 
-type NewsListState = {
-  newListData: NewsType[];
-  loading: boolean;
-  error: any;
-};
+export const NEWSLIST_FAIL = "NEWSLIST_FAIL";
 
-const initialState: NewsListState = {
-  newListData: [],
+// 액션 생성 함수
+export function getNewslistStart() {
+  return {
+    type: NEWSLIST_START
+  };
+}
+
+export function getNewslistSuccess(data: any) {
+  return {
+    type: NEWSLIST_SUCCESS,
+    data
+  };
+}
+export function getNewslistFail(error: any) {
+  return {
+    type: NEWSLIST_FAIL,
+    error
+  };
+}
+
+const initialState = {
   loading: false,
+  data: [],
   error: null
 };
 
-const NewsListSlice = createSlice({
-  name: "newsList",
-  initialState,
-  reducers: {},
-  extraReducers: builder => {
-    builder.addCase(fetchNewList.pending, state => {
-      state.loading = true;
-      state.newListData = [];
-      state.error = null;
-    });
+export default function reducer(state = initialState, action: any) {
+  switch (action.type) {
+    case NEWSLIST_START:
+      return {
+        ...state,
+        loading: false,
+        error: null
+      };
 
-    builder.addCase(fetchNewList.fulfilled, (state, action) => {
-      console.log(action);
-      state.loading = false;
-      state.newListData.push(...state.newListData, ...action.payload.stories);
-    });
+    case NEWSLIST_SUCCESS:
+      return {
+        loading: false,
+        data: action.data.newsList,
+        error: null
+      };
 
-    builder.addCase(fetchNewList.rejected, (state, action: any) => {
-      console.log(action);
-      state.loading = false;
-      state.error = action.error.message;
-    });
+    case NEWSLIST_FAIL:
+      console.log("NEWSLIST_FAIL error", action);
+
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      };
+
+    default:
+      return state;
   }
-});
+}
 
-export default NewsListSlice.reducer;
+//saga
+
+const NEWSLIST_SAGA_START = "NEWSLIST_SAGA_START";
+
+type data = {
+  data: [];
+  nextToken: String;
+};
+
+function* getNewslistSaga(action: any) {
+  console.log("getNewslistSaga", action);
+  try {
+    yield put(getNewslistStart());
+    if (
+      action.payload.keyType === "sectors" ||
+      action.payload.keyType === "startup" ||
+      action.payload.keyType === "category"
+    ) {
+      const res: data = yield call(
+        fetchSectorKeyword,
+        action.payload.keyType,
+        action.payload.identifier
+      );
+      yield put(getNewslistSuccess(res.data));
+    } else {
+      const res: data = yield call(
+        axios.get,
+        "http://54.180.136.0:3000/search?mediaType=mp,op&timeFilter=w1&language=en&orderBy=latest&keyType=tickers&keyParam=aapl&exchange=nasdaq"
+      );
+      yield put(getNewslistSuccess(res.data));
+    }
+  } catch (error) {
+    yield put(getNewslistFail(error));
+  }
+}
+
+export function fetchNewList(payload: any) {
+  return {
+    type: NEWSLIST_SAGA_START,
+    payload
+  };
+}
+
+export function* newsListSaga() {
+  yield takeEvery(NEWSLIST_SAGA_START, getNewslistSaga);
+}

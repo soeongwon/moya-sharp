@@ -4,18 +4,17 @@ import HomeContainer from "../containers/home/HomeContainer";
 const Home = () => {
   return (
     <HomeWrap>
-      <BackgroundImage>
-        <InnerWrap>
-          <HomeContainer />
-        </InnerWrap>
-      </BackgroundImage>
+      <InnerWrap className="Inner">
+        <HomeContainer />
+      </InnerWrap>
     </HomeWrap>
   );
 };
 
 export default Home;
 
-const HomeWrap = styled.div`
+const HomeWrap = styled.main`
+  position: relative;
   background: linear-gradient(
     211.86deg,
     #ffffff -2.13%,
@@ -23,17 +22,25 @@ const HomeWrap = styled.div`
     rgba(223, 248, 244, 0.7) 49.34%,
     rgba(253, 221, 210, 0.7) 94.11%
   );
-  padding-bottom: 267px;
-`;
-
-const BackgroundImage = styled.div`
-  background-image: url("images/image_main.svg");
-  background-position: 82% 285px;
-  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding-top: 120px;
+  padding-bottom: 189px;
 `;
 
 const InnerWrap = styled.div`
+  position: relative;
   width: 1240px;
   margin: 0 auto;
-  padding-top: 132px;
+  &.Inner::after {
+    content: "";
+    position: absolute;
+    top: 130px;
+    right: 0;
+    width: 800px;
+    height: 531px;
+    background-image: url("/images/image_main.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+  }
 `;

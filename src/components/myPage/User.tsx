@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-
 const User = () => {
   return (
     <Usercard>
@@ -9,10 +8,10 @@ const User = () => {
       <h4>kim hana</h4>
       <p>kimhana1234@gamil.com</p>
       <EditBtn>프로필 편집</EditBtn>
-      <BottomLine/>
+      <BottomLine />
     </Usercard>
-  )
-}
+  );
+};
 
 export default User;
 
@@ -26,7 +25,7 @@ const Usercard = styled.div`
     font-size: 20px;
     font-weight: 600;
     line-height: 30px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
   p {
     font-weight: 400;
@@ -34,8 +33,7 @@ const Usercard = styled.div`
     line-height: 24px;
     letter-spacing: -0.01em;
   }
-`
-
+`;
 
 const Profic = styled.div`
   width: 64px;
@@ -46,7 +44,10 @@ const Profic = styled.div`
   margin-top: 31px;
   margin-left: 70px;
   margin-bottom: 28px;
-`
+  background-image: url("https://placeimg.com/64/64/any");
+  background-size: cover;
+  cursor: pointer;
+`;
 const EditBtn = styled.button`
   width: 118px;
   height: 37px;
@@ -59,8 +60,7 @@ const EditBtn = styled.button`
   margin-bottom: 36px;
   margin-top: 33px;
   cursor: pointer;
-`
+`;
 const BottomLine = styled.div`
   border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-`
-
+`;

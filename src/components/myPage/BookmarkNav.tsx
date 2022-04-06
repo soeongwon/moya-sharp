@@ -17,7 +17,6 @@ const BookmarkNav = () => {
 export default BookmarkNav;
 
 const Wrap = styled.ul`
-/* padding-bottom: 345px; */
 height: 640px;
 color: rgba(255, 255, 255, 0.6);
   h2 {
@@ -45,7 +44,7 @@ color: rgba(255, 255, 255, 0.6);
     background-color: rgba(255, 255, 255, 0.1);
     position: relative;
   }
-  .on::before {
+  .on::before{
     content: '';
     position: absolute;
     height: 100%;

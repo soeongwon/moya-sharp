@@ -1,13 +1,15 @@
 import styled from "@emotion/styled";
 import { SearchFilterItem } from "./SearchFilterItem";
 import { SetStateAction, useState } from "react";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useFetchLanguageCode } from "../../hooks/useFetchLanguageCode";
-import { useTimeFilter } from "../../hooks/useTimeFilter";
-import { useCategories } from "../../hooks/useCategories";
-import Modal from "../edit/Modal"
-import EditContainer from "../edit/EditContainer"
+
+import { SearchTitleType } from "../../api/newsListApi";
 import { useSearch } from "./../../hooks/useSearch";
+import searchKeyword from "../../assets/csvjson.json";
+import { languageCode } from "../../utils/languageCode";
+import { timeFilter } from "../../utils/timeFilter";
+import { categories } from "../../utils/categories";
 
 type Props = {
   openKeywordList: (arg: boolean) => void;
@@ -15,12 +17,19 @@ type Props = {
   setTimeFilterCode: (arg: string) => void;
   setIdentifiersString: (arg: string) => void;
   setCategoriesCode: (arg: string) => void;
-  searchNews: (str?: string) => void;
+  searchNews: (searchTitle?: SearchTitleType, str?: string) => void;
 };
 export type FilterItemType = {
   label: string;
   defaultValue: string;
   list: string[];
+};
+
+type keyWordEntity = {
+  name: string;
+  sub_name: string;
+  data_type: SearchTitleType;
+  exchange: string;
 };
 
 const Search = ({
@@ -34,15 +43,16 @@ const Search = ({
   const [openIndex, setOpen] = useState<null | number>(null);
   const [focused, setFocused] = useState<boolean>(false);
   const [inputText, setInputText] = useState(" ");
+  const [isOpenInstanseSearch, setIsOpenInstanseSearch] = useState(false);
+  const [instanseKeyword, setInstanseKeyword] = useState<Array<keyWordEntity>>(
+    []
+  );
   const { isOpendKeywordList } = useSearch();
-  const languageCode = useFetchLanguageCode();
-  const languageName = languageCode.languages.map(obj => obj.name);
+  const languageName = languageCode.map(obj => obj.name);
 
-  const timeFilterArr = useTimeFilter();
-  const timeFilterName = timeFilterArr.map(obj => obj.name);
+  const timeFilterName = timeFilter.map(obj => obj.name);
 
-  const categoriesArr = useCategories();
-  const categoriesName = categoriesArr.map(obj => obj.name);
+  const categoriesName = categories.map(obj => obj.name);
 
   const filterListArr: Array<FilterItemType> = [
     {
@@ -80,9 +90,7 @@ const Search = ({
   };
 
   const setLanguage = (langName: string) => {
-    const langItem = languageCode.languages.find(
-      item => item.name === langName
-    );
+    const langItem = languageCode.find(item => item.name === langName);
     if (!langItem) {
       return;
     }
@@ -90,7 +98,7 @@ const Search = ({
   };
 
   const setTimeFilter = (timeName: string) => {
-    const timeFilterItem = timeFilterArr.find(item => item.name === timeName);
+    const timeFilterItem = timeFilter.find(item => item.name === timeName);
     if (!timeFilterItem) {
       return;
     }
@@ -98,9 +106,7 @@ const Search = ({
   };
 
   const setCategories = (categorieName: string) => {
-    const categoriesItem = categoriesArr.find(
-      item => item.name === categorieName
-    );
+    const categoriesItem = categories.find(item => item.name === categorieName);
     if (!categoriesItem) {
       return;
     }
@@ -114,8 +120,32 @@ const Search = ({
       searchNews();
     }
   };
+
   const changeInputText = (value: SetStateAction<string>) => {
     setInputText(value);
+  };
+
+  const instanseSearch = () => {
+    if (inputText === " " || !inputText) {
+      setInstanseKeyword([]);
+      setIsOpenInstanseSearch(false);
+      return;
+    }
+    //TODO: any 타입정의 다시해야함
+    const sorted = searchKeyword.sort(
+      (a: any, b: any) => a.name.charCodeAt() - b.name.charCodeAt()
+    );
+    const keyword: any = sorted.filter(item => item.name.includes(inputText));
+    if (!keyword || keyword.length === 0) {
+      setIsOpenInstanseSearch(false);
+      return;
+    }
+    setIsOpenInstanseSearch(true);
+    setInstanseKeyword(keyword);
+  };
+
+  const search = (item: keyWordEntity) => {
+    searchNews(item.data_type, item.name);
   };
 
   useEffect(() => {
@@ -125,24 +155,26 @@ const Search = ({
     };
   });
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  
-  const handleOpen = () => setIsOpen(true)
-  const handleClose = () => setIsOpen(false)
+  // const searchHighlight = (string: string) => {
+  //   let regex = new RegExp(inputText, "g");
+  //   string.replace(regex, "<span class='highlight'>" + inputText + "</span>");
+  //   console.log(
+  //     string.replace(regex, "<span class='highlight'>" + inputText + "</span>")
+  //   );
+  // };
+
+  function closeKeywordList(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    openKeywordList(false);
+  }
 
   return (
     <SearchArea>
       <div>
-        <KeywordSearchButton onClick={handleOpen}>키워드 전체보기</KeywordSearchButton>
-        <Modal isOpen={isOpen} onClose={handleClose}>
-          <ModalBody>
-            <EditContainer/>
-          </ModalBody>
-        </Modal>
-
         <KeywordSearchButton>
-          키워드 전체보기
-          <i className="icon-keyword"></i>
+          <Link to={"/edit"}>
+            키워드 전체보기 <i className="icon-keyword"></i>
+          </Link>
         </KeywordSearchButton>
       </div>
       <SearchWarp>
@@ -176,44 +208,128 @@ const Search = ({
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   changeInputText(e.target.value)
                 }
+                onKeyUp={instanseSearch}
                 onKeyDown={onEnterPress}
                 placeholder="AAPL, MSFT, 005930, Gold, Oil, DJIA, Nikkei eg... "
               />
             </SearchBox>
+            <KeywordListClose>
+              <button onClick={closeKeywordList}>
+                <i>키워드 리스트 버튼</i>
+              </button>
+            </KeywordListClose>
           </SearchFilterSelectWrap>
         </form>
       </SearchWarp>
+      {isOpenInstanseSearch && (
+        <InstanseSearchDropDown>
+          <h3>Tickers</h3>
+          {instanseKeyword.map(item => (
+            <div key={item.name} onClick={() => search(item)}>
+              {item.name}
+              {item.sub_name}
+            </div>
+          ))}
+        </InstanseSearchDropDown>
+      )}
     </SearchArea>
   );
 };
 
 export default Search;
+const KeywordListClose = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid #c4c4c4;
+  align-items: center;
+  button {
+    width: 100%;
+    height: 100%;
+    padding-left: 20px;
+    border: none;
+    font-size: 0;
+    background: none;
+  }
+  i {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url("/images/main-keyword-list-arrow.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+  }
+`;
 
-export const SearchArea = styled.div`
+const InstanseSearchDropDown = styled.div`
+  width: 555px;
+  height: 300px;
+  border: 1px solid #ededed;
+  box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
+  right: 0;
+  background: #fff;
+  position: absolute;
+  overflow: scroll;
+  border-radius: 5px;
+
+  h3 {
+    padding: 10px 23px;
+    color: ${({ theme }) => theme.BlueGreenColor};
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 30px;
+  }
+
+  div {
+    padding: 11px 23px;
+    cursor: pointer;
+    color: #424242;
+    &:hover {
+      background: #f0fcfb;
+    }
+  }
+  .highlight {
+    font-weight: bold;
+    color: #ff0000;
+  }
+`;
+
+export const SearchArea = styled.section`
+  position: relative;
   & > div:nth-of-type(1) {
     display: flex;
     justify-content: end;
   }
+  z-index: 20;
 `;
 
 const KeywordSearchButton = styled.button`
   border: none;
   background: none;
-  color: #515151;
   cursor: pointer;
-  font-family: "Noto Sans";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 22px;
+  a {
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #48c0b7;
+    text-decoration: none;
+  }
   .icon-keyword {
     display: inline-block;
     width: 10px;
     height: 10px;
-    margin-left: 7px;
+    margin-left: 3px;
     background-repeat: no-repeat;
-    background-image: url("images/keyword-arrow.svg");
+    background-image: url("/images/keyword-arrow.svg");
     background-size: contain;
+    cursor: pointer;
+  }
+  a {
+    text-decoration: none;
+    color: #48c0b7;
   }
 `;
 
@@ -231,9 +347,11 @@ const SearchWarp = styled.div`
   width: 1240px;
   height: 120px;
   margin: 32px 0 0;
-  padding: 26px 76.1px 24px 0;
+  padding: 26px 26px 24px 0;
   border-radius: 5px;
-  border: solid 1px #f1f1f1;
+  /* border: 1px solid #f1f1f1; */
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
   background-color: #fff;
 `;
 
@@ -244,9 +362,9 @@ type SearchBoxProps = {
 const SearchBox = styled.div<SearchBoxProps>`
   display: flex;
   align-items: center;
-  width: 506px;
+  width: 41%;
   background: ${({ focused }) =>
-      focused ? "url(images/search-focused.svg)" : "url(images/search.svg)"}
+      focused ? "url(/images/search-focused.svg)" : "url(/images/search.svg)"}
     no-repeat 4.5%;
   transition: background 0.3s ease;
   input {
@@ -257,15 +375,4 @@ const SearchBox = styled.div<SearchBoxProps>`
     border: none;
     outline: none;
   }
-`;
-
-const ModalBody = styled.div`
-  border-radius: 8px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  background: #fff;
-  max-height: calc(100vh - 16px);
-  overflow: hidden auto;
-  position: relative;
-  padding-block: 12px;
-  padding-inline: 24px;
 `;
