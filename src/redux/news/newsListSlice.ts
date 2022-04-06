@@ -1,13 +1,11 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import { fetchSectorKeyword } from "../../api/sectorApi";
 import { push } from "connected-react-router";
 import { getNewList, SearchType } from "../../api/newsListApi";
 import { Action } from "redux-actions";
+import { fetchNews } from "../../api/newsApi";
 
 export const NEWSLIST_START = "NEWSLIST_START";
-
 export const NEWSLIST_SUCCESS = "NEWSLIST_SUCCESS";
-
 export const NEWSLIST_FAIL = "NEWSLIST_FAIL";
 
 // 액션 생성 함수
@@ -76,7 +74,6 @@ type data = {
 };
 
 function* getNewslistSaga(action: Action<SearchType>) {
-  console.log("getNewslistSaga", action);
   try {
     yield put(getNewslistStart());
     if (
@@ -84,14 +81,15 @@ function* getNewslistSaga(action: Action<SearchType>) {
       action.payload.keyType === "startup" ||
       action.payload.keyType === "category"
     ) {
+      console.log("getNewslistSaga", action);
       const res: data = yield call(
-        fetchSectorKeyword,
+        fetchNews,
         action.payload.keyType,
-        action.payload.paramValue
+        action.payload.identifier
       );
       yield put(getNewslistSuccess(res.data));
+      // yield put(push(`/news/${action.payload.identifier}`));
     } else {
-      console.log("newsListSaga", action.payload);
       const res: data = yield call(getNewList, action.payload);
       yield put(getNewslistSuccess(res.data));
       // yield put(push(`/news/${action.payload.paramValue}`));
