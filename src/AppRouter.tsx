@@ -6,8 +6,7 @@ import Mypage from "./pages/Mypage";
 import EditContainer from "./components/edit/EditContainer";
 import { Login } from "./pages/Login";
 import { Route, Switch } from "react-router-dom";
-
-// import AppScrollToTop from "./AppScrollToTop";
+import StyleGuide from "./components/common/StyleGuide";
 
 const AppRouter = () => {
   return (
@@ -17,7 +16,9 @@ const AppRouter = () => {
       <Route exact path="/mypage" component={Mypage} />
       <Route exact path="/news/:identifier" component={News} />
       <Route exact path="/login" component={Login} />
+      <Route exact path="/news" component={News} />
       <Route exact path="/" component={Home} />
+      <Route exact path="/style" component={StyleGuide} />
     </Switch>
   );
 };

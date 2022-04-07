@@ -31,7 +31,8 @@ export function getNewslistFail(error: any) {
 const initialState = {
   loading: false,
   data: [],
-  error: null
+  error: null,
+  hasMore: null
 };
 
 export default function reducer(state = initialState, action: any) {
@@ -47,6 +48,7 @@ export default function reducer(state = initialState, action: any) {
       return {
         loading: false,
         data: action.data.newsList,
+        hasMore: action.data.nextPageToken,
         error: null
       };
 
@@ -68,7 +70,7 @@ const NEWSLIST_SAGA_START = "NEWSLIST_SAGA_START";
 
 type data = {
   data: [];
-  nextToken: String;
+  hasMore: String;
 };
 
 function* getNewslistSaga(action: Action<SearchType>) {

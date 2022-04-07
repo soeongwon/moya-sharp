@@ -1,49 +1,83 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { changeMoment } from "./ImageArticle";
-import { NewsFeatures } from "../common/NewsCommon";
+import NewsCardFeatures from "../common/NewsCardFeatures";
 
 interface Props {
-  newsTitle: string;
-  newsContent: string;
-  newsSource: any;
-  newsLink: any;
+  brandName: string;
+  brandUrl: string;
+  description: string;
+  imageUrl: string;
+  // mediaType,
   publishTime: string;
+  title: string;
+  url: string;
 }
 
 const TextArticle = ({
-  newsTitle,
-  newsContent,
-  newsSource,
-  newsLink,
-  publishTime
+  brandName,
+  brandUrl,
+  description,
+  imageUrl,
+  // mediaType,
+  publishTime,
+  title,
+  url
 }: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
-
+  const [translateText, setTranslateText] = useState<string[]>([
+    title,
+    description
+  ]);
+  const [newsTitle, newsDescription] = translateText;
   function showContent() {
+    setIsOpen(!isOpen);
+  }
+  useEffect(() => {
+    //뉴스기사 번역 API 송출
+    if (isActive) {
+      const postTranslateAxios = async () => {
+        const TranslateAxiosBody = {
+          token: "sysmetic1234",
+          targetLists: [newsTitle, newsDescription]
+        };
+        const response = await axios.post(
+          "https://api.moya.ai/translate_moya",
+          TranslateAxiosBody
+        );
+        setTranslateText(response.data.translated);
+        return response;
+      };
+      postTranslateAxios();
+    }
+    return () => setIsActive(false);
+  }, [isActive, newsDescription, newsTitle]);
+  //번역 on,off
+  function handleTranslateActive() {
     setIsActive(!isActive);
   }
-
   return (
     <Wrap>
-      <NewsFeatures></NewsFeatures>
+      <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
       <Title>
-        <a href={`${newsLink}`} target="_blank" rel="noreferrer">
+        <a href={`${url}`} target="_blank" rel="noreferrer">
           {newsTitle}
         </a>
       </Title>
       <ArticleFooter>
         <div className="logo">
-          <img src={`${newsSource.imageUrl}`} alt="기사1" />
-          {newsSource.brandName}
+          <img src={`${imageUrl}`} alt="기사1" />
+          {brandName}
           <div className="article-time">{changeMoment(publishTime)}</div>
         </div>
         <i className="nav-btn" role="button" onClick={showContent}>
           미리 보기
         </i>
       </ArticleFooter>
-      {isActive === true ? <ArticleBody>{newsContent}</ArticleBody> : null}
+      {isOpen === true ? <ArticleBody> {newsDescription}</ArticleBody> : null}
     </Wrap>
   );
 };

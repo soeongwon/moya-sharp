@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { ChildProps } from "../../../../types/Common";
 import { logout } from "../../../../redux/user/auth";
 import { useHistory } from "react-router-dom";
-import history from "./../../../../utils/history";
 
 interface Confirm extends ChildProps {
   message: string;
@@ -16,7 +15,7 @@ export default function LoginConfirmButton({ children, message }: Confirm) {
   function handleClick() {
     if (!isLogin && window.confirm(`${message}`)) history.push("/login");
 
-    if (isLogin && window.confirm(`${message}`)) dispatch(logout());
+    // if (isLogin && window.confirm(`${message}`)) dispatch(logout());
   }
   return (
     <Button role="button" onClick={handleClick}>
