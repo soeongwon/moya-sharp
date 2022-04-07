@@ -16,13 +16,8 @@ type Props = {
   setLanguageCode: (arg: string) => void;
   setTimeFilterCode: (arg: string) => void;
   setIdentifiersString: (arg: string) => void;
-  setMediaTypeCode: (arg: string) => void;
-  searchNews: (
-    keyType: string,
-    paramValue: string,
-    exchange?: string,
-    orderBy?: "top" | "latest" | "popular"
-  ) => void;
+  setCategoriesCode: (arg: string) => void;
+  searchNews: (searchTitle?: SearchTitleType, str?: string) => void;
 };
 export type FilterItemType = {
   label: string;
@@ -33,7 +28,7 @@ export type FilterItemType = {
 type keyWordEntity = {
   name: string;
   sub_name: string;
-  data_type: string;
+  data_type: SearchTitleType;
   exchange: string;
 };
 
@@ -42,7 +37,7 @@ const Search = ({
   setLanguageCode,
   setTimeFilterCode,
   setIdentifiersString,
-  setMediaTypeCode,
+  setCategoriesCode,
   searchNews
 }: Props) => {
   const [openIndex, setOpen] = useState<null | number>(null);
@@ -115,14 +110,14 @@ const Search = ({
     if (!categoriesItem) {
       return;
     }
-    setMediaTypeCode(categoriesItem.code);
+    setCategoriesCode(categoriesItem.code);
   };
 
   const onEnterPress = (e: React.KeyboardEvent) => {
     setIdentifiersString(inputText);
     if (e.code === "Enter") {
       e.preventDefault();
-      // searchNews();
+      searchNews();
     }
   };
 
@@ -159,6 +154,14 @@ const Search = ({
       document.body.removeEventListener("click", closeAll);
     };
   });
+
+  // const searchHighlight = (string: string) => {
+  //   let regex = new RegExp(inputText, "g");
+  //   string.replace(regex, "<span class='highlight'>" + inputText + "</span>");
+  //   console.log(
+  //     string.replace(regex, "<span class='highlight'>" + inputText + "</span>")
+  //   );
+  // };
 
   function closeKeywordList(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -372,4 +375,5 @@ const SearchBox = styled.div<SearchBoxProps>`
     border: none;
     outline: none;
   }
+
 `;
