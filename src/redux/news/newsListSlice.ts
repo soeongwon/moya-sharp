@@ -1,6 +1,7 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 import { fetchSectorKeyword } from "../../api/sectorApi";
+import { push } from "connected-react-router";
 
 export const NEWSLIST_START = "NEWSLIST_START";
 
@@ -31,7 +32,8 @@ export function getNewslistFail(error: any) {
 const initialState = {
   loading: false,
   data: [],
-  error: null
+  error: null,
+  hasMore: null
 };
 
 export default function reducer(state = initialState, action: any) {
@@ -47,6 +49,7 @@ export default function reducer(state = initialState, action: any) {
       return {
         loading: false,
         data: action.data.newsList,
+        hasMore: action.data.nextPageToken,
         error: null
       };
 
@@ -70,7 +73,7 @@ const NEWSLIST_SAGA_START = "NEWSLIST_SAGA_START";
 
 type data = {
   data: [];
-  nextToken: String;
+  hasMore: String;
 };
 
 function* getNewslistSaga(action: any) {
@@ -95,6 +98,7 @@ function* getNewslistSaga(action: any) {
       );
       yield put(getNewslistSuccess(res.data));
     }
+    yield put(push(`/news/${action.payload.identifier}`));
   } catch (error) {
     yield put(getNewslistFail(error));
   }

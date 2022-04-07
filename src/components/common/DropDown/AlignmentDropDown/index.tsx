@@ -21,7 +21,7 @@ const AlignmentDropDown = ({ options }: Props) => {
   };
 
   return (
-    <DropDownView>
+    <DropDown>
       <CurrentOption role="button" onClick={(e: MouseEvent) => openDropDown()}>
         {newsCurOption}
         <i className="nav-bottom"></i>
@@ -33,13 +33,13 @@ const AlignmentDropDown = ({ options }: Props) => {
         closeDropDown={closeDropDown}
         handleOption={handleOption}
       ></Menu>
-    </DropDownView>
+    </DropDown>
   );
 };
 
 export default AlignmentDropDown;
 
-const DropDownView = styled.div`
+const DropDown = styled.div`
   position: relative;
 `;
 const CurrentOption = styled.div`

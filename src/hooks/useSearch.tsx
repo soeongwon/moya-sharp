@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { SearchTitleType } from "../api/newsListApi";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { fetchNewList } from "../redux/news/newsListSlice";
 import { cameltoCababString } from "../utils/utils";
 export const useSearch = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [isOpendKeywordList, setIsOpendKeywordList] = useState(false);
   const [language, setLanguage] = useState("en");
@@ -33,7 +32,7 @@ export const useSearch = () => {
       categories
     };
     const search = await dispatch(fetchNewList(searchPayload));
-    navigate(`/news/${cameltoCababString(identifier)}`);
+    // navigate(`/news/${cameltoCababString(identifier)}`);
     return search;
   };
 

@@ -1,8 +1,7 @@
 import React from "react";
-import KeywordSelectContainer from "../../../containers/home/KeywordSelectContainer";
-import Search from "../../home/Search";
-import Container from "../../common/layout/Container";
-import { useSearch } from "../../../hooks/useSearch";
+import KeywordSelectContainer from "./KeywordSelectContainer";
+import Search from "../../components/home/Search";
+import { useSearch } from "../../hooks/useSearch";
 const SearchNavigation = () => {
   const {
     isOpendKeywordList,
