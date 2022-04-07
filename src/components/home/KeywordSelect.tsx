@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { useAppDispatch } from "../../redux/hooks";
-import { fetchNewList } from "../../redux/news/newsListSlice";
 import { category, sectorKey, startup } from "../../utils/master";
 import { Master } from "./InstanseKeyword";
 
@@ -17,9 +15,7 @@ type Props = {
 type Title = "Category" | "Sector" | "Startup";
 
 const KeywordSelect = ({ searchNews }: Props) => {
-  const dispatch = useAppDispatch();
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
-
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
   const [selectedKey, setSelectedKey] = useState<string>("A");
 
@@ -29,8 +25,13 @@ const KeywordSelect = ({ searchNews }: Props) => {
     setKeywordTitle(title);
   };
 
-  const fetchNewsApi = (identifier: string, keyType: string) => {
-    dispatch(fetchNewList({ identifier, keyType }));
+  const fetchNewsApi = (searchObj: Master, keyType: string) => {
+    console.log(searchObj, keyType);
+    if (!searchObj.exchange) {
+      searchNews(keyType, searchObj.paramValue);
+    } else {
+      searchNews(keyType, searchObj.paramValue, searchObj.exchange);
+    }
   };
 
   const selectSortKey = (key: string) => {
@@ -75,7 +76,7 @@ const KeywordSelect = ({ searchNews }: Props) => {
               <KeywordListItem
                 key={`Sector-${item}-${index}`}
                 onClick={() => {
-                  fetchNewsApi(item.paramValue, "sectors");
+                  fetchNewsApi(item, "sectors");
                 }}
               >
                 {item.name}
@@ -93,7 +94,7 @@ const KeywordSelect = ({ searchNews }: Props) => {
                 <li
                   key={`Startup-${item.paramValue}`}
                   onClick={() => {
-                    fetchNewsApi(item.paramValue, "startup");
+                    fetchNewsApi(item, "startup");
                   }}
                 >
                   {item.name}
@@ -112,7 +113,7 @@ const KeywordSelect = ({ searchNews }: Props) => {
                 <li
                   key={`Category-${item.paramValue}`}
                   onClick={() => {
-                    fetchNewsApi(item.paramValue, "category");
+                    fetchNewsApi(item, "category");
                   }}
                 >
                   {item.name}

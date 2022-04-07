@@ -73,26 +73,48 @@ type data = {
   hasMore: String;
 };
 
+function isExchange(action: Action<SearchType>) {
+  const {
+    orderBy,
+    keyType,
+    paramValue,
+    language,
+    timeFilter,
+    mediaType,
+    exchange
+  } = action.payload;
+  if (action.payload.exchange) {
+    return `/search?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}&exchange=${exchange}`;
+  } else {
+    return `/search?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}`;
+  }
+}
+
 function* getNewslistSaga(action: Action<SearchType>) {
+  const {
+    orderBy,
+    keyType,
+    paramValue,
+    language,
+    timeFilter,
+    mediaType,
+    exchange
+  } = action.payload;
   try {
     yield put(getNewslistStart());
     if (
-      action.payload.keyType === "sectors" ||
-      action.payload.keyType === "startup" ||
-      action.payload.keyType === "category"
+      keyType === "sectors" ||
+      keyType === "startup" ||
+      keyType === "category"
     ) {
       console.log("getNewslistSaga", action);
-      const data: data = yield call(
-        fetchNews,
-        action.payload.keyType,
-        action.payload.identifier
-      );
+      const data: data = yield call(fetchNews, keyType, paramValue);
       yield put(getNewslistSuccess(data));
-      yield put(push(`/news/${action.payload.identifier}`));
+      yield put(push(isExchange(action)));
     } else {
       const data: data = yield call(getNewList, action.payload);
       yield put(getNewslistSuccess(data));
-      yield put(push(`/news/${action.payload.paramValue}`));
+      yield put(push(`/news/${paramValue}`));
     }
   } catch (error) {
     yield put(getNewslistFail(error));
@@ -100,6 +122,7 @@ function* getNewslistSaga(action: Action<SearchType>) {
 }
 
 export function fetchNewList(payload: any) {
+  console.log("payload", payload);
   return {
     type: NEWSLIST_SAGA_START,
     payload
