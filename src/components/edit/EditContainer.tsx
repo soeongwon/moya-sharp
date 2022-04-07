@@ -3,42 +3,44 @@ import { useState } from "react";
 import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
-import sector from "../../assets/sector.json";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { category, sectorKey, startup } from "../../utils/master";
 import { keywordList } from "../../utils/keywordList";
-import { fetchNewList } from "../../redux/news/newsListSlice";
+import { Master } from "../home/InstanseKeyword";
 
-type sectorKeywordType = {
-  [data: string]: string[];
+type Props = {
+  searchNews: (
+    keyType: string,
+    keyParam: string,
+    exchange?: string,
+    orderBy?: "top" | "latest" | "popular"
+  ) => void;
 };
-
 
 type Title = "Category" | "Sector" | "Startup";
 
-const EditContainer = () => {
-  const dispatch = useAppDispatch();
+const EditContainer = ({ searchNews }: Props) => {
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
-  const [sectorKeyword] = useState<sectorKeywordType>(sector);
-  const newsListError = useAppSelector(state => state.newsList.error);
-
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
-  const [selectedKey, setSelectedKey] = useState(sectorKeyword);
+  const [selectedKey, setSelectedKey] = useState<string>("A");
 
-  const categoryList = Object.keys(sectorKeyword);
+  const sectorKeys = Object.keys(sectorKey).sort();
+
+  const selectSortKey = (key: any) => {
+    setSelectedKey(key)
+  };
   const setTitle = (title: Title) => {
     setKeywordTitle(title);
   };
 
-  const fetchNewsApi = (payload: any) => {
-      dispatch(fetchNewList({ payload }))
-  }
-  
-  // const selectSortKey = (key: string) => {
-  //   setSelectedKey(key);
-  // };
-  console.log(selectedKey)
-  // const i = sectorKeyword[selectedKey].map(item => item)
-  // console.log(i)
+  const fetchNewsApi = (searchObj: Master, keyType: string) => {
+    console.log(searchObj, keyType);
+    if (!searchObj.exchange) {
+      searchNews(keyType, searchObj.paramValue);
+    } else {
+      searchNews(keyType, searchObj.paramValue, searchObj.exchange);
+    }
+  };
+
   return (
 
 
