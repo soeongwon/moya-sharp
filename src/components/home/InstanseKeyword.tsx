@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
+import { useSearch } from "../../hooks/useSearch";
 
 type Props = {
   keyword: Array<Master>;
@@ -13,15 +14,31 @@ export type Master = {
 };
 
 export const InstanseKeyword = ({ keyword }: Props) => {
+  const { searchNews } = useSearch();
+
+  const search = (item: Master) => {
+    const keyType = item.key;
+    const keyParam = item.paramValue;
+    const exchange = item.exchange ? item.exchange : null;
+    if (exchange) {
+      searchNews(keyType, keyParam, exchange);
+    } else {
+      searchNews(keyType, keyParam);
+    }
+  };
+
   return (
     <InstanseSearchDropDown>
       {keyword.map((item: Master, index, arr) => {
         let el = [];
         if (index === 0 || arr[index - 1].key !== item.key) {
-          console.log(item);
           el.push(<h3>{item.key}</h3>);
         }
-        el.push(<div>{item.name}</div>);
+        el.push(
+          <div onClick={() => search(item)} key={`${index}-${item.paramValue}`}>
+            {item.name}
+          </div>
+        );
         return el;
       })}
     </InstanseSearchDropDown>
