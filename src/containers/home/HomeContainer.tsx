@@ -3,9 +3,8 @@ import KeywordSelectContainer from "./KeywordSelectContainer";
 
 import Search from "../../components/home/Search";
 import { useSearch } from "../../hooks/useSearch";
+import { useCookies } from "react-cookie";
 import { useAppSelector } from "../../redux/hooks";
-import { useEffect, useState } from "react";
-import { fetchMaster, MasterObj } from "../../utils/master";
 
 const HomeContainer = () => {
   const {
@@ -14,17 +13,12 @@ const HomeContainer = () => {
     setIdentifiers,
     setLanguage,
     setTimeFilter,
-    setMediaType,
+    setCategories,
     searchNews
   } = useSearch();
 
-  const [masterObj, setMasterObj] = useState<MasterObj | undefined>();
-
-  useEffect(() => {
-    fetchMaster().then(res => {
-      setMasterObj(res.master);
-    });
-  }, []);
+  const isLogin = useAppSelector(state => state.users.isLogin);
+  console.log("home isLogin", isLogin);
 
   return (
     <>
@@ -34,12 +28,10 @@ const HomeContainer = () => {
         setLanguageCode={setLanguage}
         setTimeFilterCode={setTimeFilter}
         setIdentifiersString={setIdentifiers}
-        setMediaTypeCode={setMediaType}
+        setCategoriesCode={setCategories}
         searchNews={searchNews}
       />
-      {isOpendKeywordList && (
-        <KeywordSelectContainer searchNews={searchNews} master={masterObj} />
-      )}
+      {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
     </>
   );
 };

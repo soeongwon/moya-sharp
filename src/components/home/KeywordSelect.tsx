@@ -1,30 +1,33 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { useAppDispatch } from "../../redux/hooks";
+import { SearchTitleType } from "../../api/newsListApi";
+import sector from "../../assets/sector.json";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { fetchNewList } from "../../redux/news/newsListSlice";
-import { category, sectorKey, startup } from "../../utils/master";
-import { Master } from "./InstanseKeyword";
+import { Navigate } from "react-router-dom";
 
 type Props = {
-  searchNews: (
-    keyType: string,
-    keyParam: string,
-    exchange?: string,
-    orderBy?: "top" | "latest" | "popular"
-  ) => void;
+  startupData: string[];
+  categoryData: string[];
+  searchNews: (searchTitle?: SearchTitleType, str?: string) => void;
+};
+
+type sectorKeywordType = {
+  [data: string]: string[];
 };
 
 type Title = "Category" | "Sector" | "Startup";
 
-const KeywordSelect = ({ searchNews }: Props) => {
+const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
   const dispatch = useAppDispatch();
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
+  const [sectorKeyword] = useState<sectorKeywordType>(sector);
+  const newsListError = useAppSelector(state => state.newsList.error);
 
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
   const [selectedKey, setSelectedKey] = useState<string>("A");
 
-  const sectorKeys = Object.keys(sectorKey).sort();
-
+  const categoryList = Object.keys(sectorKeyword);
   const setTitle = (title: Title) => {
     setKeywordTitle(title);
   };
@@ -50,12 +53,11 @@ const KeywordSelect = ({ searchNews }: Props) => {
           </KeywordTitleItem>
         ))}
       </KeywordSelectTitles>
-
       {keywordTitle === "Sector" && (
         <KeywordListContainer>
           <CategoryList>
             <ul>
-              {sectorKeys.map(sortKeyItem => (
+              {categoryList.map(sortKeyItem => (
                 <CategoryListItem
                   key={`Sector-${sortKeyItem}`}
                   onClick={() => selectSortKey(sortKeyItem)}
@@ -69,53 +71,50 @@ const KeywordSelect = ({ searchNews }: Props) => {
               ))}
             </ul>
           </CategoryList>
-
           <KeywordListWrap>
-            {sectorKey[selectedKey].map((item: Master, index: number) => (
+            {sectorKeyword[selectedKey].map((item, index) => (
               <KeywordListItem
                 key={`Sector-${item}-${index}`}
                 onClick={() => {
-                  fetchNewsApi(item.paramValue, "sectors");
+                  fetchNewsApi(item, "sectors");
                 }}
               >
-                {item.name}
+                {item}
               </KeywordListItem>
             ))}
           </KeywordListWrap>
         </KeywordListContainer>
       )}
-
       {keywordTitle === "Startup" && (
         <KeywordListContainer>
           <StartupKeywordList>
             <ul>
-              {startup.map(item => (
+              {startupData.map(item => (
                 <li
-                  key={`Startup-${item.paramValue}`}
+                  key={`Startup-${item}`}
                   onClick={() => {
-                    fetchNewsApi(item.paramValue, "startup");
+                    fetchNewsApi(item, "startup");
                   }}
                 >
-                  {item.name}
+                  {item}
                 </li>
               ))}
             </ul>
           </StartupKeywordList>
         </KeywordListContainer>
       )}
-
       {keywordTitle === "Category" && (
         <KeywordListContainer>
           <StartupKeywordList>
             <ul>
-              {category.map(item => (
+              {categoryData.map(item => (
                 <li
-                  key={`Category-${item.paramValue}`}
+                  key={`Category-${item}`}
                   onClick={() => {
-                    fetchNewsApi(item.paramValue, "category");
+                    fetchNewsApi(item, "category");
                   }}
                 >
-                  {item.name}
+                  {item}
                 </li>
               ))}
             </ul>

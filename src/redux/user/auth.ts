@@ -1,5 +1,4 @@
 import { AnyAction, createSlice } from "@reduxjs/toolkit";
-import { push } from "connected-react-router";
 import { Action, createActions, handleActions } from "redux-actions";
 import { call, put, select, takeEvery } from "redux-saga/effects";
 import UserService from "../../api/UserService";
@@ -56,7 +55,6 @@ function* loginSaga(action: Action<loginReqType>) {
     yield put(pending());
     yield call(UserService.login, action.payload);
     yield put(success());
-    yield put(push("/"));
   } catch (error: any) {
     yield put(fail(new Error(error?.response?.data.error || "UNKNOWN_ERROR")));
   }

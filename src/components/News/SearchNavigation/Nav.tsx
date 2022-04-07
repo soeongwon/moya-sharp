@@ -24,9 +24,13 @@ const SearchNavigation = () => {
         setMediaTypeCode={setMediaType}
         searchNews={searchNews}
       />
+<<<<<<< HEAD
       {isOpendKeywordList && (
         <KeywordSelectContainer master={master} searchNews={searchNews} />
       )}
+=======
+      {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
+>>>>>>> main
     </>
   );
 };

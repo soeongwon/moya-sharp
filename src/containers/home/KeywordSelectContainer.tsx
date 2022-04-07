@@ -1,18 +1,24 @@
 import KeywordSelect from "../../components/home/KeywordSelect";
-import { MasterObj } from "../../utils/master";
+import startup from "../../assets/startup.json";
+import category from "../../assets/category.json";
+import { SearchTitleType } from "../../api/newsListApi";
 
 type Props = {
-  master: MasterObj | undefined;
   searchNews: (
-    keyType: string,
-    paramValue: string,
-    exchange?: string,
-    orderBy?: "top" | "latest" | "popular"
+    searchTitle?: SearchTitleType,
+    str?: string,
+    order_by?: "top" | "latest" | "popular"
   ) => void;
 };
 
-const KeywordSelectContainer = ({ searchNews, master }: Props) => {
-  return <KeywordSelect searchNews={searchNews} />;
+const KeywordSelectContainer = ({ searchNews }: Props) => {
+  return (
+    <KeywordSelect
+      startupData={startup.startup}
+      categoryData={category.category}
+      searchNews={searchNews}
+    />
+  );
 };
 
 export default KeywordSelectContainer;

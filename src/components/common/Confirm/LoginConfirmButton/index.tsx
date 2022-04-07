@@ -2,19 +2,17 @@ import styled from "@emotion/styled";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { ChildProps } from "../../../../types/Common";
 import { logout } from "../../../../redux/user/auth";
-import { useHistory } from "react-router-dom";
-import history from "./../../../../utils/history";
-
+import { useNavigate } from "react-router-dom";
 interface Confirm extends ChildProps {
   message: string;
 }
 
 export default function LoginConfirmButton({ children, message }: Confirm) {
-  const { isLogin } = useAppSelector(state => state.user);
+  const { isLogin } = useAppSelector(state => state.users);
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const navigtate = useNavigate();
   function handleClick() {
-    if (!isLogin && window.confirm(`${message}`)) history.push("/login");
+    if (!isLogin && window.confirm(`${message}`)) navigtate("/login");
 
     if (isLogin && window.confirm(`${message}`)) dispatch(logout());
   }
