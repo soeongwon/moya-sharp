@@ -23,6 +23,10 @@
     "react-dom": "^17.0.2",
     "react-intersection-observer": "^8.33.1",
     "react-redux": "^7.2.6",
+<<<<<<< HEAD
+=======
+    "connected-react-router": "^6.9.2",
+>>>>>>> 88f8dbb168ed34a1b0bedce58021c2eb933f46b3
     "react-router-dom": "^5.0.0",
     "react-scripts": "5.0.0",
     "react-transition-group": "^4.4.2",
@@ -56,9 +60,13 @@
     ]
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@types/react-router-dom": "^5.3.2",
+=======
+>>>>>>> 88f8dbb168ed34a1b0bedce58021c2eb933f46b3
     "@types/react-transition-group": "^4.4.4",
     "@types/redux-actions": "^2.6.2",
+    "@types/react-router-dom": "^5.3.2",
     "prettier": "^2.5.1"
   },
   "proxy": "http://54.180.136.0:3000"
