@@ -375,6 +375,4 @@ const SearchBox = styled.div<SearchBoxProps>`
     border: none;
     outline: none;
   }
-
 `;
-
