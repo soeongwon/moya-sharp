@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useAppDispatch } from "../../redux/hooks";
 import { addKeyword, deleteKeyword } from "../../redux/keyword/keywordsSlice";
 
+
 type Props = {
   item: string;
 };

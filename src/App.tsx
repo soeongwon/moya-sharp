@@ -8,6 +8,7 @@ import { Layout } from "./components/common/layout/Layout";
 import AppScrollToTop from "./AppScrollToTop";
 import StyleGuide from "./components/common/StyleGuide";
 import { Login } from "./pages/Login";
+import EditContainer from "./components/edit/EditContainer";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
             <Route path=":identifier" element={<News />} />
           </Route>
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="/edit" element={<EditContainer />}/>
           <Route path="/login" element={<Login />} />
           <Route path="/mypage/bookmark" element={<Bookmark />} />
           <Route path="/style" element={<StyleGuide />} />

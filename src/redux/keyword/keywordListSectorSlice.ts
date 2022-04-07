@@ -68,10 +68,10 @@ const SECTOR_SAGA_START = "SECTOR_SAGA_START";
 function* getSectorSaga(action: any) {
   console.log(action);
   try {
-    yield put(getFetchNewStart());
+    yield put(getFetchNewStart()); 
 
     const data: [] = yield call(fetchNews, action.keyType, action.identifier);
-
+    console.log(data)
     yield put(getFetchNewsSuccess(data));
   } catch (error) {
     yield put(getFetchNewsFail(error));
@@ -86,13 +86,21 @@ export function getSectorSagaStart(identifier: string, keyType: string) {
   };
 }
 
+export function fetchSectorKeyword(
+  fetchSectorKeyword: string,
+  keyType: string,
+  identifier: string
+) {
+  return {
+    type: SECTOR_SAGA_START,
+    fetchSectorKeyword,
+    keyType,
+    identifier
+  }
+}
+
+
 export function* keywordListSectorSaga() {
   yield takeEvery(SECTOR_SAGA_START, getSectorSaga);
 }
-function* fetchSectorKeyword(
-  fetchSectorKeyword: any,
-  keyType: any,
-  identifier: any
-) {
-  throw new Error("Function not implemented.");
-}
+

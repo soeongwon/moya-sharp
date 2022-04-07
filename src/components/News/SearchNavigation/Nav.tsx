@@ -1,8 +1,8 @@
 import React from "react";
 import KeywordSelectContainer from "../../../containers/home/KeywordSelectContainer";
 import Search from "../../home/Search";
+import Container from "../../common/layout/Container";
 import { useSearch } from "../../../hooks/useSearch";
-import { master } from "../../../utils/master";
 const SearchNavigation = () => {
   const {
     isOpendKeywordList,
@@ -10,7 +10,7 @@ const SearchNavigation = () => {
     setIdentifiers,
     setLanguage,
     setTimeFilter,
-    setMediaType,
+    setCategories,
     searchNews
   } = useSearch();
 
@@ -21,16 +21,10 @@ const SearchNavigation = () => {
         setLanguageCode={setLanguage}
         setTimeFilterCode={setTimeFilter}
         setIdentifiersString={setIdentifiers}
-        setMediaTypeCode={setMediaType}
+        setCategoriesCode={setCategories}
         searchNews={searchNews}
       />
-<<<<<<< HEAD
-      {isOpendKeywordList && (
-        <KeywordSelectContainer master={master} searchNews={searchNews} />
-      )}
-=======
       {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
->>>>>>> main
     </>
   );
 };

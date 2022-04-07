@@ -1,12 +1,47 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
 import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
-import { useAppDispatch } from "../../redux/hooks";
+import sector from "../../assets/sector.json";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { keywordList } from "../../utils/keywordList";
+import { fetchNewList } from "../../redux/news/newsListSlice";
+
+type sectorKeywordType = {
+  [data: string]: string[];
+};
+
+
+type Title = "Category" | "Sector" | "Startup";
 
 const EditContainer = () => {
+  const dispatch = useAppDispatch();
+  const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
+  const [sectorKeyword] = useState<sectorKeywordType>(sector);
+  const newsListError = useAppSelector(state => state.newsList.error);
+
+  const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
+  const [selectedKey, setSelectedKey] = useState(sectorKeyword);
+
+  const categoryList = Object.keys(sectorKeyword);
+  const setTitle = (title: Title) => {
+    setKeywordTitle(title);
+  };
+
+  const fetchNewsApi = (payload: any) => {
+      dispatch(fetchNewList({ payload }))
+  }
+  
+  // const selectSortKey = (key: string) => {
+  //   setSelectedKey(key);
+  // };
+  console.log(selectedKey)
+  // const i = sectorKeyword[selectedKey].map(item => item)
+  // console.log(i)
   return (
+
+
     <Wrap>
       <Container>
         <KeyWordTitle>My Keyword</KeyWordTitle>
@@ -34,7 +69,7 @@ const EditContainer = () => {
 export default EditContainer;
 
 const Wrap = styled.main`
-  padding-top: 500px;
+  padding-top: 59px;
   min-height: 100vh;
 `;
 const KeywordList = styled.div`
@@ -62,6 +97,6 @@ const KeywordArea = styled.div`
   gap: 10px;
 `;
 
-function addKeyword(item: string): any {
-  throw new Error("Function not implemented.");
-}
+// function addKeyword(item: string): any {
+//   throw new Error("Function not implemented.");
+// }
