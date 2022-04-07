@@ -51,8 +51,6 @@ export default function reducer(state = initialState, action: any) {
       };
 
     case NEWSLIST_FAIL:
-      console.log("NEWSLIST_FAIL error", action);
-
       return {
         ...state,
         loading: false,
@@ -82,17 +80,17 @@ function* getNewslistSaga(action: Action<SearchType>) {
       action.payload.keyType === "category"
     ) {
       console.log("getNewslistSaga", action);
-      const res: data = yield call(
+      const data: data = yield call(
         fetchNews,
         action.payload.keyType,
         action.payload.identifier
       );
-      yield put(getNewslistSuccess(res.data));
-      // yield put(push(`/news/${action.payload.identifier}`));
+      yield put(getNewslistSuccess(data));
+      yield put(push(`/news/${action.payload.identifier}`));
     } else {
-      const res: data = yield call(getNewList, action.payload);
-      yield put(getNewslistSuccess(res.data));
-      // yield put(push(`/news/${action.payload.paramValue}`));
+      const data: data = yield call(getNewList, action.payload);
+      yield put(getNewslistSuccess(data));
+      yield put(push(`/news/${action.payload.paramValue}`));
     }
   } catch (error) {
     yield put(getNewslistFail(error));
