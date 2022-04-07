@@ -1,20 +1,21 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import Home from "./pages/Home";
-import News from "./pages/News";
-import "./index.css";
-import Bookmark from "./components/myPage/Bookmark";
-import Mypage from "./pages/Mypage";
 import { Layout } from "./components/common/layout/Layout";
+import AppRouter from "./AppRouter";
+import { ConnectedRouter } from "connected-react-router";
+import history from "./utils/history";
 import AppScrollToTop from "./AppScrollToTop";
+<<<<<<< HEAD
 import StyleGuide from "./components/common/StyleGuide";
 import { Login } from "./pages/Login";
 import EditContainer from "./components/edit/EditContainer";
 
+=======
+>>>>>>> 88f8dbb168ed34a1b0bedce58021c2eb933f46b3
 const App = () => {
   return (
-    <BrowserRouter>
-      <AppScrollToTop />
+    <ConnectedRouter history={history}>
+      <AppScrollToTop/>
       <Layout>
+<<<<<<< HEAD
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/news" element={<News />}>
@@ -26,8 +27,11 @@ const App = () => {
           <Route path="/mypage/bookmark" element={<Bookmark />} />
           <Route path="/style" element={<StyleGuide />} />
         </Routes>
+=======
+        <AppRouter />
+>>>>>>> 88f8dbb168ed34a1b0bedce58021c2eb933f46b3
       </Layout>
-    </BrowserRouter>
+    </ConnectedRouter>
   );
 };
 export default App;

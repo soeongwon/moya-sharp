@@ -1,11 +1,8 @@
-import Intro from "../../components/home/Intro";
+import React from "react";
+import KeywordSelect from "../../components/home/KeywordSelect";
 import Search from "../../components/home/Search";
 import { useSearch } from "../../hooks/useSearch";
-import { useEffect } from "react";
-import { fetchMaster } from "../../utils/master";
-import KeywordSelect from "../../components/home/KeywordSelect";
-
-const HomeContainer = () => {
+const SearchNavigation = () => {
   const {
     isOpendKeywordList,
     setIsOpendKeywordList,
@@ -15,13 +12,8 @@ const HomeContainer = () => {
     searchNews
   } = useSearch();
 
-  useEffect(() => {
-    fetchMaster();
-  }, []);
-
   return (
     <>
-      <Intro />
       <Search
         openKeywordList={setIsOpendKeywordList}
         setLanguageCode={setLanguage}
@@ -34,4 +26,4 @@ const HomeContainer = () => {
   );
 };
 
-export default HomeContainer;
+export default SearchNavigation;

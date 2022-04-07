@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useNewsCommon } from "../hooks/useNewCommon";
-export const NewsFeatures = () => {
+import { useState } from "react";
+const NewsCardFeatures = ({ handleTranslateActive }: any) => {
   const { isBookmark, onbookmark } = useNewsCommon();
 
   return (
     <Feautres>
-      <button className="translate">번역</button>
+      <button className="translate" onClick={handleTranslateActive}>
+        번역
+      </button>
       <div>
         <Bookmark
           isBookmark={isBookmark}
@@ -19,7 +22,7 @@ export const NewsFeatures = () => {
     </Feautres>
   );
 };
-
+export default NewsCardFeatures;
 const Feautres = styled.div`
   display: flex;
   justify-content: space-between;
@@ -63,5 +66,3 @@ const Bookmark = styled.i<BookmarkProps>`
         : "url(/images/icon-Bookmark-filled.svg)"}
     no-repeat 4.5%;
 `;
-
-

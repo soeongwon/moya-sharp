@@ -3,8 +3,8 @@ export const useNewsCommon = () => {
   const [isBookmark, setIsbookmark] = useState<boolean>(true);
 
   function onbookmark() {
-    setIsbookmark(!isBookmark)
+    setIsbookmark(!isBookmark);
   }
 
-  return {isBookmark,onbookmark};
+  return { isBookmark, onbookmark };
 };

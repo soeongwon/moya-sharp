@@ -1,34 +1,69 @@
 import styled from "@emotion/styled";
-import { NewsFeatures } from '../common/NewsCommon';
-import { useNewsFormats } from '../hooks/useNewsFormat';
-import moment from "moment";
 
+import { useNewsFormats } from "./../hooks/useNewsFormat";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import NewsCardFeatures from "../common/NewsCardFeatures";
 
 interface Props {
-  newsTitle: string;
-  newsContent: string;
-  newsimageUrls: string[] | null;
-  newsSource: any;
-  newsLink: any;
+  brandImgUrl: string;
+  brandName: string;
+  brandUrl: string;
+  description: string;
+  imageUrl: string;
+  // mediaType,
   publishTime: string;
+  title: string;
+  url: string;
 }
 
 export function changeMoment(publishTime: string) {
   const changeTime = moment(publishTime).fromNow(); // 15 minutes ago
-
   return changeTime;
 }
 
 const ImageArticle = ({
-  newsTitle,
-  newsContent,
-  newsimageUrls,
-  newsSource,
-  newsLink,
-  publishTime
+  brandImgUrl,
+  brandName,
+  brandUrl,
+  description,
+  imageUrl,
+  publishTime,
+  title,
+  url
 }: Props) => {
   const { textSize } = useNewsFormats();
-
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [translateText, setTranslateText] = useState<string[]>([
+    title,
+    description
+  ]);
+  const [newsTitle, newsDescription] = translateText;
+  useEffect(() => {
+    //뉴스기사 번역 API 송출
+    if (isActive) {
+      const postTranslateAxios = async () => {
+        const TranslateAxiosBody = {
+          token: "sysmetic1234",
+          targetLists: [newsTitle, newsDescription]
+        };
+        const response = await axios.post(
+          "https://api.moya.ai/translate_moya",
+          TranslateAxiosBody
+        );
+        setTranslateText(response.data.translated);
+        return response;
+      };
+      postTranslateAxios();
+    }
+    return () => setIsActive(false);
+  }, [isActive, newsDescription, newsTitle]);
+  //번역 on,off
+  function handleTranslateActive() {
+    setIsActive(!isActive);
+  }
+  //cors 문제의 경우에는 대체이미지 제공
   const imageFail = (event: any) => {
     const url = event.currentTarget;
     url.src = `/images/img-error.png`;
@@ -36,30 +71,26 @@ const ImageArticle = ({
   return (
     <Wrap>
       <Inner>
-        {newsimageUrls !== null ? (
+        {imageUrl !== null ? (
           <Figure>
-            <img
-              src={`${newsimageUrls}`}
-              onError={imageFail}
-              alt="기사1"
-            />
+            <img src={`${imageUrl}`} onError={imageFail} alt="기사1" />
           </Figure>
         ) : null}
-        <NewsFeatures />
+        <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
         <Title>
-          <a href={`${newsLink}`} target="_blank" rel="noreferrer">
+          <a href={`${url}`} target="_blank" rel="noreferrer">
             {newsTitle}
           </a>
         </Title>
         <ArticleBody>
           <p className={`${textSize === true ? "small" : "big"}`}>
-            {newsContent}
+            {newsDescription}
           </p>
         </ArticleBody>
         <ArticleFooter>
           <div className="Jounal-mark">
-            <img src={`${newsSource.imageUrl}`} alt="기사1" />
-            <span>{newsSource.brandName}</span>
+            <img src={`${brandImgUrl}`} alt="기사1" />
+            <span>{brandName}</span>
           </div>
           <div className="article-time">{changeMoment(publishTime)}</div>
         </ArticleFooter>

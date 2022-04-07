@@ -3,50 +3,46 @@ import { SearchFilterItem } from "./SearchFilterItem";
 import { SetStateAction, useState } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-
-import { SearchTitleType } from "../../api/newsListApi";
 import { useSearch } from "./../../hooks/useSearch";
-import searchKeyword from "../../assets/csvjson.json";
 import { languageCode } from "../../utils/languageCode";
 import { timeFilter } from "../../utils/timeFilter";
 import { categories } from "../../utils/categories";
+import { seachInstanceSearch } from "../../utils/seachInstanceSearch";
+import { master } from "../../utils/master";
+import { InstanseKeyword, Master } from "./InstanseKeyword";
 
 type Props = {
   openKeywordList: (arg: boolean) => void;
   setLanguageCode: (arg: string) => void;
   setTimeFilterCode: (arg: string) => void;
-  setIdentifiersString: (arg: string) => void;
-  setCategoriesCode: (arg: string) => void;
-  searchNews: (searchTitle?: SearchTitleType, str?: string) => void;
+  setMediaTypeCode: (arg: string) => void;
+  searchNews: (
+    keyType: string,
+    paramValue: string,
+    exchange?: string,
+    orderBy?: "top" | "latest" | "popular"
+  ) => void;
 };
+
 export type FilterItemType = {
   label: string;
   defaultValue: string;
   list: string[];
 };
 
-type keyWordEntity = {
-  name: string;
-  sub_name: string;
-  data_type: SearchTitleType;
-  exchange: string;
-};
-
 const Search = ({
   openKeywordList,
   setLanguageCode,
   setTimeFilterCode,
-  setIdentifiersString,
-  setCategoriesCode,
+  setMediaTypeCode,
   searchNews
 }: Props) => {
   const [openIndex, setOpen] = useState<null | number>(null);
   const [focused, setFocused] = useState<boolean>(false);
   const [inputText, setInputText] = useState(" ");
   const [isOpenInstanseSearch, setIsOpenInstanseSearch] = useState(false);
-  const [instanseKeyword, setInstanseKeyword] = useState<Array<keyWordEntity>>(
-    []
-  );
+  const [instanseKeyword, setInstanseKeyword] = useState<Array<Master>>([]);
+
   const { isOpendKeywordList } = useSearch();
   const languageName = languageCode.map(obj => obj.name);
 
@@ -110,15 +106,7 @@ const Search = ({
     if (!categoriesItem) {
       return;
     }
-    setCategoriesCode(categoriesItem.code);
-  };
-
-  const onEnterPress = (e: React.KeyboardEvent) => {
-    setIdentifiersString(inputText);
-    if (e.code === "Enter") {
-      e.preventDefault();
-      searchNews();
-    }
+    setMediaTypeCode(categoriesItem.code);
   };
 
   const changeInputText = (value: SetStateAction<string>) => {
@@ -127,25 +115,13 @@ const Search = ({
 
   const instanseSearch = () => {
     if (inputText === " " || !inputText) {
-      setInstanseKeyword([]);
       setIsOpenInstanseSearch(false);
       return;
     }
-    //TODO: any 타입정의 다시해야함
-    const sorted = searchKeyword.sort(
-      (a: any, b: any) => a.name.charCodeAt() - b.name.charCodeAt()
-    );
-    const keyword: any = sorted.filter(item => item.name.includes(inputText));
-    if (!keyword || keyword.length === 0) {
-      setIsOpenInstanseSearch(false);
-      return;
-    }
-    setIsOpenInstanseSearch(true);
-    setInstanseKeyword(keyword);
-  };
+    let filterObj: Array<Master> = seachInstanceSearch(master, inputText);
 
-  const search = (item: keyWordEntity) => {
-    searchNews(item.data_type, item.name);
+    setInstanseKeyword(filterObj);
+    setIsOpenInstanseSearch(true);
   };
 
   useEffect(() => {
@@ -154,14 +130,6 @@ const Search = ({
       document.body.removeEventListener("click", closeAll);
     };
   });
-
-  // const searchHighlight = (string: string) => {
-  //   let regex = new RegExp(inputText, "g");
-  //   string.replace(regex, "<span class='highlight'>" + inputText + "</span>");
-  //   console.log(
-  //     string.replace(regex, "<span class='highlight'>" + inputText + "</span>")
-  //   );
-  // };
 
   function closeKeywordList(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -209,7 +177,6 @@ const Search = ({
                   changeInputText(e.target.value)
                 }
                 onKeyUp={instanseSearch}
-                onKeyDown={onEnterPress}
                 placeholder="AAPL, MSFT, 005930, Gold, Oil, DJIA, Nikkei eg... "
               />
             </SearchBox>
@@ -221,23 +188,14 @@ const Search = ({
           </SearchFilterSelectWrap>
         </form>
       </SearchWarp>
-      {isOpenInstanseSearch && (
-        <InstanseSearchDropDown>
-          <h3>Tickers</h3>
-          {instanseKeyword.map(item => (
-            <div key={item.name} onClick={() => search(item)}>
-              {item.name}
-              {item.sub_name}
-            </div>
-          ))}
-        </InstanseSearchDropDown>
-      )}
+      {isOpenInstanseSearch && <InstanseKeyword keyword={instanseKeyword} />}
     </SearchArea>
   );
 };
 
 export default Search;
-const KeywordListClose = styled.section`
+
+const KeywordListClose = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -262,40 +220,7 @@ const KeywordListClose = styled.section`
   }
 `;
 
-const InstanseSearchDropDown = styled.div`
-  width: 555px;
-  height: 300px;
-  border: 1px solid #ededed;
-  box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
-  right: 0;
-  background: #fff;
-  position: absolute;
-  overflow: scroll;
-  border-radius: 5px;
-
-  h3 {
-    padding: 10px 23px;
-    color: ${({ theme }) => theme.BlueGreenColor};
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 30px;
-  }
-
-  div {
-    padding: 11px 23px;
-    cursor: pointer;
-    color: #424242;
-    &:hover {
-      background: #f0fcfb;
-    }
-  }
-  .highlight {
-    font-weight: bold;
-    color: #ff0000;
-  }
-`;
-
-export const SearchArea = styled.section`
+export const SearchArea = styled.div`
   position: relative;
   & > div:nth-of-type(1) {
     display: flex;
@@ -375,5 +300,4 @@ const SearchBox = styled.div<SearchBoxProps>`
     border: none;
     outline: none;
   }
-
 `;
