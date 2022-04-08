@@ -38,6 +38,9 @@ const KeywordSelect = ({ searchNews }: Props) => {
     setSelectedKey(key);
   };
 
+  const i = sectorKeys.map(item => console.log(item))
+
+  console.log(sectorKeys)
   return (
     <KeywordSelectWrap>
       <KeywordSelectTitles>

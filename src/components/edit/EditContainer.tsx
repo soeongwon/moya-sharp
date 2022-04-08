@@ -21,7 +21,7 @@ type Title = "Category" | "Sector" | "Startup";
 const EditContainer = ({ searchNews }: Props) => {
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
-  const [selectedKey, setSelectedKey] = useState<string>("A");
+  const [selectedKey, setSelectedKey] = useState<string>("");
 
   const sectorKeys = Object.keys(sectorKey).sort();
 
@@ -41,6 +41,7 @@ const EditContainer = ({ searchNews }: Props) => {
     }
   };
 
+  
   return (
 
 
