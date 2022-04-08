@@ -1,6 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import axios from "axios";
-import { fetchSectorKeyword } from "../../api/sectorApi";
+import { fetchNews } from "../../api/newsApi";
 
 export const FETCH_NEWSLIST_START = "FETCH_NEWSLIST_START";
 
@@ -71,11 +70,7 @@ function* getSectorSaga(action: any) {
   try {
     yield put(getFetchNewStart());
 
-    const data: [] = yield call(
-      fetchSectorKeyword,
-      action.keyType,
-      action.identifier
-    );
+    const data: [] = yield call(fetchNews, action.keyType, action.identifier);
 
     yield put(getFetchNewsSuccess(data));
   } catch (error) {
@@ -93,4 +88,11 @@ export function getSectorSagaStart(identifier: string, keyType: string) {
 
 export function* keywordListSectorSaga() {
   yield takeEvery(SECTOR_SAGA_START, getSectorSaga);
+}
+function* fetchSectorKeyword(
+  fetchSectorKeyword: any,
+  keyType: any,
+  identifier: any
+) {
+  throw new Error("Function not implemented.");
 }

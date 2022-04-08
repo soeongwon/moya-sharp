@@ -1,12 +1,11 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import axios from "axios";
-import { fetchSectorKeyword } from "../../api/sectorApi";
 import { push } from "connected-react-router";
+import { getNewList, SearchType } from "../../api/newsListApi";
+import { Action } from "redux-actions";
+import { fetchNews } from "../../api/newsApi";
 
 export const NEWSLIST_START = "NEWSLIST_START";
-
 export const NEWSLIST_SUCCESS = "NEWSLIST_SUCCESS";
-
 export const NEWSLIST_FAIL = "NEWSLIST_FAIL";
 
 // 액션 생성 함수
@@ -54,8 +53,6 @@ export default function reducer(state = initialState, action: any) {
       };
 
     case NEWSLIST_FAIL:
-      console.log("NEWSLIST_FAIL error", action);
-
       return {
         ...state,
         loading: false,
@@ -76,8 +73,7 @@ type data = {
   hasMore: String;
 };
 
-function* getNewslistSaga(action: any) {
-  console.log("getNewslistSaga", action);
+function* getNewslistSaga(action: Action<SearchType>) {
   try {
     yield put(getNewslistStart());
     if (
@@ -85,20 +81,19 @@ function* getNewslistSaga(action: any) {
       action.payload.keyType === "startup" ||
       action.payload.keyType === "category"
     ) {
-      const res: data = yield call(
-        fetchSectorKeyword,
+      console.log("getNewslistSaga", action);
+      const data: data = yield call(
+        fetchNews,
         action.payload.keyType,
         action.payload.identifier
       );
-      yield put(getNewslistSuccess(res.data));
+      yield put(getNewslistSuccess(data));
+      yield put(push(`/news/${action.payload.identifier}`));
     } else {
-      const res: data = yield call(
-        axios.get,
-        "http://54.180.136.0:3000/search?mediaType=mp,op&timeFilter=w1&language=en&orderBy=latest&keyType=tickers&keyParam=aapl&exchange=nasdaq"
-      );
-      yield put(getNewslistSuccess(res.data));
+      const data: data = yield call(getNewList, action.payload);
+      yield put(getNewslistSuccess(data));
+      yield put(push(`/news/${action.payload.paramValue}`));
     }
-    yield put(push(`/news/${action.payload.identifier}`));
   } catch (error) {
     yield put(getNewslistFail(error));
   }

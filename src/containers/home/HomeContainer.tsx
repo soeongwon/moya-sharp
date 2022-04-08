@@ -5,7 +5,7 @@ import Search from "../../components/home/Search";
 import { useSearch } from "../../hooks/useSearch";
 import { useAppSelector } from "../../redux/hooks";
 import { useEffect, useState } from "react";
-import { fetchMaster } from "../../utils/master";
+import { fetchMaster, MasterObj } from "../../utils/master";
 
 const HomeContainer = () => {
   const {
@@ -14,19 +14,17 @@ const HomeContainer = () => {
     setIdentifiers,
     setLanguage,
     setTimeFilter,
-    setCategories,
+    setMediaType,
     searchNews
   } = useSearch();
 
-  const isLogin = useAppSelector(state => state.user.isLogin);
-
-  // const [master, setMaster] = useState<{} | undefined>();
+  const [masterObj, setMasterObj] = useState<MasterObj | undefined>();
 
   useEffect(() => {
-    fetchMaster();
+    fetchMaster().then(res => {
+      setMasterObj(res.master);
+    });
   }, []);
-
-  console.log("home isLogin", isLogin);
 
   return (
     <>
@@ -36,11 +34,12 @@ const HomeContainer = () => {
         setLanguageCode={setLanguage}
         setTimeFilterCode={setTimeFilter}
         setIdentifiersString={setIdentifiers}
-        setCategoriesCode={setCategories}
+        setMediaTypeCode={setMediaType}
         searchNews={searchNews}
-        // master={master}
       />
-      {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
+      {isOpendKeywordList && (
+        <KeywordSelectContainer searchNews={searchNews} master={masterObj} />
+      )}
     </>
   );
 };

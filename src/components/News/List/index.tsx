@@ -1,16 +1,14 @@
 import styled from "@emotion/styled";
-import TextArticleList from "./TextArticleList";
-import ImageArticleList from "./ImageArticleList";
+
 import Container from "../../common/layout/Container";
 import { useAppSelector } from "../../../redux/hooks";
 import { useNewsFormats } from "../hooks/useNewsFormat";
 import { RootState } from "../../../redux/store";
-import { useInView } from "react-intersection-observer";
-import { useMemo, useEffect } from "react";
-import { useSearch } from "../../../hooks/useSearch";
+import ImageArticleList from "./ImageArticleList";
+import TextArticleList from "./TextArticleList";
 const List = () => {
   const { NewsFormats } = useNewsFormats();
-  const { data, loading, hasMore } = useAppSelector(
+  const { data, loading } = useAppSelector(
     (state: RootState) => state.newsList
   );
   console.log(data, hasMore);

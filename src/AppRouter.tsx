@@ -6,10 +6,15 @@ import Mypage from "./pages/Mypage";
 import EditContainer from "./components/edit/EditContainer";
 import { Login } from "./pages/Login";
 import { Route, Switch } from "react-router-dom";
+<<<<<<< HEAD
 import StyleGuide from "./components/common/StyleGuide";
 import AppScrollToTop from "./AppScrollToTop";
 // import GlobalHeader from "./components/layout/GlobalHeader";
 // import GlobalFooter from "./components/layout/GlobalFooter";
+=======
+
+// import AppScrollToTop from "./AppScrollToTop";
+>>>>>>> 6647e12df86c5bf9aa25fb949de15befeb1f57c1
 
 const AppRouter = () => {
   return (

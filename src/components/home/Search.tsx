@@ -3,10 +3,7 @@ import { SearchFilterItem } from "./SearchFilterItem";
 import { SetStateAction, useState } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-
-import { SearchTitleType } from "../../api/newsListApi";
 import { useSearch } from "./../../hooks/useSearch";
-// import searchKeyword from "../../assets/csvjson.json";
 import { languageCode } from "../../utils/languageCode";
 import { timeFilter } from "../../utils/timeFilter";
 import { categories } from "../../utils/categories";
@@ -19,8 +16,13 @@ type Props = {
   setLanguageCode: (arg: string) => void;
   setTimeFilterCode: (arg: string) => void;
   setIdentifiersString: (arg: string) => void;
-  setCategoriesCode: (arg: string) => void;
-  searchNews: (searchTitle?: SearchTitleType, str?: string) => void;
+  setMediaTypeCode: (arg: string) => void;
+  searchNews: (
+    keyType: string,
+    paramValue: string,
+    exchange?: string,
+    orderBy?: "top" | "latest" | "popular"
+  ) => void;
 };
 
 export type FilterItemType = {
@@ -32,7 +34,7 @@ export type FilterItemType = {
 type keyWordEntity = {
   name: string;
   sub_name: string;
-  data_type: SearchTitleType;
+  data_type: string;
   exchange: string;
 };
 
@@ -41,10 +43,9 @@ const Search = ({
   setLanguageCode,
   setTimeFilterCode,
   setIdentifiersString,
-  setCategoriesCode,
+  setMediaTypeCode,
   searchNews
-}: // master
-Props) => {
+}: Props) => {
   const [openIndex, setOpen] = useState<null | number>(null);
   const [focused, setFocused] = useState<boolean>(false);
   const [inputText, setInputText] = useState(" ");
@@ -114,14 +115,14 @@ Props) => {
     if (!categoriesItem) {
       return;
     }
-    setCategoriesCode(categoriesItem.code);
+    setMediaTypeCode(categoriesItem.code);
   };
 
   const onEnterPress = (e: React.KeyboardEvent) => {
     setIdentifiersString(inputText);
     if (e.code === "Enter") {
       e.preventDefault();
-      searchNews();
+      // searchNews();
     }
   };
 
@@ -150,14 +151,6 @@ Props) => {
       document.body.removeEventListener("click", closeAll);
     };
   });
-
-  // const searchHighlight = (string: string) => {
-  //   let regex = new RegExp(inputText, "g");
-  //   string.replace(regex, "<span class='highlight'>" + inputText + "</span>");
-  //   console.log(
-  //     string.replace(regex, "<span class='highlight'>" + inputText + "</span>")
-  //   );
-  // };
 
   function closeKeywordList(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
