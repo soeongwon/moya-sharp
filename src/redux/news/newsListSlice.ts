@@ -84,9 +84,11 @@ function isExchange(action: Action<SearchType>) {
     exchange
   } = action.payload;
   if (action.payload.exchange) {
-    return `/search?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}&exchange=${exchange}`;
+    const query = `/news?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}&exchange=${exchange}`;
+    return query;
   } else {
-    return `/search?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}`;
+    const query = `/news?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}`;
+    return query;
   }
 }
 

@@ -1,14 +1,10 @@
 import ModalDropDown from "./DropDown/ModalDropDown";
-import AlignmentDropDown from "./DropDown/AlignmentDropDown";
+
 import SearchFormContainer from "../../containers/home/SearchFormContainer";
 import Button from "./Button";
 import styled from "@emotion/styled";
 const StyleGuide = () => {
-  const options = [
-    { name: "정렬순", status: "top" },
-    { name: "최신순", status: "latest" },
-    { name: "인기순", status: "popular" }
-  ];
+
   return (
     <Style>
       <section>
@@ -23,7 +19,6 @@ const StyleGuide = () => {
         </div>
         <div>
           <h1 className="ModalDropDown">AlignmentDropDown</h1>
-          <AlignmentDropDown options={options}></AlignmentDropDown>
         </div>
       </section>
       <section>
