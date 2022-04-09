@@ -1,34 +1,24 @@
 import styled from "@emotion/styled";
-import { ChildProps } from "./../../../../types/Common";
-import { useEffect, useState, MouseEvent, Key } from "react";
+import { Dispatch, SetStateAction } from "react";
+
 interface Props {
-  options: string[];
+  optionList: object[];
+  onOpen: Dispatch<SetStateAction<boolean>>;
+  changeOption: Dispatch<SetStateAction<string>>;
 }
-interface DropDown {
-  name: string;
-  status: string;
-}
-export const Menu = ({ options,isOpen,onOpen,closeDropDown,handleOption }: any) => {
+export const Menu = ({ optionList, onOpen, changeOption }: Props) => {
   return (
-    <OptionList>
-      {isOpen &&
-        options.map((option: DropDown, index: Key | null | undefined) => (
-          <li
-            className="dropdown-item"
-            key={index}
-            onClick={(e: MouseEvent) => {
-              handleOption(option.name);
-              closeDropDown();
-            }}
-          >
-            {option.name}
-          </li>
-        ))}
-    </OptionList>
+    <DropOffEvent onClick={() => onOpen(false)}>
+      {optionList.map((option: any) => (
+        <li className="dropdown-item" onClick={option.method}>
+          <div onClick={() => changeOption(option.name)}>{option.name}</div>
+        </li>
+      ))}
+    </DropOffEvent>
   );
 };
 
-const OptionList = styled.ul`
+const DropOffEvent = styled.ul`
   position: absolute;
   top: 100%;
   background-color: #fff;

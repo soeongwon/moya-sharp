@@ -15,7 +15,6 @@ type Props = {
   openKeywordList: (arg: boolean) => void;
   setLanguageCode: (arg: string) => void;
   setTimeFilterCode: (arg: string) => void;
-  setIdentifiersString: (arg: string) => void;
   setMediaTypeCode: (arg: string) => void;
   searchNews: (
     keyType: string,
@@ -31,18 +30,10 @@ export type FilterItemType = {
   list: string[];
 };
 
-type keyWordEntity = {
-  name: string;
-  sub_name: string;
-  data_type: string;
-  exchange: string;
-};
-
 const Search = ({
   openKeywordList,
   setLanguageCode,
   setTimeFilterCode,
-  setIdentifiersString,
   setMediaTypeCode,
   searchNews
 }: Props) => {
@@ -118,14 +109,6 @@ const Search = ({
     setMediaTypeCode(categoriesItem.code);
   };
 
-  const onEnterPress = (e: React.KeyboardEvent) => {
-    setIdentifiersString(inputText);
-    if (e.code === "Enter") {
-      e.preventDefault();
-      // searchNews();
-    }
-  };
-
   const changeInputText = (value: SetStateAction<string>) => {
     setInputText(value);
   };
@@ -139,10 +122,6 @@ const Search = ({
 
     setInstanseKeyword(filterObj);
     setIsOpenInstanseSearch(true);
-  };
-
-  const search = (item: keyWordEntity) => {
-    searchNews(item.data_type, item.name);
   };
 
   useEffect(() => {
@@ -198,7 +177,6 @@ const Search = ({
                   changeInputText(e.target.value)
                 }
                 onKeyUp={instanseSearch}
-                onKeyDown={onEnterPress}
                 placeholder="AAPL, MSFT, 005930, Gold, Oil, DJIA, Nikkei eg... "
               />
             </SearchBox>

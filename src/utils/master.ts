@@ -12,6 +12,7 @@ export type MasterObj = {
   startup: Array<Master>;
   tickers: Array<Master>;
   topics: Array<Master>;
+  [arg: string]: Array<Master>;
 };
 export let master: MasterObj;
 export let category: Array<Master> = [];
@@ -21,12 +22,24 @@ export let startup: Array<Master> = [];
 
 export async function fetchMaster() {
   let res: MasterObj = await masterApi();
+  // master = addKeyToMasterObj(res);
   master = res;
   category = res.category;
   startup = res.startup;
   sector = res.sectors;
   sectorKey = divideSectorKey(res.sectors);
   return { master, category, startup, sector, sectorKey };
+}
+
+type AddedKeyTypeMaster = {
+  [arg: string]: string;
+};
+
+function addKeyToMasterObj(res: MasterObj) {
+  for (let key in res) {
+    res[key].forEach((obj: AddedKeyTypeMaster) => (obj.keyType = key));
+  }
+  return res;
 }
 
 type SectorKey = {

@@ -1,32 +1,18 @@
 import styled from "@emotion/styled";
-
 import Container from "../../common/layout/Container";
 import { useAppSelector } from "../../../redux/hooks";
 import { useNewsFormats } from "../hooks/useNewsFormat";
 import { RootState } from "../../../redux/store";
 import ImageArticleList from "./ImageArticleList";
 import TextArticleList from "./TextArticleList";
+// import { StringParam, useQueryParams } from "use-query-params";
+// import { useEffect } from "react";
+// import { useSearch } from "../../../hooks/useSearch";
 const List = () => {
   const { NewsFormats } = useNewsFormats();
-  const { data, loading } = useAppSelector(
+  const { data, loading, hasMore } = useAppSelector(
     (state: RootState) => state.newsList
   );
-  console.log(data, hasMore);
-  // const { searchNews } = useSearch();
-  // const { ref, inView } = useInView({
-  //   threshold: 0.3,
-  //   rootMargin: "0px 0px 400px 0px"
-  // });
-  // const isLoadMore = useMemo(
-  //   () => !loading && hasMore && inView,
-  //   [hasMore, loading, inView]
-  // );
-
-  // useEffect(() => {
-  //   if (isLoadMore) {
-  //     searchNews()
-  //   }
-  // }, [searchNews, isLoadMore]);
 
   return (
     <Wrap>
@@ -70,3 +56,19 @@ const TextContent = styled.div`
   padding-bottom: 280px;
 `;
 const ObserverView = styled.div``;
+
+// const { searchNews } = useSearch();
+// const { ref, inView } = useInView({
+//   threshold: 0.3,
+//   rootMargin: "0px 0px 400px 0px"
+// });
+// const isLoadMore = useMemo(
+//   () => !loading && hasMore && inView,
+//   [hasMore, loading, inView]
+// );
+
+// useEffect(() => {
+//   if (isLoadMore) {
+//     searchNews()
+//   }
+// }, [searchNews, isLoadMore]);

@@ -6,28 +6,22 @@ import Mypage from "./pages/Mypage";
 import EditContainer from "./components/edit/EditContainer";
 import { Login } from "./pages/Login";
 import { Route, Switch } from "react-router-dom";
-<<<<<<< HEAD
 import StyleGuide from "./components/common/StyleGuide";
-import AppScrollToTop from "./AppScrollToTop";
-// import GlobalHeader from "./components/layout/GlobalHeader";
-// import GlobalFooter from "./components/layout/GlobalFooter";
-=======
-
-// import AppScrollToTop from "./AppScrollToTop";
->>>>>>> 6647e12df86c5bf9aa25fb949de15befeb1f57c1
-
+import { QueryParamProvider } from "use-query-params";
 const AppRouter = () => {
   return (
-    <Switch>
-      <Route path="/edit" component={EditContainer} />
-      <Route exact path="/mypage/bookmark/:id" component={Bookmark} />
-      <Route exact path="/mypage" component={Mypage} />
-      <Route exact path="/news/:identifier" component={News} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/news" component={News} />
-      <Route exact path="/" component={Home} />
-      <Route exact path="/style" component={StyleGuide} />
-    </Switch>
+    <QueryParamProvider ReactRouterRoute={Route}>
+      <Switch>
+        <Route path="/edit" component={EditContainer} />
+        <Route exact path="/mypage/bookmark/:id" component={Bookmark} />
+        <Route exact path="/mypage" component={Mypage} />
+        <Route exact path="/news/:query" component={News} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/news" component={News} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/style" component={StyleGuide} />
+      </Switch>
+    </QueryParamProvider>
   );
 };
 export default AppRouter;

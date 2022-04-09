@@ -1,23 +1,17 @@
 import styled from "@emotion/styled";
-import React from "react";
 import Container from "../../common/layout/Container";
 import { useNewsFormats } from "../hooks/useNewsFormat";
-import AlignmentDropDown from "../../common/DropDown/AlignmentDropDown";
-const options = [
-  { name: "정렬순", status: "top" },
-  { name: "최신순", status: "latest" },
-  { name: "인기순", status: "popular" }
-];
-
+import ListSortController from "./ListSortController";
 const ListFiterOption = () => {
   const { changeToTextFormat, changeToImgFormat, clicked, handleTextSize } =
     useNewsFormats();
+
   return (
     <section id="snb" role="navigation">
       <Container>
         <ListFeatures>
           {/* <span className="result">Results of ‘Silver’</span> */}
-          <AlignmentDropDown options={options} />
+          <ListSortController />
           <TextSizeControl onClick={handleTextSize} />
           <ImageFormatViewBtn onClick={changeToImgFormat} icon={clicked} />
           <TextFormatViewBtn icon={clicked} onClick={changeToTextFormat} />

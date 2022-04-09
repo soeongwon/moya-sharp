@@ -8,12 +8,11 @@ export const useSearch = () => {
   const [language, setLanguage] = useState("en");
   const [timeFilter, setTimeFilter] = useState("m5");
   const [mediaType, setMediaType] = useState("mp,op,r");
-  const [identifiers, setIdentifiers] = useState("");
 
   const searchNews = async (
-    keyType: string,
-    paramValue: string,
-    exchange?: string,
+    keyType: string | null | undefined,
+    paramValue: string | null | undefined,
+    exchange?: string | null | undefined,
     orderBy = "top"
   ) => {
     const searchPayload = {
@@ -23,9 +22,8 @@ export const useSearch = () => {
       language,
       timeFilter,
       mediaType,
-      exchange
+      ...(exchange && { exchange })
     };
-
     console.log("searchPayload", searchPayload);
     dispatch(fetchNewList(searchPayload));
   };
@@ -33,7 +31,6 @@ export const useSearch = () => {
   return {
     isOpendKeywordList,
     setIsOpendKeywordList,
-    setIdentifiers,
     setLanguage,
     setTimeFilter,
     setMediaType,
