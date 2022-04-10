@@ -1,37 +1,37 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import { SearchTitleType } from "../../api/newsListApi";
-import sector from "../../assets/sector.json";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { fetchNewList } from "../../redux/news/newsListSlice";
+import { useState } from "react";
+import { category, sectorKey, startup } from "../../utils/master";
+import { Master } from "./InstanseKeyword";
 
 type Props = {
-  startupData: string[];
-  categoryData: string[];
-  searchNews: (searchTitle?: SearchTitleType, str?: string) => void;
-};
-
-type sectorKeywordType = {
-  [data: string]: string[];
+  searchNews: (
+    keyType: string,
+    keyParam: string,
+    exchange?: string,
+    orderBy?: "top" | "latest" | "popular"
+  ) => void;
 };
 
 type Title = "Category" | "Sector" | "Startup";
 
-const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
-  const dispatch = useAppDispatch();
+const KeywordSelect = ({ searchNews }: Props) => {
   const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
-  const [sectorKeyword] = useState<sectorKeywordType>(sector);
-
   const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
   const [selectedKey, setSelectedKey] = useState<string>("A");
 
-  const categoryList = Object.keys(sectorKeyword);
+  const sectorKeys = Object.keys(sectorKey).sort();
+
   const setTitle = (title: Title) => {
     setKeywordTitle(title);
   };
 
-  const fetchNewsApi = (identifier: string, keyType: string) => {
-    dispatch(fetchNewList({ identifier, keyType }));
+  const fetchNewsApi = (searchObj: Master, keyType: string) => {
+    console.log(searchObj, keyType);
+    if (!searchObj.exchange) {
+      searchNews(keyType, searchObj.paramValue);
+    } else {
+      searchNews(keyType, searchObj.paramValue, searchObj.exchange);
+    }
   };
 
   const selectSortKey = (key: string) => {
@@ -51,11 +51,12 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
           </KeywordTitleItem>
         ))}
       </KeywordSelectTitles>
+
       {keywordTitle === "Sector" && (
         <KeywordListContainer>
           <CategoryList>
             <ul>
-              {categoryList.map(sortKeyItem => (
+              {sectorKeys.map(sortKeyItem => (
                 <CategoryListItem
                   key={`Sector-${sortKeyItem}`}
                   onClick={() => selectSortKey(sortKeyItem)}
@@ -69,50 +70,53 @@ const KeywordSelect = ({ startupData, categoryData, searchNews }: Props) => {
               ))}
             </ul>
           </CategoryList>
+
           <KeywordListWrap>
-            {sectorKeyword[selectedKey].map((item, index) => (
+            {sectorKey[selectedKey].map((item: Master, index: number) => (
               <KeywordListItem
                 key={`Sector-${item}-${index}`}
                 onClick={() => {
                   fetchNewsApi(item, "sectors");
                 }}
               >
-                {item}
+                {item.name}
               </KeywordListItem>
             ))}
           </KeywordListWrap>
         </KeywordListContainer>
       )}
+
       {keywordTitle === "Startup" && (
         <KeywordListContainer>
           <StartupKeywordList>
             <ul>
-              {startupData.map(item => (
+              {startup.map(item => (
                 <li
-                  key={`Startup-${item}`}
+                  key={`Startup-${item.paramValue}`}
                   onClick={() => {
                     fetchNewsApi(item, "startup");
                   }}
                 >
-                  {item}
+                  {item.name}
                 </li>
               ))}
             </ul>
           </StartupKeywordList>
         </KeywordListContainer>
       )}
+
       {keywordTitle === "Category" && (
         <KeywordListContainer>
           <StartupKeywordList>
             <ul>
-              {categoryData.map(item => (
+              {category.map(item => (
                 <li
-                  key={`Category-${item}`}
+                  key={`Category-${item.paramValue}`}
                   onClick={() => {
                     fetchNewsApi(item, "category");
                   }}
                 >
-                  {item}
+                  {item.name}
                 </li>
               ))}
             </ul>
@@ -156,6 +160,8 @@ const StartupKeywordList = styled.div`
 `;
 
 const KeywordSelectWrap = styled.div`
+  position: relative;
+  z-index: 3;
   margin-top: 14px;
   background: #fff;
   border-radius: 0px 0px 5px 5px;
@@ -188,7 +194,7 @@ const KeywordTitleItem = styled.strong<KeywordTitleItemType>`
 
 const KeywordListContainer = styled.div`
   width: 100%;
-  height: 525px;
+  height: 450px;
   background: #fff;
   display: flex;
 `;

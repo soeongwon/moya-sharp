@@ -1,9 +1,18 @@
-// Personlized News Page
+import styled from "@emotion/styled";
+import News from "../components/News";
 
-import NewsContainer from "../components/news";
-
-const News = () => {
-  return <NewsContainer />;
+const NewsPage = ({ history }: any) => {
+  return (
+    <Main>
+      <News />
+    </Main>
+  );
 };
 
-export default News;
+export default NewsPage;
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
