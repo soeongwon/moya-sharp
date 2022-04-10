@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
 import News from "../components/News";
+import useNeedLogin from "../hooks/useNeedLogin";
 
 const NewsPage = ({ history }: any) => {
+  useNeedLogin();
   return (
     <Main>
       <News />

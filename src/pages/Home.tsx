@@ -1,14 +1,9 @@
 import styled from "@emotion/styled";
-import { Redirect } from "react-router-dom";
 import HomeContainer from "../containers/home/HomeContainer";
-import { useAppSelector } from "../redux/hooks";
+import useNeedLogin from "../hooks/useNeedLogin";
 
 const Home = () => {
-  const isLogin = useAppSelector(state => state.user.isLogin);
-
-  if (!isLogin) {
-    return <Redirect to="/login" />;
-  }
+  useNeedLogin();
 
   return (
     <HomeWrap>
