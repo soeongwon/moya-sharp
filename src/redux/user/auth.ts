@@ -1,13 +1,11 @@
-import { AnyAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { push } from "connected-react-router";
-import { Action, createActions, handleActions } from "redux-actions";
+import { Action, createActions } from "redux-actions";
 import { call, put, select, takeEvery } from "redux-saga/effects";
 import UserService from "../../api/UserService";
-import sessionService from "../../utils/sessionService";
 
 type AuthState = {
   isLogin: boolean;
-  loading: boolean;
   error: null;
 };
 
@@ -18,29 +16,25 @@ export type loginReqType = {
 
 const initialState: AuthState = {
   isLogin: false,
-  loading: false,
   error: null
 };
 
 const prefix = "moya-sharp/auth";
 
 const auth = createSlice({
-  name: "test",
+  name: "auth",
   initialState,
   reducers: {
     pending: state => ({
       ...state,
-      loading: true,
       error: null
     }),
     success: state => ({
       isLogin: true,
-      loading: false,
       error: null
     }),
     fail: (state, action: any) => ({
       isLogin: false,
-      loading: false,
       error: action.payload
     })
   }
@@ -67,11 +61,9 @@ function* logoutSaga() {
     yield put(pending());
     const token: string = yield select(state => state.auth.token);
     yield call(UserService.logout, token);
-    sessionService.set(token);
     yield put(success());
   } catch (error: any) {
   } finally {
-    sessionService.remove();
     yield put(success());
   }
 }
