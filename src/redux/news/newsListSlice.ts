@@ -124,7 +124,6 @@ function* getNewslistSaga(action: Action<SearchType>) {
 }
 
 export function fetchNewList(payload: any) {
-  console.log("payload", payload);
   return {
     type: NEWSLIST_SAGA_START,
     payload

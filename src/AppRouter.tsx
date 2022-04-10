@@ -13,7 +13,7 @@ const AppRouter = () => {
     <QueryParamProvider ReactRouterRoute={Route}>
       <Switch>
         <Route path="/edit" component={EditContainer} />
-        <Route exact path="/mypage/bookmark/:id" component={Bookmark} />
+        <Route exact path="/mypage/bookmark" component={Bookmark} />
         <Route exact path="/mypage" component={Mypage} />
         <Route exact path="/news/:query" component={News} />
         <Route exact path="/login" component={Login} />

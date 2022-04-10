@@ -5,6 +5,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import NewsCardFeatures from "../common/NewsCardFeatures";
+import { NewsItemType } from "./ImageArticleList";
 
 interface Props {
   brandImgUrl: string;
@@ -16,6 +17,7 @@ interface Props {
   publishTime: string;
   title: string;
   url: string;
+  article: NewsItemType;
 }
 
 export function changeMoment(publishTime: string) {
@@ -31,7 +33,8 @@ const ImageArticle = ({
   imageUrl,
   publishTime,
   title,
-  url
+  url,
+  article
 }: Props) => {
   const { textSize } = useNewsFormats();
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -76,7 +79,10 @@ const ImageArticle = ({
             <img src={`${imageUrl}`} onError={imageFail} alt="기사1" />
           </Figure>
         ) : null}
-        <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
+        <NewsCardFeatures
+          handleTranslateActive={handleTranslateActive}
+          article={article}
+        />
         <Title>
           <a href={`${url}`} target="_blank" rel="noreferrer">
             {newsTitle}
