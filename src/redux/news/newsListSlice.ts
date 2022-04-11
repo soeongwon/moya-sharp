@@ -117,12 +117,20 @@ function* getNewslistSaga(action: Action<SearchType>) {
       keyType === "category"
     ) {
       console.log("getNewslistSaga", action);
-      const data: data = yield call(fetchNews, keyType, paramValue);
+      const data: data = yield call(
+        fetchNews,
+        keyType,
+        paramValue,
+        nextPageToken
+      );
       yield put(push(isExchange(action)));
       yield delay(2000);
       yield put(getNewslistSuccess(data));
     } else {
-      const data: data = yield call(getNewList, action.payload);
+      const data: data = yield call(getNewList, {
+        ...action.payload,
+        nextPageToken
+      });
       yield put(push(`/news/${paramValue}`));
       yield delay(2000);
       yield put(getNewslistSuccess(data));
