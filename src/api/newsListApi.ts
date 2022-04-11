@@ -29,6 +29,7 @@ export type SearchType = {
   mediaType: string;
   exchange?: string;
   [propsName: string]: any;
+  nextPageToken?: string;
 };
 
 export async function getNewList(searchPayload: SearchType) {
@@ -40,6 +41,7 @@ export async function getNewList(searchPayload: SearchType) {
   }
 
   const response = await api.get(NEWS_API_URL, { params });
+
 
   return response.data;
 }
