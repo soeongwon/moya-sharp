@@ -66,23 +66,28 @@ const ImageArticle = ({
   function handleTranslateActive() {
     setIsActive(!isActive);
   }
-  //cors 문제의 경우에는 대체이미지 제공
+  //cors 문제의 경우 이미지 안보여주기
   const imageFail = (event: any) => {
     const url = event.currentTarget;
-    url.src = `/images/img-error.png`;
+    return (url.style.display = "none");
   };
   return (
     <Wrap>
       <Inner>
-        {imageUrl !== null ? (
+        {imageUrl && (
           <Figure>
-            <img src={`${imageUrl}`} onError={imageFail} alt="기사1" />
+            <img src={`${imageUrl}`} onError={imageFail} alt="기사" />
           </Figure>
+<<<<<<< HEAD
+        )}
+        <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
+=======
         ) : null}
         <NewsCardFeatures
           handleTranslateActive={handleTranslateActive}
           article={article}
         />
+>>>>>>> e8de2decb17d9a7f9ec85ea73fdb9eadc9522777
         <Title>
           <a href={`${url}`} target="_blank" rel="noreferrer">
             {newsTitle}
@@ -95,7 +100,7 @@ const ImageArticle = ({
         </ArticleBody>
         <ArticleFooter>
           <div className="Jounal-mark">
-            <img src={`${brandImgUrl}`} alt="기사1" />
+            <img src={`${brandImgUrl}`} alt="기사1" onError={imageFail} />
             <span>{brandName}</span>
           </div>
           <div className="article-time">{changeMoment(publishTime)}</div>

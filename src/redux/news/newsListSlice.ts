@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, delay, takeEvery, takeLeading } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import { getNewList, SearchType } from "../../api/newsListApi";
 import { Action } from "redux-actions";
@@ -32,23 +32,29 @@ const initialState = {
   loading: false,
   data: [],
   error: null,
-  hasMore: null
+  nextPageToken: null
 };
-
-export default function reducer(state = initialState, action: any) {
+type State = {
+  loading: any;
+  data: any;
+  error: any;
+  nextPageToken: any;
+};
+export default function reducer(state: State = initialState, action: any) {
   switch (action.type) {
     case NEWSLIST_START:
       return {
         ...state,
-        loading: false,
+        loading: true,
         error: null
       };
 
     case NEWSLIST_SUCCESS:
+      // const test = state.data.push();
       return {
         loading: false,
-        data: action.data.newsList,
-        hasMore: action.data.nextPageToken,
+        data: [...state.data, ...action.data.newsList],
+        nextPageToken: action.data.nextPageToken,
         error: null
       };
 
@@ -70,7 +76,7 @@ const NEWSLIST_SAGA_START = "NEWSLIST_SAGA_START";
 
 type data = {
   data: [];
-  hasMore: String;
+  nextPageToken: String;
 };
 
 function isExchange(action: Action<SearchType>) {
@@ -94,13 +100,14 @@ function isExchange(action: Action<SearchType>) {
 
 function* getNewslistSaga(action: Action<SearchType>) {
   const {
-    orderBy,
+    // orderBy,
     keyType,
     paramValue,
-    language,
-    timeFilter,
-    mediaType,
-    exchange
+    // language,
+    // timeFilter,
+    // mediaType,
+    // exchange
+    nextPageToken
   } = action.payload;
   try {
     yield put(getNewslistStart());
@@ -111,12 +118,14 @@ function* getNewslistSaga(action: Action<SearchType>) {
     ) {
       console.log("getNewslistSaga", action);
       const data: data = yield call(fetchNews, keyType, paramValue);
-      yield put(getNewslistSuccess(data));
       yield put(push(isExchange(action)));
+      yield delay(2000);
+      yield put(getNewslistSuccess(data));
     } else {
       const data: data = yield call(getNewList, action.payload);
-      yield put(getNewslistSuccess(data));
       yield put(push(`/news/${paramValue}`));
+      yield delay(2000);
+      yield put(getNewslistSuccess(data));
     }
   } catch (error) {
     yield put(getNewslistFail(error));
@@ -131,5 +140,5 @@ export function fetchNewList(payload: any) {
 }
 
 export function* newsListSaga() {
-  yield takeEvery(NEWSLIST_SAGA_START, getNewslistSaga);
+  yield takeLeading(NEWSLIST_SAGA_START, getNewslistSaga);
 }
