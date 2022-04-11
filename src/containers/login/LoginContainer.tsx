@@ -5,7 +5,6 @@ import { login } from "../../redux/user/auth";
 
 export const LoginContainer = () => {
   const dispatch = useAppDispatch();
-  const isLogin = useAppSelector(state => state.user.isLogin);
 
   const userLogin = useCallback(
     reqData => {
@@ -13,8 +12,6 @@ export const LoginContainer = () => {
     },
     [dispatch]
   );
-
-  console.log(useAppSelector(state => state.user));
 
   return <Login login={userLogin} />;
 };

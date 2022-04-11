@@ -1,13 +1,12 @@
-import { AnyAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { push } from "connected-react-router";
-import { Action, createActions, handleActions } from "redux-actions";
+import { Action, createActions } from "redux-actions";
 import { call, put, select, takeEvery } from "redux-saga/effects";
 import UserService from "../../api/UserService";
-import sessionService from "../../utils/sessionService";
 
 type AuthState = {
   isLogin: boolean;
-  loading: boolean;
+  userId: string;
   error: null;
 };
 
@@ -17,45 +16,39 @@ export type loginReqType = {
 };
 
 const initialState: AuthState = {
+  userId: "",
   isLogin: false,
-  loading: false,
   error: null
 };
 
 const prefix = "moya-sharp/auth";
 
 const auth = createSlice({
-  name: "test",
+  name: "auth",
   initialState,
   reducers: {
-    pending: state => ({
-      ...state,
-      loading: true,
-      error: null
-    }),
-    success: state => ({
+    success: (state, action: Action<loginReqType>) => ({
       isLogin: true,
-      loading: false,
+      userId: action.payload.userId,
       error: null
     }),
     fail: (state, action: any) => ({
       isLogin: false,
-      loading: false,
+      userId: "",
       error: action.payload
     })
   }
 });
 
-export const { pending, success, fail } = auth.actions;
+export const { success, fail } = auth.actions;
 export default auth.reducer;
 
 export const { login, logout } = createActions("LOGIN", "LOGOUT", { prefix });
 
 function* loginSaga(action: Action<loginReqType>) {
   try {
-    yield put(pending());
     yield call(UserService.login, action.payload);
-    yield put(success());
+    yield put(success(action.payload));
     yield put(push("/"));
   } catch (error: any) {
     yield put(fail(new Error(error?.response?.data.error || "UNKNOWN_ERROR")));
@@ -63,17 +56,14 @@ function* loginSaga(action: Action<loginReqType>) {
 }
 
 function* logoutSaga() {
-  try {
-    yield put(pending());
-    const token: string = yield select(state => state.auth.token);
-    yield call(UserService.logout, token);
-    sessionService.set(token);
-    yield put(success());
-  } catch (error: any) {
-  } finally {
-    sessionService.remove();
-    yield put(success());
-  }
+  // try {
+  //   const token: string = yield select(state => state.auth.token);
+  //   yield call(UserService.logout, token);
+  //   yield put(success());
+  // } catch (error: any) {
+  // } finally {
+  //   yield put(success());
+  // }
 }
 
 export function* authSaga() {
