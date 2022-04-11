@@ -78,16 +78,8 @@ const ImageArticle = ({
           <Figure>
             <img src={`${imageUrl}`} onError={imageFail} alt="기사" />
           </Figure>
-<<<<<<< HEAD
         )}
         <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
-=======
-        ) : null}
-        <NewsCardFeatures
-          handleTranslateActive={handleTranslateActive}
-          article={article}
-        />
->>>>>>> e8de2decb17d9a7f9ec85ea73fdb9eadc9522777
         <Title>
           <a href={`${url}`} target="_blank" rel="noreferrer">
             {newsTitle}
