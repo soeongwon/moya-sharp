@@ -1,7 +1,7 @@
 import React from "react";
 import KeywordSelect from "../../components/home/KeywordSelect";
 import Search from "../../components/home/Search";
-import { useSearch } from "../../hooks/useSearch";
+import { useSearch } from "./hooks/useSearch";
 const SearchNavigation = () => {
   const {
     isOpendKeywordList,
