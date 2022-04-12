@@ -29,7 +29,7 @@ export type SearchType = {
   mediaType: string;
   exchange?: string;
   [propsName: string]: any;
-  nextPageToken?: string;
+  nextPageToken: string | null;
 };
 
 export async function getNewList(searchPayload: SearchType) {

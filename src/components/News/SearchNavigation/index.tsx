@@ -12,9 +12,9 @@ const NavContainer = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!scrolled && window.scrollY > 130) {
+      if (!scrolled && window.scrollY > 300) {
         setScrolled(true);
-      } else if (scrolled && window.scrollY < 30) {
+      } else if (scrolled && window.scrollY < 300) {
         setScrolled(false);
       }
     };
@@ -76,7 +76,6 @@ const Area = styled.div`
     height: 60px;
     background: #fff;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
-    padding-top: 0;
   }
 `;
 

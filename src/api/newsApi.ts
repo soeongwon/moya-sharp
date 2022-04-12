@@ -7,6 +7,7 @@ const SEARCH_API_URL = "/search";
 async function fetchNews(
   keyType: string,
   paramValue: string,
+
   nextToken?: string
 ) {
   if (nextToken) {

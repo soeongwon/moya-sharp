@@ -1,4 +1,4 @@
-import { call, put, delay, takeEvery, takeLeading } from "redux-saga/effects";
+import { call, put, delay, throttle } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import { getNewList, SearchType } from "../../api/newsListApi";
 import { Action } from "redux-actions";
@@ -27,18 +27,20 @@ export function getNewslistFail(error: any) {
     error
   };
 }
-
+const RESET_ACTION = {
+  type: "RESET"
+};
 const initialState = {
   loading: false,
   data: [],
   error: null,
-  nextPageToken: null
+  nextPageToken: undefined
 };
 type State = {
   loading: any;
   data: any;
   error: any;
-  nextPageToken: any;
+  nextPageToken: string | undefined;
 };
 export default function reducer(state: State = initialState, action: any) {
   switch (action.type) {
@@ -64,6 +66,13 @@ export default function reducer(state: State = initialState, action: any) {
         loading: false,
         error: action.error
       };
+    case INIT_TEST:
+      return {
+        loading: false,
+        data: [],
+        error: null,
+        nextPageToken: undefined
+      };
 
     default:
       return state;
@@ -76,7 +85,7 @@ const NEWSLIST_SAGA_START = "NEWSLIST_SAGA_START";
 
 type data = {
   data: [];
-  nextPageToken: String;
+  nextPageToken: string;
 };
 
 function isExchange(action: Action<SearchType>) {
@@ -124,7 +133,6 @@ function* getNewslistSaga(action: Action<SearchType>) {
         nextPageToken
       );
       yield put(push(isExchange(action)));
-      yield delay(2000);
       yield put(getNewslistSuccess(data));
     } else {
       const data: data = yield call(getNewList, {
@@ -132,12 +140,18 @@ function* getNewslistSaga(action: Action<SearchType>) {
         nextPageToken
       });
       yield put(push(`/news/${paramValue}`));
-      yield delay(2000);
+
       yield put(getNewslistSuccess(data));
     }
   } catch (error) {
     yield put(getNewslistFail(error));
   }
+}
+export const INIT_TEST = "Test/testPage/INIT_TEST";
+export function initAction() {
+  return {
+    type: INIT_TEST
+  };
 }
 
 export function fetchNewList(payload: any) {
@@ -148,5 +162,5 @@ export function fetchNewList(payload: any) {
 }
 
 export function* newsListSaga() {
-  yield takeLeading(NEWSLIST_SAGA_START, getNewslistSaga);
+  yield throttle(5000, NEWSLIST_SAGA_START, getNewslistSaga);
 }
