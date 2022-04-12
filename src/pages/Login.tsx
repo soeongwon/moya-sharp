@@ -1,6 +1,6 @@
 import React from "react";
-import { LoginContainer } from "../containers/login/LoginContainer";
-import useBlockLoginUser from "../hooks/useBlockLoginUser";
+import useBlockLoginUser from "../components/login/hooks/useBlockLoginUser";
+import { LoginContainer } from "../components/login/LoginContainer";
 
 export const Login = () => {
   useBlockLoginUser();

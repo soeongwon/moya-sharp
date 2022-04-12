@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Login } from "../../components/login/Login";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { login } from "../../redux/user/auth";
 
 export const LoginContainer = () => {

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import HomeContainer from "../containers/home/HomeContainer";
-import useNeedLogin from "../hooks/useNeedLogin";
+import HomeComponent from "../components/home";
+import useNeedLogin from "../components/login/hooks/useNeedLogin";
 
 const Home = () => {
   useNeedLogin();
@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <HomeWrap>
       <InnerWrap className="Inner">
-        <HomeContainer />
+        <HomeComponent />
       </InnerWrap>
     </HomeWrap>
   );

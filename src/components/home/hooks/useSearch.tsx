@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAppDispatch } from "../redux/hooks";
-import { fetchNewList } from "../redux/news/newsListSlice";
+import { useAppDispatch } from "../../../redux/hooks";
+import { fetchNewList } from "../../../redux/news/newsListSlice";
 export const useSearch = () => {
   const dispatch = useAppDispatch();
 
