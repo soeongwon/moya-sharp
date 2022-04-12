@@ -4,15 +4,20 @@ import api from "./Api";
 
 const SEARCH_API_URL = "/search";
 
-async function fetchNews(
-  keyType: string,
-  paramValue: string,
+type Param = {
+  keyType: string;
+  paramValue: string;
+  nextPageToken: string;
+};
 
-  nextToken?: string
-) {
-  if (nextToken) {
+async function fetchNews({
+  keyType,
+  paramValue,
+  nextPageToken
+}: Param): Promise<any> {
+  if (nextPageToken) {
     const response = await api.get(
-      `${SEARCH_API_URL}/${keyType}/${paramValue}?nextPageToken=${nextToken}`
+      `${SEARCH_API_URL}/${keyType}/${paramValue}?nextPageToken=${nextPageToken}`
     );
     return response.data;
   }
