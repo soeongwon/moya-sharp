@@ -1,12 +1,10 @@
 import styled from "@emotion/styled";
-
 import { useNewsFormats } from "./../hooks/useNewsFormat";
-import moment from "moment";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import NewsCardFeatures from "../common/NewsCardFeatures";
 import { NewsItemType } from "./ImageArticleList";
-
+import { postTranslateAxios } from "../../../api/tranlate";
+import changeTimeUnixToStandard from "../../../utils/moment/changeTimeUnixToStandard";
 interface Props {
   brandImgUrl: string;
   brandName: string;
@@ -20,11 +18,6 @@ interface Props {
   article: NewsItemType;
 }
 
-export function changeMoment(publishTime: string) {
-  const changeTime = moment(publishTime).fromNow(); // 15 minutes ago
-  return changeTime;
-}
-
 const ImageArticle = ({
   brandImgUrl,
   brandName,
@@ -33,36 +26,12 @@ const ImageArticle = ({
   imageUrl,
   publishTime,
   title,
-  url,
-  article
+  url
 }: Props) => {
   const { textSize } = useNewsFormats();
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [translateText, setTranslateText] = useState<string[]>([
-    title,
-    description
-  ]);
-  const [newsTitle, newsDescription] = translateText;
-  useEffect(() => {
-    //뉴스기사 번역 API 송출
-    if (isActive) {
-      const postTranslateAxios = async () => {
-        const TranslateAxiosBody = {
-          token: "sysmetic1234",
-          targetLists: [newsTitle, newsDescription]
-        };
-        const response = await axios.post(
-          "https://api.moya.ai/translate_moya",
-          TranslateAxiosBody
-        );
-        setTranslateText(response.data.translated);
-        return response;
-      };
-      postTranslateAxios();
-    }
-    return () => setIsActive(false);
-  }, [isActive, newsDescription, newsTitle]);
-  //번역 on,off
+  const [translate, setTranslate] = useState<string[]>([]);
+  const [titleTranslate, contentTranslate] = translate;
   function handleTranslateActive() {
     setIsActive(!isActive);
   }
@@ -71,31 +40,31 @@ const ImageArticle = ({
     const url = event.currentTarget;
     return (url.style.display = "none");
   };
+  useEffect(() => {
+    //번역 버튼을 눌렀을 때 번역시작
+    if (isActive) {
+      // postTranslateAxios([title, description, setTranslate]);
+    }
+  }, [description, isActive, title]);
   return (
     <Wrap>
       <Inner>
-        {imageUrl && (
-          <Figure>
+        <Figure>
+          {imageUrl && (
             <img src={`${imageUrl}`} onError={imageFail} alt="기사" />
-          </Figure>
-<<<<<<< HEAD
-        )}
+          )}
+        </Figure>
         <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
-=======
-        ) : null}
-        <NewsCardFeatures
-          handleTranslateActive={handleTranslateActive}
-          article={article}
-        />
->>>>>>> e8de2decb17d9a7f9ec85ea73fdb9eadc9522777
         <Title>
           <a href={`${url}`} target="_blank" rel="noreferrer">
-            {newsTitle}
+            {!isActive && title}
+            {isActive && titleTranslate}
           </a>
         </Title>
         <ArticleBody>
           <p className={`${textSize === true ? "small" : "big"}`}>
-            {newsDescription}
+            {!isActive && description}
+            {isActive && contentTranslate}
           </p>
         </ArticleBody>
         <ArticleFooter>
@@ -103,7 +72,9 @@ const ImageArticle = ({
             <img src={`${brandImgUrl}`} alt="기사1" onError={imageFail} />
             <span>{brandName}</span>
           </div>
-          <div className="article-time">{changeMoment(publishTime)}</div>
+          <div className="article-time">
+            {changeTimeUnixToStandard(publishTime)}
+          </div>
         </ArticleFooter>
       </Inner>
     </Wrap>
@@ -114,7 +85,7 @@ export default ImageArticle;
 
 const Wrap = styled.article`
   display: inline-block;
-  width: 400px;
+
   box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   margin-bottom: 22px;
@@ -126,9 +97,9 @@ const Inner = styled.div`
   padding-right: 20px;
 `;
 const Figure = styled.figure`
+  width: 360px;
   img {
-    width: 360px;
-    height: 300px;
+    width: inherit;
     margin: 0;
   }
 `;
