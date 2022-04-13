@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "@emotion/styled";
+import {getKeywordsSaga} from "../../redux/keyword/keywordList"
+import { useDispatch } from "react-redux";
 
 const MyKeyword = () => {
+  const dispatch = useDispatch()
+  console.log(getKeywordsSaga().next())
+
   return (
     <KeywordsWarp>
       <h3>마이키워드</h3>
-      <Keywords className="on">accelerators</Keywords>
+      <Keywords className="on">Social Media Marketing</Keywords>
       <Keywords>Social Media Marketing & Advertising</Keywords>
     </KeywordsWarp>
   )

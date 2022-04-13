@@ -19,8 +19,8 @@ const MykeyWordArea = () => {
   return (
     <Wrap>
       <MyKeywordInner>
-        {myKeywords.map(item => (
-          <KeywordItem key={`mykeyword-${item.data}`} item={item.data}/>
+        {myKeywords.map((item, index) => (
+          <KeywordItem key={`mykeyword-${index}`} names={item.data}/>
         ))}
       </MyKeywordInner>
      <EditButton onClick={onClickEditButton}>{btnText}</EditButton>

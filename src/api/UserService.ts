@@ -11,6 +11,7 @@ export default class UserService {
     params.append("password", reqData.password);
 
     await api.post(USER_API_URL, params);
+    
   }
   public static async logout(session: string): Promise<void> {
     await api.delete(USER_API_URL, {

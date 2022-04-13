@@ -1,11 +1,8 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
 import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
 import { category, sectorKey, startup } from "../../utils/master";
-import { keywordList } from "../../utils/keywordList";
-import { Master } from "../home/InstanseKeyword";
 
 type Props = {
   searchNews: (
@@ -19,50 +16,34 @@ type Props = {
 type Title = "Category" | "Sector" | "Startup";
 
 const EditContainer = ({ searchNews }: Props) => {
-  const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
-  const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
-  const [selectedKey, setSelectedKey] = useState<string>("");
-
-  const sectorKeys = Object.keys(sectorKey).sort();
-
-  const selectSortKey = (key: any) => {
-    setSelectedKey(key)
-  };
-  const setTitle = (title: Title) => {
-    setKeywordTitle(title);
-  };
-
-  const fetchNewsApi = (searchObj: Master, keyType: string) => {
-    console.log(searchObj, keyType);
-    if (!searchObj.exchange) {
-      searchNews(keyType, searchObj.paramValue);
-    } else {
-      searchNews(keyType, searchObj.paramValue, searchObj.exchange);
-    }
-  };
-
   
+  const sectorKeys = Object.keys(sectorKey).sort();
+  const sortkeys : any = {}
+
+  const sectorKeywordList = sectorKeys.forEach(function(key) {sortkeys[key] = sectorKey[key]})
+
+  console.log(category)
+  console.log(startup)
   return (
-
-
     <Wrap>
       <Container>
         <KeyWordTitle>My Keyword</KeyWordTitle>
         <MykeyWordArea />
         <KeywordListWrap>
-          {keywordList.map((item, index) => (
-            <KeywordList key={index}>
-              <SubTitle>{item.title}</SubTitle>
+          {Object.keys(sortkeys).map((item, index) => (
+            <KeywordList key={item}>
+              <SubTitle>{item}</SubTitle>
               <KeywordArea>
-                {item.data.map((item, index) => (
-                  <KeywordItem item={item} key={`mykeyword-${item}-${index}`} />
-                ))}
+                 { 
+                   Object.keys(sortkeys).map((o,index) => sortkeys[o].map((o: any, index: number) => (
+                     o.name[0] === item ? 
+                     <KeywordItem names={o.name} key={index} /> : null
+                   )))
+                 }
+                 {}
               </KeywordArea>
             </KeywordList>
           ))}
-          {/* {searchKeyword.map((item, index) => (
-            <div>{item.sub_name}</div>
-          ))} */}
         </KeywordListWrap>
       </Container>
     </Wrap>
