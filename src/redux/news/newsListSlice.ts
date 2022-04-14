@@ -7,7 +7,7 @@ import { fetchNews } from "../../api/newsApi";
 export const NEWSLIST_START = "NEWSLIST_START";
 export const NEWSLIST_SUCCESS = "NEWSLIST_SUCCESS";
 export const NEWSLIST_FAIL = "NEWSLIST_FAIL";
-
+export const NEWSLIST_RESET = 'NEWSLIST_RESET';
 // 액션 생성 함수
 export function getNewslistStart() {
   return {
@@ -27,9 +27,7 @@ export function getNewslistFail(error: any) {
     error
   };
 }
-const RESET_ACTION = {
-  type: "RESET"
-};
+
 const initialState = {
   loading: false,
   data: [],
@@ -66,7 +64,7 @@ export default function reducer(state: State = initialState, action: any) {
         loading: false,
         error: action.error
       };
-    case INIT_TEST:
+    case NEWSLIST_RESET:
       return {
         loading: false,
         data: [],
@@ -147,12 +145,14 @@ function* getNewslistSaga(action: Action<SearchType>) {
     yield put(getNewslistFail(error));
   }
 }
-export const INIT_TEST = "Test/testPage/INIT_TEST";
+
+
 export function initAction() {
   return {
-    type: INIT_TEST
+    type: NEWSLIST_RESET,
   };
 }
+
 
 export function fetchNewList(payload: any) {
   return {
