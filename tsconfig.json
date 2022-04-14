@@ -20,7 +20,8 @@
     "types": [
       "node",
       // "@emotion/react",
-      "http-proxy-middleware"
+      "http-proxy-middleware",
+      "react-intersection-observer"
     ],
     "downlevelIteration": true
   },

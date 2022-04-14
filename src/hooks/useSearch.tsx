@@ -1,52 +1,42 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { SearchTitleType } from "../api/newsListApi";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
 import { fetchNewList } from "../redux/news/newsListSlice";
-import { cameltoCababString } from "../utils/utils";
 export const useSearch = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const [isOpendKeywordList, setIsOpendKeywordList] = useState(false);
   const [language, setLanguage] = useState("en");
   const [timeFilter, setTimeFilter] = useState("m5");
-  const [categories, setCategories] = useState("mp,op,r");
-  const [identifiers, setIdentifiers] = useState("");
-  // http://54.180.136.0:3000/search?mediaType=mp,op&timeFilter=w1&language=en&orderBy=latest&keyType=tickers&keyParam=aapl&exchange=nasdaq
+  const [mediaType, setMediaType] = useState("mp,op,r");
 
   const searchNews = async (
-    searchTitle?: SearchTitleType,
-    str?: string,
-    order_by?: "top" | "latest" | "popular"
+    keyType: string | null | undefined,
+    paramValue: string | null | undefined,
+    exchange?: string | null | undefined,
+    orderBy = "top"
   ) => {
-    const identifier = str ? str : identifiers;
-    if (str) {
-      cameltoCababString(str);
-    }
     const searchPayload = {
-      order_by:order_by,
-      searchTitle,
-      identifiers: identifier,
+      orderBy,
+      keyType,
+      paramValue,
       language,
       timeFilter,
-      categories
+      mediaType,
+      ...(exchange && { exchange })
     };
-    const search = await dispatch(fetchNewList(searchPayload));
-    navigate(`/news/${cameltoCababString(identifier)}`);
-    return search;
+    console.log("searchPayload", searchPayload);
+    dispatch(fetchNewList(searchPayload));
   };
 
   return {
     isOpendKeywordList,
     setIsOpendKeywordList,
-    setIdentifiers,
     setLanguage,
     setTimeFilter,
-    setCategories,
+    setMediaType,
     searchNews,
     language,
     timeFilter,
-    categories
+    mediaType
   };
 };

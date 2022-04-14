@@ -1,46 +1,56 @@
 import styled from "@emotion/styled";
-import { useState, MouseEvent } from "react";
+import { useRef, useState, useEffect, MouseEvent } from "react";
 import { Menu } from "./Menu";
-import { ChildProps } from "./../../../../types/Common";
-
 interface Props {
-  options: Array<object>;
-  children?: ChildProps;
+  optionList: object[];
+  currentOption: string;
 }
-const AlignmentDropDown = ({ options }: Props) => {
-  const [newsCurOption, setNewsCurOption] = useState<any>("정렬순");
+const AlignmentDropDown = ({ currentOption, optionList }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const handleOption = (option: string) => {
-    setNewsCurOption(option);
-  };
+  const [dropCurrentOption, setDropCurrentOption] =
+    useState<string>(currentOption);
+  const area = useRef<HTMLDivElement>(null);
+
   const openDropDown = () => {
     setIsOpen(!isOpen);
-  };
-  const closeDropDown = () => {
-    setIsOpen(false);
+    console.log(isOpen);
   };
 
+  function handleClickOutside(event: any) {
+    if (area.current && !area.current.contains(event.target)) setIsOpen(false);
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
   return (
-    <DropDownView>
-      <CurrentOption role="button" onClick={(e: MouseEvent) => openDropDown()}>
-        {newsCurOption}
+    <DropDown>
+      <CurrentOption
+        ref={area}
+        role="button"
+        onClick={(e: MouseEvent) => openDropDown()}
+      >
+        {dropCurrentOption}
         <i className="nav-bottom"></i>
       </CurrentOption>
-      <Menu
-        options={options}
-        isOpen={isOpen}
-        onOpen={setIsOpen}
-        closeDropDown={closeDropDown}
-        handleOption={handleOption}
-      ></Menu>
-    </DropDownView>
+      {isOpen && (
+        <Menu
+          optionList={optionList}
+          onOpen={setIsOpen}
+          changeOption={setDropCurrentOption}
+        ></Menu>
+      )}
+    </DropDown>
   );
 };
 
 export default AlignmentDropDown;
 
-const DropDownView = styled.div`
+const DropDown = styled.div`
   position: relative;
+  z-index: 1000;
 `;
 const CurrentOption = styled.div`
   width: 160px;
@@ -63,22 +73,5 @@ const CurrentOption = styled.div`
     height: 40px;
     background-image: url("/images/icon-navi-bottom.svg");
     background-size: cover;
-  }
-`;
-const OptionList = styled.ul`
-  position: absolute;
-  top: 100%;
-  background-color: #fff;
-  .dropdown-item {
-    width: 160px;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 20px;
-    border: 1px solid #dadada;
-    box-sizing: border-box;
-    cursor: pointer;
-  }
-  .sort-item {
-    cursor: pointer;
   }
 `;

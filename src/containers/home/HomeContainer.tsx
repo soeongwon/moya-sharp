@@ -1,24 +1,23 @@
 import Intro from "../../components/home/Intro";
-import KeywordSelectContainer from "./KeywordSelectContainer";
-
 import Search from "../../components/home/Search";
 import { useSearch } from "../../hooks/useSearch";
-import { useCookies } from "react-cookie";
-import { useAppSelector } from "../../redux/hooks";
+import { useEffect } from "react";
+import { fetchMaster } from "../../utils/master";
+import KeywordSelect from "../../components/home/KeywordSelect";
 
 const HomeContainer = () => {
   const {
     isOpendKeywordList,
     setIsOpendKeywordList,
-    setIdentifiers,
     setLanguage,
     setTimeFilter,
-    setCategories,
+    setMediaType,
     searchNews
   } = useSearch();
 
-  const isLogin = useAppSelector(state => state.users.isLogin);
-  console.log("home isLogin", isLogin);
+  useEffect(() => {
+    fetchMaster();
+  }, []);
 
   return (
     <>
@@ -27,11 +26,10 @@ const HomeContainer = () => {
         openKeywordList={setIsOpendKeywordList}
         setLanguageCode={setLanguage}
         setTimeFilterCode={setTimeFilter}
-        setIdentifiersString={setIdentifiers}
-        setCategoriesCode={setCategories}
+        setMediaTypeCode={setMediaType}
         searchNews={searchNews}
       />
-      {isOpendKeywordList && <KeywordSelectContainer searchNews={searchNews} />}
+      {isOpendKeywordList && <KeywordSelect searchNews={searchNews} />}
     </>
   );
 };

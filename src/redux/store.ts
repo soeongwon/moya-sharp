@@ -1,27 +1,25 @@
 import { configureStore } from "@reduxjs/toolkit";
 import newsformatReducer from "./news/newsformatSlice";
 import userReducer from "./user/auth";
-import newsListReducer from "./news/newsListSlice_thunk";
+import newsListReducer from "./news/newsListSlice";
+import bookmarkReducer from "./bookmark/bookmarkSlice";
 import keywordListReducer from "./keyword/keywordsSlice";
 import createSagaMiddleware from "redux-saga";
 import { rootSaga } from "./rootSaga";
-import { createBrowserHistory } from "history";
+import { connectRouter, routerMiddleware } from "connected-react-router";
+import history from "../utils/history";
 
-export const customHistory = createBrowserHistory();
-const sagaMiddleware = createSagaMiddleware({
-  context: {
-    history: customHistory
-  }
-});
-
+const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
     newsList: newsListReducer,
     formats: newsformatReducer,
     keywords: keywordListReducer,
-    users: userReducer
+    user: userReducer,
+    bookmark: bookmarkReducer,
+    router: connectRouter(history)
   },
-  middleware: [sagaMiddleware]
+  middleware: [sagaMiddleware, routerMiddleware(history)]
 });
 
 sagaMiddleware.run(rootSaga);
