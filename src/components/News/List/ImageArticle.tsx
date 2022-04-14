@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
-
 import { useNewsFormats } from "./../hooks/useNewsFormat";
-import moment from "moment";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import NewsCardFeatures from "../common/NewsCardFeatures";
-
+import { NewsItemType } from "./ImageArticleList";
+import { postTranslateAxios } from "../../../api/tranlate";
+import changeTimeUnixToStandard from "../../../utils/moment/changeTimeUnixToStandard";
 interface Props {
   brandImgUrl: string;
   brandName: string;
@@ -16,11 +15,7 @@ interface Props {
   publishTime: string;
   title: string;
   url: string;
-}
-
-export function changeMoment(publishTime: string) {
-  const changeTime = moment(publishTime).fromNow(); // 15 minutes ago
-  return changeTime;
+  article: NewsItemType;
 }
 
 const ImageArticle = ({
@@ -35,64 +30,51 @@ const ImageArticle = ({
 }: Props) => {
   const { textSize } = useNewsFormats();
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [translateText, setTranslateText] = useState<string[]>([
-    title,
-    description
-  ]);
-  const [newsTitle, newsDescription] = translateText;
-  useEffect(() => {
-    //뉴스기사 번역 API 송출
-    if (isActive) {
-      const postTranslateAxios = async () => {
-        const TranslateAxiosBody = {
-          token: "sysmetic1234",
-          targetLists: [newsTitle, newsDescription]
-        };
-        const response = await axios.post(
-          "https://api.moya.ai/translate_moya",
-          TranslateAxiosBody
-        );
-        setTranslateText(response.data.translated);
-        return response;
-      };
-      postTranslateAxios();
-    }
-    return () => setIsActive(false);
-  }, [isActive, newsDescription, newsTitle]);
-  //번역 on,off
+  const [translate, setTranslate] = useState<string[]>([]);
+  const [titleTranslate, contentTranslate] = translate;
   function handleTranslateActive() {
     setIsActive(!isActive);
   }
-  //cors 문제의 경우에는 대체이미지 제공
+  //cors 문제의 경우 이미지 안보여주기
   const imageFail = (event: any) => {
     const url = event.currentTarget;
-    url.src = `/images/img-error.png`;
+    return (url.style.display = "none");
   };
+  useEffect(() => {
+    //번역 버튼을 눌렀을 때 번역시작
+    if (isActive) {
+      // postTranslateAxios([title, description, setTranslate]);
+    }
+  }, [description, isActive, title]);
   return (
     <Wrap>
       <Inner>
-        {imageUrl !== null ? (
-          <Figure>
-            <img src={`${imageUrl}`} onError={imageFail} alt="기사1" />
-          </Figure>
-        ) : null}
+        <Figure>
+          {imageUrl && (
+            <img src={`${imageUrl}`} onError={imageFail} alt="기사" />
+
+        </Figure>
         <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
         <Title>
           <a href={`${url}`} target="_blank" rel="noreferrer">
-            {newsTitle}
+            {!isActive && title}
+            {isActive && titleTranslate}
           </a>
         </Title>
         <ArticleBody>
           <p className={`${textSize === true ? "small" : "big"}`}>
-            {newsDescription}
+            {!isActive && description}
+            {isActive && contentTranslate}
           </p>
         </ArticleBody>
         <ArticleFooter>
           <div className="Jounal-mark">
-            <img src={`${brandImgUrl}`} alt="기사1" />
+            <img src={`${brandImgUrl}`} alt="기사1" onError={imageFail} />
             <span>{brandName}</span>
           </div>
-          <div className="article-time">{changeMoment(publishTime)}</div>
+          <div className="article-time">
+            {changeTimeUnixToStandard(publishTime)}
+          </div>
         </ArticleFooter>
       </Inner>
     </Wrap>
@@ -103,7 +85,7 @@ export default ImageArticle;
 
 const Wrap = styled.article`
   display: inline-block;
-  width: 400px;
+
   box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   margin-bottom: 22px;
@@ -115,9 +97,9 @@ const Inner = styled.div`
   padding-right: 20px;
 `;
 const Figure = styled.figure`
+  width: 360px;
   img {
-    width: 360px;
-    height: 300px;
+    width: inherit;
     margin: 0;
   }
 `;

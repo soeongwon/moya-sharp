@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import newsformatReducer from "./news/newsformatSlice";
 import userReducer from "./user/auth";
 import newsListReducer from "./news/newsListSlice";
+import bookmarkReducer from "./bookmark/bookmarkSlice";
 import keywordListReducer from "./keyword/keywordsSlice";
 import createSagaMiddleware from "redux-saga";
 import { rootSaga } from "./rootSaga";
@@ -15,7 +16,8 @@ export const store = configureStore({
     newsList: newsListReducer,
     formats: newsformatReducer,
     user: userReducer,
-    router: connectRouter(history),
+    bookmark: bookmarkReducer,
+    router: connectRouter(history)
   },
   middleware: [sagaMiddleware, routerMiddleware(history)]
 });

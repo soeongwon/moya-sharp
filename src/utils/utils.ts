@@ -6,14 +6,14 @@ export const cameltoCababString = (str: string) => {
       .split(" & ")
       .map(item => item.toLowerCase())
       .join("-");
-    console.log(newStr);
+    // console.log(newStr);
     return newStr;
   } else {
     const newStr = str
       .split(" ")
       .map(item => item.toLowerCase())
       .join("-");
-    console.log(newStr);
+    // console.log(newStr);
     return newStr;
   }
 };

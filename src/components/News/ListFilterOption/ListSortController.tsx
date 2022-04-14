@@ -1,89 +1,56 @@
-import styled from "@emotion/styled";
-import { MouseEvent } from "react";
-import { useNewsSorts } from "../hooks/useNewsSorts";
-
+import AlignmentDropDown from "../../common/DropDown/AlignmentDropDown";
+import { StringParam, useQueryParams } from "use-query-params";
 const ListSortController = () => {
-  const { handleOption, newsCurOption, isOpen, openDropDown, closeDropDown } =
-    useNewsSorts();
+  const [query, setQuery] = useQueryParams({
+    orderBy: StringParam,
+    keyType: StringParam,
+    paramValue: StringParam,
+    language: StringParam,
+    timeFilter: StringParam,
+    mediaType: StringParam,
+    exchange: StringParam
+  });
+  // const { orderBy, keyType, paramValue } = query;
 
-  const options = [
-    { name: "정렬순", status: "top" },
-    { name: "최신순", status: "latest" },
-    { name: "인기순", status: "popular" }
-  ];
+  // useEffect(() => {
+  //   if (keyType !== undefined) {
+  //     dispatch(fetchNewList({ ...query }));
+  //   }
+  //   return () => {
+  //     dispatch(initAction());
+  //   };
+  // }, [keyType, orderBy, paramValue, dispatch, query]);
 
-  interface DropDown {
-    name: string;
-    status: string;
+  function sortTopNews() {
+    setQuery({
+      ...query,
+      orderBy: "top"
+    });
+  }
+  function sortLastestNews() {
+    setQuery({
+      ...query,
+      orderBy: "latest"
+    });
   }
 
+  function sortPopluarNews() {
+    setQuery({
+      ...query,
+      orderBy: "popular"
+    });
+  }
+
+  const optionList = [
+    { name: "정렬순", method: sortTopNews },
+    { name: "최신순", method: sortLastestNews },
+    { name: "인기순", method: sortPopluarNews }
+  ];
   return (
-    <DropDownView>
-      <CurrentOption role="button" onClick={(e: MouseEvent) => openDropDown()}>
-        {newsCurOption}
-        <i className="nav-bottom"></i>
-      </CurrentOption>
-      <OptionList>
-        {isOpen &&
-          options.map((option: DropDown, index) => (
-            <li
-              className="dropdown-item"
-              key={index}
-              onClick={(e: MouseEvent) => {
-                handleOption(option.name);
-                closeDropDown();
-              }}
-            >
-              {option.name}
-            </li>
-          ))}
-      </OptionList>
-    </DropDownView>
+    <AlignmentDropDown
+      currentOption="정렬순"
+      optionList={optionList}
+    ></AlignmentDropDown>
   );
 };
-
 export default ListSortController;
-
-const DropDownView = styled.div`
-  position: relative;
-`;
-const CurrentOption = styled.div`
-  width: 160px;
-  height: 40px;
-  line-height: 40px;
-  padding-left: 20px;
-  border: 1px solid #dadada;
-  box-sizing: border-box;
-  position: relative;
-  background-color: #fff;
-  border-radius: 3px;
-  margin-right: 20px;
-  cursor: pointer;
-  .nav-bottom {
-    position: absolute;
-    top: 20px;
-    right: 10px;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background-image: url("/images/icon-navi-bottom.svg");
-    background-size: cover;
-  }
-`;
-const OptionList = styled.ul`
-  position: absolute;
-  top: 100%;
-  background-color: #fff;
-  .dropdown-item {
-    width: 160px;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 20px;
-    border: 1px solid #dadada;
-    box-sizing: border-box;
-    cursor: pointer;
-  }
-  .sort-item {
-    cursor: pointer;
-  }
-`;

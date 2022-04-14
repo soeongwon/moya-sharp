@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, delay, throttle } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import { getNewList, SearchType } from "../../api/newsListApi";
 import { Action } from "redux-actions";
@@ -27,28 +27,36 @@ export function getNewslistFail(error: any) {
     error
   };
 }
-
+const RESET_ACTION = {
+  type: "RESET"
+};
 const initialState = {
   loading: false,
   data: [],
   error: null,
-  hasMore: null
+  nextPageToken: undefined
 };
-
-export default function reducer(state = initialState, action: any) {
+type State = {
+  loading: any;
+  data: any;
+  error: any;
+  nextPageToken: string | undefined;
+};
+export default function reducer(state: State = initialState, action: any) {
   switch (action.type) {
     case NEWSLIST_START:
       return {
         ...state,
-        loading: false,
+        loading: true,
         error: null
       };
 
     case NEWSLIST_SUCCESS:
+      // const test = state.data.push();
       return {
         loading: false,
-        data: action.data.newsList,
-        hasMore: action.data.nextPageToken,
+        data: [...state.data, ...action.data.newsList],
+        nextPageToken: action.data.nextPageToken,
         error: null
       };
 
@@ -57,6 +65,13 @@ export default function reducer(state = initialState, action: any) {
         ...state,
         loading: false,
         error: action.error
+      };
+    case INIT_TEST:
+      return {
+        loading: false,
+        data: [],
+        error: null,
+        nextPageToken: undefined
       };
 
     default:
@@ -70,7 +85,7 @@ const NEWSLIST_SAGA_START = "NEWSLIST_SAGA_START";
 
 type data = {
   data: [];
-  hasMore: String;
+  nextPageToken: string;
 };
 
 function isExchange(action: Action<SearchType>) {
@@ -84,21 +99,24 @@ function isExchange(action: Action<SearchType>) {
     exchange
   } = action.payload;
   if (action.payload.exchange) {
-    return `/search?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}&exchange=${exchange}`;
+    const query = `/news?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}&exchange=${exchange}`;
+    return query;
   } else {
-    return `/search?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}`;
+    const query = `/news?orderBy=${orderBy}&keyType=${keyType}&paramValue=${paramValue}&language=${language}&timeFilter=${timeFilter}&mediaType=${mediaType}`;
+    return query;
   }
 }
 
 function* getNewslistSaga(action: Action<SearchType>) {
   const {
-    orderBy,
+    // orderBy,
     keyType,
     paramValue,
-    language,
-    timeFilter,
-    mediaType,
-    exchange
+    // language,
+    // timeFilter,
+    // mediaType,
+    // exchange
+    nextPageToken
   } = action.payload;
   try {
     yield put(getNewslistStart());
@@ -108,21 +126,35 @@ function* getNewslistSaga(action: Action<SearchType>) {
       keyType === "category"
     ) {
       console.log("getNewslistSaga", action);
-      const data: data = yield call(fetchNews, keyType, paramValue);
-      yield put(getNewslistSuccess(data));
+      const data: data = yield call(
+        fetchNews,
+        keyType,
+        paramValue,
+        nextPageToken
+      );
       yield put(push(isExchange(action)));
-    } else {
-      const data: data = yield call(getNewList, action.payload);
       yield put(getNewslistSuccess(data));
+    } else {
+      const data: data = yield call(getNewList, {
+        ...action.payload,
+        nextPageToken
+      });
       yield put(push(`/news/${paramValue}`));
+
+      yield put(getNewslistSuccess(data));
     }
   } catch (error) {
     yield put(getNewslistFail(error));
   }
 }
+export const INIT_TEST = "Test/testPage/INIT_TEST";
+export function initAction() {
+  return {
+    type: INIT_TEST
+  };
+}
 
 export function fetchNewList(payload: any) {
-  console.log("payload", payload);
   return {
     type: NEWSLIST_SAGA_START,
     payload
@@ -130,5 +162,5 @@ export function fetchNewList(payload: any) {
 }
 
 export function* newsListSaga() {
-  yield takeEvery(NEWSLIST_SAGA_START, getNewslistSaga);
+  yield throttle(5000, NEWSLIST_SAGA_START, getNewslistSaga);
 }

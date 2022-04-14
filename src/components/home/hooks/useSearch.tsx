@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAppDispatch } from "../redux/hooks";
-import { fetchNewList } from "../redux/news/newsListSlice";
+import { useAppDispatch } from "../../../redux/hooks";
+import { fetchNewList } from "../../../redux/news/newsListSlice";
 export const useSearch = () => {
   const dispatch = useAppDispatch();
 
@@ -10,9 +10,9 @@ export const useSearch = () => {
   const [mediaType, setMediaType] = useState("mp,op,r");
 
   const searchNews = async (
-    keyType: string,
-    paramValue: string,
-    exchange?: string,
+    keyType: string | null | undefined,
+    paramValue: string | null | undefined,
+    exchange?: string | null | undefined,
     orderBy = "top"
   ) => {
     const searchPayload = {

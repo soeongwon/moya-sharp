@@ -1,9 +1,19 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useNewsCommon } from "../hooks/useNewCommon";
-import { useState } from "react";
-const NewsCardFeatures = ({ handleTranslateActive }: any) => {
-  const { isBookmark, onbookmark } = useNewsCommon();
+
+const NewsCardFeatures = ({ handleTranslateActive, article }: any) => {
+  const { isBookmark, setIsbookmark, addBookmark, deleteBookmark } =
+    useNewsCommon();
+  function bookmarkEventbind(isBookmarked: boolean) {
+    setIsbookmark(!isBookmark);
+
+    if (isBookmarked) {
+      addBookmark(article);
+    } else {
+      deleteBookmark(article);
+    }
+  }
 
   return (
     <Feautres>
@@ -15,7 +25,7 @@ const NewsCardFeatures = ({ handleTranslateActive }: any) => {
           isBookmark={isBookmark}
           role="button"
           className="bookmark"
-          onClick={onbookmark}
+          onClick={() => bookmarkEventbind(!isBookmark)}
         ></Bookmark>
         <i role="button" className="share"></i>
       </div>
@@ -62,7 +72,7 @@ const Bookmark = styled.i<BookmarkProps>`
   cursor: pointer;
   background: ${({ isBookmark }) =>
       isBookmark === true
-        ? "url(/images/icon-Bookmark-outline.svg)"
-        : "url(/images/icon-Bookmark-filled.svg)"}
+        ? "url(/images/icon-Bookmark-filled.svg)"
+        : "url(/images/icon-Bookmark-outline.svg)"}
     no-repeat 4.5%;
 `;
