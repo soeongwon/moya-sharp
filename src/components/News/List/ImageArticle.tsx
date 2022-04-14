@@ -1,4 +1,6 @@
+/** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 import { useNewsFormats } from "./../hooks/useNewsFormat";
 import { useEffect, useState } from "react";
 import NewsCardFeatures from "../common/NewsCardFeatures";
@@ -16,6 +18,7 @@ interface Props {
   title: string;
   url: string;
   article: NewsItemType;
+  NewsListAnimation: any;
 }
 
 const ImageArticle = ({
@@ -26,7 +29,8 @@ const ImageArticle = ({
   imageUrl,
   publishTime,
   title,
-  url
+  url,
+  NewsListAnimation
 }: Props) => {
   const { textSize } = useNewsFormats();
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -47,12 +51,16 @@ const ImageArticle = ({
     }
   }, [description, isActive, title]);
   return (
-    <Wrap>
+    <Wrap
+      css={css`
+        animation: ${NewsListAnimation} 1s ease-in-out;
+      `}
+    >
       <Inner>
         <Figure>
           {imageUrl && (
             <img src={`${imageUrl}`} onError={imageFail} alt="기사" />
-
+          )}
         </Figure>
         <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
         <Title>
@@ -85,7 +93,6 @@ export default ImageArticle;
 
 const Wrap = styled.article`
   display: inline-block;
-
   box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   margin-bottom: 22px;

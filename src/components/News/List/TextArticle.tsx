@@ -32,9 +32,7 @@ const TextArticle = ({
   }
 
   //번역 on,off
-  function handleTranslateActive() {
-    setIsActive(!isActive);
-  }
+  function handleTranslateActive() {}
   return (
     <Wrap>
       <NewsCardFeatures handleTranslateActive={handleTranslateActive} />

@@ -9,8 +9,8 @@ interface Props {
 export const Menu = ({ optionList, onOpen, changeOption }: Props) => {
   return (
     <DropOffEvent onClick={() => onOpen(false)}>
-      {optionList.map((option: any) => (
-        <li className="dropdown-item" onClick={option.method}>
+      {optionList.map((option: any, index) => (
+        <li key={index} className="dropdown-item" onClick={option.method}>
           <div onClick={() => changeOption(option.name)}>{option.name}</div>
         </li>
       ))}
