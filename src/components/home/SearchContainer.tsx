@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchMaster } from "../../utils/master";
 import { useSearch } from "./hooks/useSearch";
 import KeywordSelect from "./KeywordSelect";
-import Search from "./Search";
+import Search from "./searchComponents/Search";
 
 const SearchContainer = () => {
   const { setLanguage, setTimeFilter, setMediaType, searchNews } = useSearch();

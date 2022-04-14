@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
 import { SearchFilterItem } from "./SearchFilterItem";
 import { SetStateAction, useState } from "react";
-import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { languageCode } from "../../utils/languageCode";
-import { timeFilter } from "../../utils/timeFilter";
-import { categories } from "../../utils/categories";
-import { seachInstanceSearch } from "../../utils/seachInstanceSearch";
-import { master } from "../../utils/master";
-import { InstanseKeyword, Master } from "./InstanseKeyword";
+import { languageCode } from "../../../utils/languageCode";
+import { timeFilter } from "../../../utils/timeFilter";
+import { categories } from "../../../utils/categories";
+import { seachInstanceSearch } from "../../../utils/seachInstanceSearch";
+import { master } from "../../../utils/master";
+import { InstanseKeyword, Master } from "./../InstanseKeyword";
+import { KeywordPageLinkButton } from "./../keywordComponents/KeywordPageLinkButton";
 
 type Props = {
   setIsOpendKeywordList: (arg: boolean) => void;
@@ -35,44 +35,17 @@ const Search = ({
   isOpendKeywordList,
   setLanguageCode,
   setTimeFilterCode,
-  setMediaTypeCode,
-  searchNews
+  setMediaTypeCode
 }: Props) => {
-  const [openIndex, setOpen] = useState<null | number>(null);
   const [focused, setFocused] = useState<boolean>(false);
   const [inputText, setInputText] = useState(" ");
   const [isOpenInstanseSearch, setIsOpenInstanseSearch] = useState(false);
   const [instanseKeyword, setInstanseKeyword] = useState<Array<Master>>([]);
 
-  const languageName = languageCode.map(obj => obj.name);
+  const filterListArr: Array<FilterItemType> = FILTER_ITEM_LABEL;
 
-  const timeFilterName = timeFilter.map(obj => obj.name);
-
-  const categoriesName = categories.map(obj => obj.name);
-
-  const filterListArr: Array<FilterItemType> = [
-    {
-      label: "언론사",
-      defaultValue: "ALL",
-      list: categoriesName
-    },
-    {
-      label: "발행일",
-      defaultValue: "mth1",
-      list: timeFilterName
-    },
-    {
-      label: "언어",
-      defaultValue: "영어",
-      list: languageName
-    },
-    {
-      label: "새로고침 속도",
-      defaultValue: "10초",
-      list: ["10초", "30초", "1분", "10분", "새로고침 없음"]
-    }
-  ];
-
+  // 필터리스트 아이템 리스트 열고닫는 코드
+  const [openIndex, setOpen] = useState<null | number>(null);
   const openFilterList = (
     index: number,
     event: React.MouseEvent<HTMLDivElement>
@@ -85,6 +58,19 @@ const Search = ({
     setOpen(null);
   };
 
+  useEffect(() => {
+    document.body.addEventListener("click", closeAll);
+    return () => {
+      document.body.removeEventListener("click", closeAll);
+    };
+  });
+
+  function closeKeywordList(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    setIsOpendKeywordList(false);
+  }
+
+  //필터값 세팅
   const setLanguage = (langName: string) => {
     const langItem = languageCode.find(item => item.name === langName);
     if (!langItem) {
@@ -101,7 +87,7 @@ const Search = ({
     setTimeFilterCode(timeFilterItem.time_code);
   };
 
-  const setCategories = (categorieName: string) => {
+  const setMediaType = (categorieName: string) => {
     const categoriesItem = categories.find(item => item.name === categorieName);
     if (!categoriesItem) {
       return;
@@ -124,27 +110,9 @@ const Search = ({
     setIsOpenInstanseSearch(true);
   };
 
-  useEffect(() => {
-    document.body.addEventListener("click", closeAll);
-    return () => {
-      document.body.removeEventListener("click", closeAll);
-    };
-  });
-
-  function closeKeywordList(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    setIsOpendKeywordList(false);
-  }
-
   return (
     <SearchArea>
-      <div>
-        <KeywordSearchButton>
-          <Link to={"/edit"}>
-            키워드 전체보기 <i className="icon-keyword"></i>
-          </Link>
-        </KeywordSearchButton>
-      </div>
+      <KeywordPageLinkButton />
       <SearchWarp>
         <form>
           <SearchFilterSelectWrap>
@@ -159,7 +127,7 @@ const Search = ({
                 filterList={item.list}
                 setLanguage={setLanguage}
                 setTimeFilter={setTimeFilter}
-                setCategories={setCategories}
+                setMediaType={setMediaType}
               />
             ))}
             <SearchBox
@@ -195,6 +163,33 @@ const Search = ({
 
 export default Search;
 
+const languageName = languageCode.map(obj => obj.name);
+const timeFilterName = timeFilter.map(obj => obj.name);
+const categoriesName = categories.map(obj => obj.name);
+
+const FILTER_ITEM_LABEL = [
+  {
+    label: "언론사",
+    defaultValue: "ALL",
+    list: categoriesName
+  },
+  {
+    label: "발행일",
+    defaultValue: "mth1",
+    list: timeFilterName
+  },
+  {
+    label: "언어",
+    defaultValue: "영어",
+    list: languageName
+  },
+  {
+    label: "새로고침 속도",
+    defaultValue: "10초",
+    list: ["10초", "30초", "1분", "10분", "새로고침 없음"]
+  }
+];
+
 const KeywordListClose = styled.div`
   display: flex;
   justify-content: center;
@@ -227,35 +222,6 @@ export const SearchArea = styled.div`
     justify-content: end;
   }
   z-index: 20;
-`;
-
-const KeywordSearchButton = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
-  a {
-    font-family: "Noto Sans";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 22px;
-    color: #48c0b7;
-    text-decoration: none;
-  }
-  .icon-keyword {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin-left: 3px;
-    background-repeat: no-repeat;
-    background-image: url("/images/keyword-arrow.svg");
-    background-size: contain;
-    cursor: pointer;
-  }
-  a {
-    text-decoration: none;
-    color: #48c0b7;
-  }
 `;
 
 const Legend = styled.legend`
