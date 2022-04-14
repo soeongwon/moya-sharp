@@ -1,17 +1,16 @@
 import styled from "@emotion/styled";
 import { useAppDispatch } from "../../redux/hooks";
 import { addKeyword, deleteKeyword } from "../../redux/keyword/keywordsSlice";
-import { KeywordsSaga } from "../../redux/keyword/keywordList"
 
 type Props = {
   names: string;
 };
 
-
-const KeywordItem = ({names}: Props) => {
+const KeywordItem = ({ names }: Props) => {
   const dispatch = useAppDispatch();
   const handleAdd = () => dispatch(addKeyword(names));
   const handleDelete = () => dispatch(deleteKeyword(names));
+
   return (
     <KeyWordItemWrap>
       <KeywordText onClick={handleAdd}>{names}</KeywordText>

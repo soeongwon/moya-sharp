@@ -1,21 +1,31 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useDispatch } from "react-redux";
-import { KeywordsType } from "../../types/Common"
+import { useAppDispatch } from "../../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
 
-interface KeywordsProps {
-  keywords: KeywordsType[] | null
-  loading: boolean
+export type KeywordsItemType = {
+  termType: string;
+  typeId: string;
+  names: string;
 }
 
 const MyKeyword = () => {
-  const dispatch = useDispatch()
+
+  const userTabList = useAppSelector(state => state.keywords);
+
+  interface Keyword {
+    data: string;
+  }
+
 
   return (
     <KeywordsWarp>
       <h3>마이키워드</h3>
-      <Keywords className="on">Social Media Marketing</Keywords>
-      <Keywords>Social Media Marketing & Advertising</Keywords>
+      {
+        userTabList.map((userTab) => (
+          <Keywords>{userTab.data}</Keywords>
+        ))
+      }
     </KeywordsWarp>
   )
 }

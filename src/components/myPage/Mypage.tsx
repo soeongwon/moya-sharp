@@ -7,10 +7,8 @@ import PaymentsCard from "./PaymentsCard";
 import MyKeyword from "./MyKeyword";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { KeywordsType } from "../../types/Common";
 
 const MyPage = () => {
-  const keywords = useSelector<RootState, KeywordsType[]>(state => state.keywords.keywords)
 
   return (
     <Wrap>
@@ -28,7 +26,7 @@ const MyPage = () => {
               <MembershipCard />
               <PaymentsCard />
             </ContTop>
-            <MyKeyword keywords={keywords}/>
+            <MyKeyword/>
             <EditKeywords>
               <Link to={"/edit"}>
                 키워드 편집
@@ -80,7 +78,8 @@ const EditKeywords = styled.button`
   position: absolute;
   border: 0;
   background-color: inherit;
-  bottom: 75px;
+  /* bottom: 75px; */
+  top: 460px;
   right: 0;
   cursor: pointer;
   a {

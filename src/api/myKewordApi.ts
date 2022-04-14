@@ -1,27 +1,29 @@
 import api from "./Api";
+import axios from "axios";
 
 export type KeywordType = {
-  data: [];
   termType: string;
   typeId: string;
 }
 
-export async function GetAllMyKewords() {
-  const seeAllKeywords = "preferTerms/reports"
-  const response = await api.get(seeAllKeywords)
+// export async function GetAllMyKewords() {
+//   const seeAllKeywords = "preferTerms/reports"
+//   const response = await api.get(seeAllKeywords)
 
-  return response.data
-}
-
-// const Keyword = "preferTerms/"
-
-// export async function addMyKeword(term_type: any, type_id: any) {
-//  const addKeyword = "preferTerms/create"
-//   const response = await api.post(addKeyword)
-
-//   console.log(response.data)
 //   return response.data
 // }
+
+type keywordID = Pick<KeywordType, "typeId">
+type keywordTerm = Pick<KeywordType, "termType">
+
+const Keyword = "/preferTerms/create"
+
+export async function addMyKeword(term_type: keywordTerm, type_id: keywordID) {
+  const response = await axios.post(Keyword)
+
+  console.log(response.data)
+  return response.data
+}
 
 
 

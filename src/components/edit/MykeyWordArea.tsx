@@ -4,11 +4,11 @@ import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import KeywordItem from "./KeywordItem";
 
+ 
 const MykeyWordArea = () => {
   const myKeywords = useAppSelector(
     (state: RootState) => state.keywords
   );
-
   const [edited, setEdited] = useState(false)
 
   const btnText = edited ? '저장' : '편집'

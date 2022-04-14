@@ -57,11 +57,7 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "@types/react-router-dom": "^5.3.3",
-=======
     "@types/react-router-dom": "^5.3.2",
->>>>>>> f8c0a2f7d4628e8828457aa50327aac467f22be6
     "@types/react-transition-group": "^4.4.4",
     "@types/redux-actions": "^2.6.2",
     "prettier": "^2.5.1"

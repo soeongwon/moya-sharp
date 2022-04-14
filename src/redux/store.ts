@@ -1,3 +1,4 @@
+
 import { configureStore } from "@reduxjs/toolkit";
 import newsformatReducer from "./news/newsformatSlice";
 import userReducer from "./user/auth";
@@ -8,13 +9,13 @@ import createSagaMiddleware from "redux-saga";
 import { rootSaga } from "./rootSaga";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import history from "../utils/history";
-import keywords from "../redux/keyword/keywordList"
 
 const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
     newsList: newsListReducer,
     formats: newsformatReducer,
+    keywords: keywordListReducer,
     user: userReducer,
     bookmark: bookmarkReducer,
     router: connectRouter(history)
@@ -26,4 +27,3 @@ sagaMiddleware.run(rootSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-

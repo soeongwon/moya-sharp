@@ -16,12 +16,11 @@ type Props = {
 type Title = "Category" | "Sector" | "Startup";
 
 const EditContainer = ({ searchNews }: Props) => {
-  
   const sectorKeys = Object.keys(sectorKey).sort();
   const sortkeys : any = {}
 
   const sectorKeywordList = sectorKeys.forEach(function(key) {sortkeys[key] = sectorKey[key]})
-
+ 
   console.log(category)
   console.log(startup)
   return (
