@@ -60,7 +60,7 @@ const ImageArticle = ({
         <Figure>
           {imageUrl && (
             <img src={`${imageUrl}`} onError={imageFail} alt="기사" />
-
+          )}
         </Figure>
         <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
         <Title>

@@ -7,7 +7,7 @@ import { fetchNews } from "../../api/newsApi";
 export const NEWSLIST_START = "NEWSLIST_START";
 export const NEWSLIST_SUCCESS = "NEWSLIST_SUCCESS";
 export const NEWSLIST_FAIL = "NEWSLIST_FAIL";
-export const NEWSLIST_RESET = 'NEWSLIST_RESET';
+export const NEWSLIST_RESET = "NEWSLIST_RESET";
 // 액션 생성 함수
 export function getNewslistStart() {
   return {
@@ -146,13 +146,11 @@ function* getNewslistSaga(action: Action<SearchType>) {
   }
 }
 
-
 export function initAction() {
   return {
-    type: NEWSLIST_RESET,
+    type: NEWSLIST_RESET
   };
 }
-
 
 export function fetchNewList(payload: any) {
   return {
