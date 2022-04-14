@@ -34,9 +34,7 @@ export default MyKeyword;
 
 const KeywordsWarp = styled.div`
   margin-top: 40px;  
-  .on {
-    background-color: rgba(72, 192, 183, 0.04);
-  }
+  
   h3 {
     font-weight: 600;
     font-size: 20px;
@@ -55,5 +53,9 @@ const Keywords = styled.button`
   font-weight: 600;
   line-height: 30px;
   margin-right: 20px;
+  margin-bottom: 20px;
   cursor: pointer;
+  :hover {
+    background-color: rgba(72, 192, 183, 0.04);
+  }
 `
