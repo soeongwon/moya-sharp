@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "@emotion/styled";
-import {getKeywordsSaga} from "../../redux/keyword/keywordList"
 import { useDispatch } from "react-redux";
+import { KeywordsType } from "../../types/Common"
+
+interface KeywordsProps {
+  keywords: KeywordsType[] | null
+  loading: boolean
+}
 
 const MyKeyword = () => {
   const dispatch = useDispatch()
-  console.log(getKeywordsSaga().next())
 
   return (
     <KeywordsWarp>

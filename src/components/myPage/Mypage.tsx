@@ -5,8 +5,13 @@ import SideNav from "./SideNav";
 import MembershipCard from "./MembershipCard";
 import PaymentsCard from "./PaymentsCard";
 import MyKeyword from "./MyKeyword";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { KeywordsType } from "../../types/Common";
 
 const MyPage = () => {
+  const keywords = useSelector<RootState, KeywordsType[]>(state => state.keywords.keywords)
+
   return (
     <Wrap>
       <Container>
@@ -23,7 +28,7 @@ const MyPage = () => {
               <MembershipCard />
               <PaymentsCard />
             </ContTop>
-            <MyKeyword />
+            <MyKeyword keywords={keywords}/>
             <EditKeywords>
               <Link to={"/edit"}>
                 키워드 편집
