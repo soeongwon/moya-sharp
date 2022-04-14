@@ -3,7 +3,6 @@ import { SearchFilterItem } from "./SearchFilterItem";
 import { SetStateAction, useState } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useSearch } from "./hooks/useSearch";
 import { languageCode } from "../../utils/languageCode";
 import { timeFilter } from "../../utils/timeFilter";
 import { categories } from "../../utils/categories";
@@ -12,7 +11,8 @@ import { master } from "../../utils/master";
 import { InstanseKeyword, Master } from "./InstanseKeyword";
 
 type Props = {
-  openKeywordList: (arg: boolean) => void;
+  setIsOpendKeywordList: (arg: boolean) => void;
+  isOpendKeywordList: boolean;
   setLanguageCode: (arg: string) => void;
   setTimeFilterCode: (arg: string) => void;
   setMediaTypeCode: (arg: string) => void;
@@ -31,7 +31,8 @@ export type FilterItemType = {
 };
 
 const Search = ({
-  openKeywordList,
+  setIsOpendKeywordList,
+  isOpendKeywordList,
   setLanguageCode,
   setTimeFilterCode,
   setMediaTypeCode,
@@ -43,7 +44,6 @@ const Search = ({
   const [isOpenInstanseSearch, setIsOpenInstanseSearch] = useState(false);
   const [instanseKeyword, setInstanseKeyword] = useState<Array<Master>>([]);
 
-  const { isOpendKeywordList } = useSearch();
   const languageName = languageCode.map(obj => obj.name);
 
   const timeFilterName = timeFilter.map(obj => obj.name);
@@ -133,7 +133,7 @@ const Search = ({
 
   function closeKeywordList(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    openKeywordList(false);
+    setIsOpendKeywordList(false);
   }
 
   return (
@@ -171,7 +171,7 @@ const Search = ({
               <input
                 type="text"
                 onFocus={() => {
-                  openKeywordList(!isOpendKeywordList);
+                  setIsOpendKeywordList(!isOpendKeywordList);
                 }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   changeInputText(e.target.value)

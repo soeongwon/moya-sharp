@@ -4,7 +4,6 @@ import { fetchNewList } from "../../../redux/news/newsListSlice";
 export const useSearch = () => {
   const dispatch = useAppDispatch();
 
-  const [isOpendKeywordList, setIsOpendKeywordList] = useState(false);
   const [language, setLanguage] = useState("en");
   const [timeFilter, setTimeFilter] = useState("m5");
   const [mediaType, setMediaType] = useState("mp,op,r");
@@ -29,8 +28,6 @@ export const useSearch = () => {
   };
 
   return {
-    isOpendKeywordList,
-    setIsOpendKeywordList,
     setLanguage,
     setTimeFilter,
     setMediaType,
