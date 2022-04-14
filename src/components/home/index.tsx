@@ -1,6 +1,6 @@
 import Intro from "../../components/home/Intro";
 import Search from "../../components/home/Search";
-import { useSearch } from "../../hooks/useSearch";
+import { useSearch } from "./hooks/useSearch";
 import { useEffect } from "react";
 import { fetchMaster } from "../../utils/master";
 import KeywordSelect from "../../components/home/KeywordSelect";

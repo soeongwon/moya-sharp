@@ -1,10 +1,9 @@
 import ModalDropDown from "./DropDown/ModalDropDown";
 
-import SearchFormContainer from "../../containers/home/SearchFormContainer";
 import Button from "./Button";
 import styled from "@emotion/styled";
+// import Search from "../home/Search";
 const StyleGuide = () => {
-
   return (
     <Style>
       <section>
@@ -24,7 +23,7 @@ const StyleGuide = () => {
       <section>
         <div>
           <h1 className="SearchFormContainer">SearchFormContainer</h1>
-          <SearchFormContainer />
+          {/* <Search /> */}
         </div>
       </section>
       <section>
