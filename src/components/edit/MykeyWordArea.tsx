@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import KeywordItem from "./KeywordItem";
+ 
 
 const MykeyWordArea = () => {
   const myKeywords = useAppSelector(
     (state: RootState) => state.keywords
   );
-
   const [edited, setEdited] = useState(false)
 
   const btnText = edited ? '저장' : '편집'
@@ -16,11 +16,12 @@ const MykeyWordArea = () => {
   const onClickEditButton = () => {
     edited ? setEdited(false) : setEdited(true)
   }
+
   return (
     <Wrap>
       <MyKeywordInner>
-        {myKeywords.map(item => (
-          <KeywordItem key={`mykeyword-${item.data}`} item={item.data}/>
+        {myKeywords.map((item, index) => (
+          <KeywordItem key={`mykeyword-${index}`} names={item.data}/>
         ))}
       </MyKeywordInner>
      <EditButton onClick={onClickEditButton}>{btnText}</EditButton>

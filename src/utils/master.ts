@@ -19,6 +19,7 @@ export let category: Array<Master> = [];
 export let sector: Array<Master> = [];
 export let sectorKey: SectorKey = {};
 export let startup: Array<Master> = [];
+export let tickers: Array<Master> = []
 
 export async function fetchMaster() {
   let res: MasterObj = await masterApi();

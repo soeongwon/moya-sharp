@@ -2,29 +2,52 @@ import styled from "@emotion/styled";
 import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
-import { useAppDispatch } from "../../redux/hooks";
-import { keywordList } from "../../utils/keywordList";
+import { category, sectorKey, startup, master } from "../../utils/master";
 
-const EditContainer = () => {
+
+type Props = {
+  searchNews: (
+    keyType: string,
+    keyParam: string,
+    exchange?: string,
+    orderBy?: "top" | "latest" | "popular"
+  ) => void;
+};
+
+type Title = "Category" | "Sector" | "Startup";
+
+const EditContainer = ({ searchNews }: Props) => {
+  const sectorKeys = Object.keys(sectorKey).sort();
+  const sortkeys : any = {}
+
+  const sectorKeywordList = sectorKeys.forEach(function(key) {sortkeys[key] = sectorKey[key]})
+ 
+
+
+  console.log(category)
+  console.log(startup)
+  console.log(master)
+
   return (
     <Wrap>
       <Container>
         <KeyWordTitle>My Keyword</KeyWordTitle>
         <MykeyWordArea />
         <KeywordListWrap>
-          {keywordList.map((item, index) => (
-            <KeywordList key={index}>
-              <SubTitle>{item.title}</SubTitle>
+          {Object.keys(sortkeys).map((item, index) => (
+            <KeywordList key={item}>
+              <SubTitle>{item}</SubTitle>
               <KeywordArea>
-                {item.data.map((item, index) => (
-                  <KeywordItem item={item} key={`mykeyword-${item}-${index}`} />
-                ))}
+                 { 
+                   Object.keys(sortkeys).map((o,index) => sortkeys[o].map((o: any, index: number) => (
+                     o.name[0] === item ? 
+                     <KeywordItem names={o.name} key={index} /> : null
+                   )))
+                 }
+                 {}
               </KeywordArea>
             </KeywordList>
           ))}
-          {/* {searchKeyword.map((item, index) => (
-            <div>{item.sub_name}</div>
-          ))} */}
         </KeywordListWrap>
       </Container>
     </Wrap>
@@ -34,7 +57,7 @@ const EditContainer = () => {
 export default EditContainer;
 
 const Wrap = styled.main`
-  padding-top: 500px;
+  padding-top: 59px;
   min-height: 100vh;
 `;
 const KeywordList = styled.div`
@@ -62,6 +85,6 @@ const KeywordArea = styled.div`
   gap: 10px;
 `;
 
-function addKeyword(item: string): any {
-  throw new Error("Function not implemented.");
-}
+// function addKeyword(item: string): any {
+//   throw new Error("Function not implemented.");
+// }
