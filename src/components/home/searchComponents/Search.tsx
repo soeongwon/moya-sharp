@@ -6,8 +6,8 @@ import { languageCode } from "../../../utils/languageCode";
 import { timeFilter } from "../../../utils/timeFilter";
 import { categories } from "../../../utils/categories";
 import { seachInstanceSearch } from "../../../utils/seachInstanceSearch";
-import { master } from "../../../utils/master";
-import { InstanseKeyword, Master } from "./../InstanseKeyword";
+import { Master, master } from "../../../utils/master";
+import InstanseSearch from "./InstanseSearch";
 import { KeywordPageLinkButton } from "./../keywordComponents/KeywordPageLinkButton";
 
 type Props = {
@@ -156,7 +156,7 @@ const Search = ({
           </SearchFilterSelectWrap>
         </form>
       </SearchWarp>
-      {isOpenInstanseSearch && <InstanseKeyword keyword={instanseKeyword} />}
+      {isOpenInstanseSearch && <InstanseSearch keyword={instanseKeyword} />}
     </SearchArea>
   );
 };

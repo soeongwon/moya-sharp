@@ -1,19 +1,13 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { useSearch } from "./hooks/useSearch";
+import { Master } from "../../../utils/master";
+import { useSearch } from "../hooks/useSearch";
 
 type Props = {
   keyword: Array<Master>;
 };
 
-export type Master = {
-  exchange?: string;
-  name: string;
-  paramValue: string;
-  key: string;
-};
-
-export const InstanseKeyword = ({ keyword }: Props) => {
+const InstanseSearch = ({ keyword }: Props) => {
   const { searchNews } = useSearch();
 
   const search = (item: Master) => {
@@ -44,6 +38,8 @@ export const InstanseKeyword = ({ keyword }: Props) => {
     </InstanseSearchDropDown>
   );
 };
+
+export default InstanseSearch;
 
 const InstanseSearchDropDown = styled.div`
   width: 555px;

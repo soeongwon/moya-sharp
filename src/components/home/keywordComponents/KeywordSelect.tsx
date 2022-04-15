@@ -1,11 +1,6 @@
 import styled from "@emotion/styled";
 import { useCallback, useState } from "react";
-import {
-  category,
-  sectorKey as sortedSector,
-  startup
-} from "../../../utils/master";
-import { Master } from "../InstanseKeyword";
+import { category, Master, sortedSector, startup } from "../../../utils/master";
 import TitleTabList, { Title } from "./TitleTabList";
 import SectorKeywordFindKey from "./SectorKeywordFindKey";
 

@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
-import { category, sectorKey, startup, master } from "../../utils/master";
-
+import { sortedSector } from "../../utils/master";
 
 type Props = {
   searchNews: (
@@ -14,19 +13,13 @@ type Props = {
   ) => void;
 };
 
-type Title = "Category" | "Sector" | "Startup";
-
 const EditContainer = ({ searchNews }: Props) => {
-  const sectorKeys = Object.keys(sectorKey).sort();
-  const sortkeys : any = {}
+  const sectorKeys = Object.keys(sortedSector).sort();
+  const sortkeys: any = {};
 
-  const sectorKeywordList = sectorKeys.forEach(function(key) {sortkeys[key] = sectorKey[key]})
- 
-
-
-  console.log(category)
-  console.log(startup)
-  console.log(master)
+  const sectorKeywordList = sectorKeys.forEach(function (key) {
+    sortkeys[key] = sortedSector[key];
+  });
 
   return (
     <Wrap>
@@ -38,13 +31,14 @@ const EditContainer = ({ searchNews }: Props) => {
             <KeywordList key={item}>
               <SubTitle>{item}</SubTitle>
               <KeywordArea>
-                 { 
-                   Object.keys(sortkeys).map((o,index) => sortkeys[o].map((o: any, index: number) => (
-                     o.name[0] === item ? 
-                     <KeywordItem names={o.name} key={index} /> : null
-                   )))
-                 }
-                 {}
+                {Object.keys(sortkeys).map((o, index) =>
+                  sortkeys[o].map((o: any, index: number) =>
+                    o.name[0] === item ? (
+                      <KeywordItem names={o.name} key={index} />
+                    ) : null
+                  )
+                )}
+                {}
               </KeywordArea>
             </KeywordList>
           ))}

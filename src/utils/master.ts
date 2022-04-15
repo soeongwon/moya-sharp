@@ -1,5 +1,11 @@
 import { masterApi } from "../api/masterApi";
-import { Master } from "../components/home/InstanseKeyword";
+
+export type Master = {
+  exchange?: string;
+  name: string;
+  paramValue: string;
+  key: string;
+};
 
 export type MasterObj = {
   category: Array<Master>;
@@ -17,9 +23,9 @@ export type MasterObj = {
 export let master: MasterObj;
 export let category: Array<Master> = [];
 export let sector: Array<Master> = [];
-export let sectorKey: SectorKey = {};
+export let sortedSector: SectorKey = {};
 export let startup: Array<Master> = [];
-export let tickers: Array<Master> = []
+export let tickers: Array<Master> = [];
 
 export async function fetchMaster() {
   let res: MasterObj = await masterApi();
@@ -28,20 +34,13 @@ export async function fetchMaster() {
   category = res.category;
   startup = res.startup;
   sector = res.sectors;
-  sectorKey = divideSectorKey(res.sectors);
-  return { master, category, startup, sector, sectorKey };
+  sortedSector = divideSectorKey(res.sectors);
+  return { master, category, startup, sector, sortedSector };
 }
 
 type AddedKeyTypeMaster = {
   [arg: string]: string;
 };
-
-function addKeyToMasterObj(res: MasterObj) {
-  for (let key in res) {
-    res[key].forEach((obj: AddedKeyTypeMaster) => (obj.keyType = key));
-  }
-  return res;
-}
 
 type SectorKey = {
   [arg: string]: Array<Master>;

@@ -4,7 +4,7 @@ import { useSearch } from "./hooks/useSearch";
 import KeywordSelect from "./keywordComponents/KeywordSelect";
 import Search from "./searchComponents/Search";
 
-const SearchContainer = () => {
+const SearchKeywordContainer = () => {
   const { setLanguage, setTimeFilter, setMediaType, searchNews } = useSearch();
   const [isOpendKeywordList, setIsOpendKeywordList] = useState(false);
 
@@ -26,4 +26,4 @@ const SearchContainer = () => {
   );
 };
 
-export default SearchContainer;
+export default SearchKeywordContainer;

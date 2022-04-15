@@ -1,4 +1,4 @@
-import SearchContainer from "../../../components/home/SearchContainer";
+import SearchKeywordContainer from "../../../components/home/SearchKeywordContainer";
 import styled from "@emotion/styled";
 import { useAppSelector } from "../../../redux/hooks";
 import TabList from "./TabList";
@@ -30,13 +30,13 @@ const NavContainer = () => {
       <Area className={scrolled ? "fix-container scrolled" : "fix-container"}>
         {isLogin && (
           <Container>
-            {!scrolled && <SearchContainer />}
+            {!scrolled && <SearchKeywordContainer />}
             <TabList />
           </Container>
         )}
         {!isLogin && (
           <Container>
-            {!scrolled && <SearchContainer />}
+            {!scrolled && <SearchKeywordContainer />}
             <TabAddBtn role="button">
               <ConfirmButton message="회원 전용입니다. 로그인 하시겠습니까?">
                 <i>+</i>

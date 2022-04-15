@@ -1,11 +1,11 @@
 import Intro from "../../components/home/Intro";
-import SearchContainer from "./SearchContainer";
+import SearchKeywordContainer from "./SearchKeywordContainer";
 
 const Home = () => {
   return (
     <>
       <Intro />
-      <SearchContainer />
+      <SearchKeywordContainer />
     </>
   );
 };
