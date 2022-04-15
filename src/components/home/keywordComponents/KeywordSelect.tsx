@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
-import { category, sectorKey, startup } from "../../utils/master";
-import { Master } from "./InstanseKeyword";
+import { useCallback, useState } from "react";
+import { category, sectorKey, startup } from "../../../utils/master";
+import { Master } from "../InstanseKeyword";
+import TitleTabList, { Title } from "./TitleTabList";
 
 type Props = {
   searchNews: (
@@ -12,21 +13,24 @@ type Props = {
   ) => void;
 };
 
-type Title = "Category" | "Sector" | "Startup";
-
 const KeywordSelect = ({ searchNews }: Props) => {
-  const [keywordTitle, setKeywordTitle] = useState<Title>("Category");
-  const keywordTitleList: Title[] = ["Category", "Sector", "Startup"];
-  const [selectedKey, setSelectedKey] = useState<string>("A");
+  const [currentTapTitle, setCurrentTabTitle] = useState<Title>("Category");
 
-  const sectorKeys = Object.keys(sectorKey).sort();
+  const setTitle = useCallback(
+    (title: Title) => {
+      setCurrentTabTitle(title);
+    },
+    [setCurrentTabTitle]
+  );
 
-  const setTitle = (title: Title) => {
-    setKeywordTitle(title);
+  const [filterKeyInSector, setFilterKeyInSector] = useState<string>("A");
+
+  const filterKeysInSector = Object.keys(sectorKey).sort();
+  const selectFilterKeyInSector = (key: string) => {
+    setFilterKeyInSector(key);
   };
 
   const fetchNewsApi = (searchObj: Master, keyType: string) => {
-    console.log(searchObj, keyType);
     if (!searchObj.exchange) {
       searchNews(keyType, searchObj.paramValue);
     } else {
@@ -34,34 +38,19 @@ const KeywordSelect = ({ searchNews }: Props) => {
     }
   };
 
-  const selectSortKey = (key: string) => {
-    setSelectedKey(key);
-  };
-
   return (
     <KeywordSelectWrap>
-      <KeywordSelectTitles>
-        {keywordTitleList.map(item => (
-          <KeywordTitleItem
-            key={item}
-            onClick={() => setTitle(item)}
-            selected={item === keywordTitle}
-          >
-            {item}
-          </KeywordTitleItem>
-        ))}
-      </KeywordSelectTitles>
-
-      {keywordTitle === "Sector" && (
+      <TitleTabList setTitle={setTitle} tabTitle={currentTapTitle} />
+      {currentTapTitle === "Sector" && (
         <KeywordListContainer>
           <CategoryList>
             <ul>
-              {sectorKeys.map(sortKeyItem => (
+              {filterKeysInSector.map(filterKeyItem => (
                 <CategoryListItem
-                  key={`Sector-${sortKeyItem}`}
-                  onClick={() => selectSortKey(sortKeyItem)}
+                  key={`Sector-${filterKeyItem}`}
+                  onClick={() => selectFilterKeyInSector(filterKeyItem)}
                 >
-                  <span>{sortKeyItem}</span>
+                  <span>{filterKeyItem}</span>
                   <img
                     src="/images/keyword-arrow.svg"
                     alt="섹터 탭 키워드 정렬 화살표"
@@ -72,7 +61,7 @@ const KeywordSelect = ({ searchNews }: Props) => {
           </CategoryList>
 
           <KeywordListWrap>
-            {sectorKey[selectedKey].map((item: Master, index: number) => (
+            {sectorKey[filterKeyInSector].map((item: Master, index: number) => (
               <KeywordListItem
                 key={`Sector-${item}-${index}`}
                 onClick={() => {
@@ -86,7 +75,7 @@ const KeywordSelect = ({ searchNews }: Props) => {
         </KeywordListContainer>
       )}
 
-      {keywordTitle === "Startup" && (
+      {currentTapTitle === "Startup" && (
         <KeywordListContainer>
           <StartupKeywordList>
             <ul>
@@ -105,7 +94,7 @@ const KeywordSelect = ({ searchNews }: Props) => {
         </KeywordListContainer>
       )}
 
-      {keywordTitle === "Category" && (
+      {currentTapTitle === "Category" && (
         <KeywordListContainer>
           <StartupKeywordList>
             <ul>
@@ -165,31 +154,6 @@ const KeywordSelectWrap = styled.div`
   margin-top: 14px;
   background: #fff;
   border-radius: 0px 0px 5px 5px;
-`;
-
-const KeywordSelectTitles = styled.div`
-  height: 59px;
-  display: flex;
-  justify-content: end;
-  border-bottom: 1px solid #c4c4c4;
-`;
-
-type KeywordTitleItemType = {
-  selected: boolean;
-};
-
-const KeywordTitleItem = styled.strong<KeywordTitleItemType>`
-  display: block;
-  width: 329px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: ${({ selected, theme }) =>
-    selected ? theme.BlueGreenColor : "#787878"};
-  border-bottom: ${({ selected, theme }) =>
-    selected ? `4px solid ${theme.BlueGreenColor}` : null};
-  transition: all 0.2s ease;
 `;
 
 const KeywordListContainer = styled.div`
@@ -262,6 +226,3 @@ const KeywordListItem = styled.p`
   color: #4f4f4f;
   cursor: pointer;
 `;
-function addKeyword(item: string): any {
-  throw new Error("Function not implemented.");
-}

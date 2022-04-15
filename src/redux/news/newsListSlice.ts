@@ -53,7 +53,6 @@ export default function reducer(state: State = initialState, action: any) {
       };
 
     case NEWSLIST_SUCCESS:
-      // const test = state.data.push();
       return {
         loading: false,
         data: [...state.data, ...action.data.newsList],
@@ -137,7 +136,7 @@ function* getNewslistSaga(action: Action<SearchType>) {
     } else {
       const data: data = yield call(getNewList, {
         ...action.payload,
-        nextPageToken
+        ...(nextPageToken && { nextPageToken })
       });
       yield put(push(`/news/${paramValue}`));
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchMaster } from "../../utils/master";
 import { useSearch } from "./hooks/useSearch";
-import KeywordSelect from "./KeywordSelect";
+import KeywordSelect from "./keywordComponents/KeywordSelect";
 import Search from "./searchComponents/Search";
 
 const SearchContainer = () => {
