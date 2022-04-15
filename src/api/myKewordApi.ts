@@ -1,41 +1,26 @@
 import api from "./Api";
 import axios from "axios";
+import { useEffect } from "react";
 
 export type KeywordType = {
   termType: string;
   typeId: string;
 }
 
-// export async function GetAllMyKewords() {
-//   const seeAllKeywords = "preferTerms/reports"
-//   const response = await api.get(seeAllKeywords)
 
-//   return response.data
-// }
+const KEYWORD_API_URL = "/preferTerms/reports"
 
-type keywordID = Pick<KeywordType, "typeId">
-type keywordTerm = Pick<KeywordType, "termType">
+export async function GetAllMyKewords() {
+  const response = await axios.get(`${KEYWORD_API_URL}`)
 
-const Keyword = "/preferTerms/create"
-
-export async function addMyKeword(term_type: keywordTerm, type_id: keywordID) {
-  const response = await axios.post(Keyword)
-
-  console.log(response.data)
+  console.log(response)
   return response.data
 }
 
+const Keyword = "/preferTerms"
 
+export async function myKeywordApi(termType: string, typeId: number) {
+  const response = await axios.get(`${Keyword}/${termType}/${typeId}`)
 
-// export async function GetMyKeword(term_type: string, type_id: string) {
-//   const response = await api.get(`${Keyword}/${term_type}/${type_id}`)
-
-//   return response.data
-// }
-
-// export async function deleteMyKeyword(term_type: string, type_id: string) {
-//   const response = await api.delete(`${Keyword}/${term_type}/${type_id}`)
-
-//   console.log(response)
-//   return response.data
-// }
+  return response
+}

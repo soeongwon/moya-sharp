@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import KeywordItem from "./KeywordItem";
-
  
+
 const MykeyWordArea = () => {
   const myKeywords = useAppSelector(
     (state: RootState) => state.keywords
@@ -16,6 +16,7 @@ const MykeyWordArea = () => {
   const onClickEditButton = () => {
     edited ? setEdited(false) : setEdited(true)
   }
+
   return (
     <Wrap>
       <MyKeywordInner>

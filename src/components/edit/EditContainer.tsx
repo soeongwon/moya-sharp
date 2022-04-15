@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
-import { category, sectorKey, startup } from "../../utils/master";
+import { category, sectorKey, startup, master } from "../../utils/master";
+
 
 type Props = {
   searchNews: (
@@ -21,8 +22,12 @@ const EditContainer = ({ searchNews }: Props) => {
 
   const sectorKeywordList = sectorKeys.forEach(function(key) {sortkeys[key] = sectorKey[key]})
  
+
+
   console.log(category)
   console.log(startup)
+  console.log(master)
+
   return (
     <Wrap>
       <Container>
