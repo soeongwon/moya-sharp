@@ -4,23 +4,14 @@ import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
 import { sortedSector } from "../../utils/master";
 
-type Props = {
-  searchNews: (
-    keyType: string,
-    keyParam: string,
-    exchange?: string,
-    orderBy?: "top" | "latest" | "popular"
-  ) => void;
-};
-
-const EditContainer = ({ searchNews }: Props) => {
+const EditContainer = () => {
   const sectorKeys = Object.keys(sortedSector).sort();
   const sortkeys: any = {};
 
   const sectorKeywordList = sectorKeys.forEach(function (key) {
     sortkeys[key] = sortedSector[key];
   });
-
+ 
   return (
     <Wrap>
       <Container>
@@ -28,17 +19,15 @@ const EditContainer = ({ searchNews }: Props) => {
         <MykeyWordArea />
         <KeywordListWrap>
           {Object.keys(sortkeys).map((item, index) => (
-            <KeywordList key={item}>
+            <KeywordList key={index}>
               <SubTitle>{item}</SubTitle>
               <KeywordArea>
-                {Object.keys(sortkeys).map((o, index) =>
-                  sortkeys[o].map((o: any, index: number) =>
-                    o.name[0] === item ? (
-                      <KeywordItem names={o.name} key={index} />
-                    ) : null
+                {Object.keys(sortkeys).map((item) =>
+                  sortkeys[item].map((items: any, index2: number) =>
+                    items.name[0] === sectorKeys[index] ?
+                      <KeywordItem names={items.name} key={index2} /> : null
                   )
                 )}
-                {}
               </KeywordArea>
             </KeywordList>
           ))}
