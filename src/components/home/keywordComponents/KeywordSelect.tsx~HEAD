@@ -1,13 +1,8 @@
 import styled from "@emotion/styled";
 import { useCallback, useState } from "react";
-import {
-  category,
-  sectorKey as sortedSector,
-  startup
-} from "../../../utils/master";
+import { category, sectorKey, startup } from "../../../utils/master";
 import { Master } from "../InstanseKeyword";
 import TitleTabList, { Title } from "./TitleTabList";
-import SectorKeywordFindKey from "./SectorKeywordFindKey";
 
 type Props = {
   searchNews: (
@@ -30,6 +25,7 @@ const KeywordSelect = ({ searchNews }: Props) => {
 
   const [filterKeyInSector, setFilterKeyInSector] = useState<string>("A");
 
+  const filterKeysInSector = Object.keys(sectorKey).sort();
   const selectFilterKeyInSector = (key: string) => {
     setFilterKeyInSector(key);
   };
@@ -42,29 +38,49 @@ const KeywordSelect = ({ searchNews }: Props) => {
     }
   };
 
+<<<<<<< HEAD:src/components/home/keywordComponents/KeywordSelect.tsx
+=======
+  const selectSortKey = (key: string) => {
+    setSelectedKey(key);
+  };
+
+  const i = sectorKeys.map(item => console.log(item))
+
+  console.log(sectorKeys)
+>>>>>>> 0d9e4a6457bd67ea866155e5b19ddfb9c2ea4ed6:src/components/home/KeywordSelect.tsx
   return (
     <KeywordSelectWrap>
       <TitleTabList setTitle={setTitle} tabTitle={currentTapTitle} />
       {currentTapTitle === "Sector" && (
         <KeywordListContainer>
-          <SectorKeywordFindKey
-            sortedSector={sortedSector}
-            selectFilterKeyInSector={selectFilterKeyInSector}
-          />
+          <CategoryList>
+            <ul>
+              {filterKeysInSector.map(filterKeyItem => (
+                <CategoryListItem
+                  key={`Sector-${filterKeyItem}`}
+                  onClick={() => selectFilterKeyInSector(filterKeyItem)}
+                >
+                  <span>{filterKeyItem}</span>
+                  <img
+                    src="/images/keyword-arrow.svg"
+                    alt="섹터 탭 키워드 정렬 화살표"
+                  />
+                </CategoryListItem>
+              ))}
+            </ul>
+          </CategoryList>
 
           <KeywordListWrap>
-            {sortedSector[filterKeyInSector].map(
-              (item: Master, index: number) => (
-                <KeywordListItem
-                  key={`Sector-${item}-${index}`}
-                  onClick={() => {
-                    fetchNewsApi(item, "sectors");
-                  }}
-                >
-                  {item.name}
-                </KeywordListItem>
-              )
-            )}
+            {sectorKey[filterKeyInSector].map((item: Master, index: number) => (
+              <KeywordListItem
+                key={`Sector-${item}-${index}`}
+                onClick={() => {
+                  fetchNewsApi(item, "sectors");
+                }}
+              >
+                {item.name}
+              </KeywordListItem>
+            ))}
           </KeywordListWrap>
         </KeywordListContainer>
       )}
@@ -157,6 +173,35 @@ const KeywordListContainer = styled.div`
   display: flex;
 `;
 
+const CategoryList = styled.div`
+  width: 324px;
+  overflow-y: scroll;
+  ul {
+    margin-left: 10px;
+  }
+`;
+const CategoryListItem = styled.li`
+  height: 55px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  color: #4f4f4f;
+  border-bottom: 1px solid #eeeeee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  img {
+    padding-bottom: 3px;
+    display: none;
+  }
+  &:hover {
+    background: #f0fcfb;
+  }
+  &:hover img {
+    display: block;
+  }
+`;
+
 export const KeywordListWrap = styled.div`
   width: 100%;
   padding: 10px;
@@ -191,3 +236,9 @@ const KeywordListItem = styled.p`
   color: #4f4f4f;
   cursor: pointer;
 `;
+<<<<<<< HEAD:src/components/home/keywordComponents/KeywordSelect.tsx
+=======
+function addKeyword(item: string): any {
+  throw new Error("Function not implemented.");
+}
+>>>>>>> 0d9e4a6457bd67ea866155e5b19ddfb9c2ea4ed6:src/components/home/KeywordSelect.tsx

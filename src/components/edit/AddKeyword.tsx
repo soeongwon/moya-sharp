@@ -16,9 +16,9 @@ const AddKeyword = () => {
         <KeywordLine />
         <KeyWordTitle>My Keyword</KeyWordTitle>
         <MyKeywordInner>
-          {myKeywords.map(item => (
+          {/* {myKeywords.map(item => (
             <KeywordItem key={`mykeyword-${item.data}`} item={item.data} />
-          ))}
+          ))} */}
         </MyKeywordInner>
       </Container>
     </Wrap>
