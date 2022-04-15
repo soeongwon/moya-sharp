@@ -13,11 +13,6 @@ const MyKeyword = () => {
 
   const userTabList = useAppSelector(state => state.keywords);
 
-  interface Keyword {
-    data: string;
-  }
-
-
   return (
     <KeywordsWarp>
       <h3>마이키워드</h3>
