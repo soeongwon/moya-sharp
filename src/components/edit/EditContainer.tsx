@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
-import { sortedSector } from "../../utils/master";
+import { sectors } from "../../utils/master";
+import { divideSectorKey } from "../../utils/divideSectorKey";
 
 type Props = {
   searchNews: (
@@ -49,6 +50,8 @@ const EditContainer = ({ searchNews }: Props) => {
 };
 
 export default EditContainer;
+
+const sortedSector = divideSectorKey(sectors);
 
 const Wrap = styled.main`
   padding-top: 59px;
