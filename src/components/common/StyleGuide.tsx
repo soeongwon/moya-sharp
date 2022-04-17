@@ -13,9 +13,28 @@ const StyleGuide = () => {
     <Style>
       <Container1240>
         <h1 className="style-guide-title">Moya Style Guide</h1>
+        <p className="title">ColorPalette</p>
         <ColorPalette>
           <div className="col-2">
             <div className="color-chip">Primary</div>
+          </div>
+          <div className="col-2">
+            <div className="color-chip BlueGreenColor">BlueGreenColor</div>
+          </div>
+          <div className="col-2">
+            <div className="color-chip TextDefault">TextDefault</div>
+          </div>
+          <div className="col-2">
+            <div className="color-chip NewsTitle">NewsTitle</div>
+          </div>
+          <div className="col-2">
+            <div className="color-chip SubTitle">SubTitle</div>
+          </div>
+          <div className="col-2">
+            <div className="color-chip Overline"> Overline</div>
+          </div>
+          <div className="col-2">
+            <div className="color-chip NewsDescription"> NewsDescription</div>
           </div>
         </ColorPalette>
         <Typography>
@@ -80,6 +99,14 @@ const Style = styled.main`
     line-height: 54px;
     letter-spacing: -1px;
   }
+  .title {
+    font-family: "Noto Sans";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 30px;
+    margin-bottom: 1rem !important;
+  }
   section > div {
     position: relative;
   }
@@ -99,6 +126,51 @@ const Container1240 = styled.div`
   margin-left: auto;
 `;
 
+const ColorPalette = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 3rem !important;
+  gap: 20px;
+  & > .col-2 {
+    flex: 0 0 16.66667%;
+    max-width: 16.66667%;
+    border: 1px solid black;
+  }
+
+  .color-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 30px 0;
+    background: ${({ theme }) => theme.primaryColor};
+    color: #fff;
+    font-weight: 700;
+    &.BlueGreenColor {
+      background: ${({ theme }) => theme.blueGreenColor};
+    }
+    &.TextDefault {
+      background: ${({ theme }) => theme.textDefault};
+    }
+    &.NewsTitle {
+      background: ${({ theme }) => theme.newsTitle};
+    }
+    &.MyKeyword {
+      background: ${({ theme }) => theme.myKeyword};
+    }
+    &.SubTitle {
+      background: ${({ theme }) => theme.subTitle};
+    }
+    &.Overline {
+      background: ${({ theme }) => theme.overLine};
+    }
+    &.NewsDescription {
+      background: ${({ theme }) => theme.newsDescription};
+    }
+  }
+  .primaryColor {
+  }
+`;
 const Typography = styled.section`
   display: block;
   gap: 10px;
@@ -106,14 +178,7 @@ const Typography = styled.section`
   p {
     margin: 20 0px;
   }
-  .title {
-    font-family: "Noto Sans";
-    font-style: normal;
-    font-weight: 300;
-    font-size: 30px;
-    line-height: 30px;
-    margin-bottom: 1rem !important;
-  }
+
   .sub-title {
     font-size: 18px;
     margin: 0;
@@ -233,19 +298,3 @@ const Drop = styled.section`
   gap: 40px;
 `;
 const IconButton = styled.section``;
-
-const ColorPalette = styled.section`
-  & > .col-2 {
-    flex: 0 0 16.66667%;
-    max-width: 16.66667%;
-    border: 1px solid black;
-  }
-  .color-chip {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 30px 0;
-    background: ${({ theme }) => theme.primaryColor};
-  }
-`;

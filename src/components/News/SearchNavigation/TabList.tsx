@@ -85,7 +85,7 @@ const List = styled.ul`
     box-sizing: border-box;
     font-size: 16px;
     font-weight: 400;
-    color: ${({ theme }) => theme.NewsDescription};
+    color: ${({ theme }) => theme.newsDescription};
     background-color: #f4f4f4;
     border-top: 5px solid transparent;
     cursor: pointer;

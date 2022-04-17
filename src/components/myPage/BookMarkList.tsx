@@ -107,7 +107,7 @@ const BookmarkList = styled.ul`
   h2 {
     font-weight: 600;
     font-size: 22px;
-    color: ${({ theme }) => theme.NewsTitle};
+    color: ${({ theme }) => theme.newsTitle};
     margin-bottom: 11px;
   }
   li + li {

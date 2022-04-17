@@ -113,7 +113,7 @@ const Figure = styled.figure`
 
 const ArticleBody = styled.div`
   p {
-    color: ${({ theme }) => theme.NewsDescription};
+    color: ${({ theme }) => theme.newsDescription};
     font-family: NotoSans-Display;
     font-size: 16px;
     font-weight: normal;
@@ -137,7 +137,7 @@ const Title = styled.h2`
   margin-bottom: 14px;
   a {
     text-decoration: none;
-    color: ${({ theme }) => theme.NewsTitle};
+    color: ${({ theme }) => theme.newsTitle};
   }
 `;
 

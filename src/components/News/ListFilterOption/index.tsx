@@ -39,7 +39,7 @@ const ListFeatures = styled.div`
     font-weight: 600;
     font-size: 16px;
     line-height: 22px;
-    color: ${({ theme }) => theme.SubTitle};
+    color: ${({ theme }) => theme.subTitle};
   }
 `;
 

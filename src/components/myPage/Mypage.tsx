@@ -87,7 +87,7 @@ const EditKeywords = styled.button`
     font-size: 16px;
     line-height: 30px;
     display: inline;
-    color: ${({ theme }) => theme.NewsDescription};
+    color: ${({ theme }) => theme.newsDescription};
     text-decoration: none;
   }
   img {

@@ -72,7 +72,7 @@ const Title = styled.h2`
   margin-bottom: 14px;
   a {
     text-decoration: none;
-    color: ${({ theme }) => theme.NewsTitle};
+    color: ${({ theme }) => theme.newsTitle};
   }
 `;
 
@@ -133,7 +133,7 @@ const ArticleFooter = styled.footer`
   }
 `;
 const ArticleBody = styled.p`
-    color: ${({ theme }) => theme.NewsDescription};
+    color: ${({ theme }) => theme.newsDescription};
   font-family: NotoSans-Display;
   font-size: 16px;
   font-weight: normal;

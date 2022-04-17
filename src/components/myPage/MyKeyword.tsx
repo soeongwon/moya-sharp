@@ -44,7 +44,7 @@ const Keywords = styled.button`
   border: solid 1px #48c0b7;
   background-color: #fff;
   border-radius: 5px;
-  color: ${({ theme }) => theme.MyKeyword};
+  color: ${({ theme }) => theme.myKeyword};
   font-size: 20px;
   font-weight: 600;
   line-height: 30px;

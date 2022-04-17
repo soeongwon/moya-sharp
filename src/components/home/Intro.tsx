@@ -21,7 +21,7 @@ const Intro = () => {
 export default Intro;
 
 const Introduction = styled.section`
-  color: ${props => props.theme.BlueGreenColor};
+  color: ${({ theme }) => theme.blueGreenColor};
   margin-bottom: 65px;
   h1 {
     width: 538.7px;
@@ -51,5 +51,5 @@ const MembershipButton = styled.button`
   border: none;
   color: #fff;
   margin-bottom: 145px;
-  background: ${props => props.theme.BlueGreenColor};
+  background: ${({ theme }) => theme.blueGreenColor};
 `;

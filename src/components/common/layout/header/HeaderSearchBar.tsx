@@ -49,7 +49,7 @@ const Input = styled.input`
   &::placeholder {
     font-weight: 500;
     font-size: 15px;
-    color: ${({ theme }) => theme.Overline};
+    color: ${({ theme }) => theme.overLine};
     padding-left: 10px;
   }
 `;
