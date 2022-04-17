@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import { SearchFilterItem } from "./SearchFilterItem";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useCallback, useState } from "react";
 import { useEffect } from "react";
 import { languageCode } from "../../../utils/languageCode";
 import { timeFilter } from "../../../utils/timeFilter";
 import { categories } from "../../../utils/categories";
 import { seachInstanceSearch } from "../../../utils/seachInstanceSearch";
-import { Master, master } from "../../../utils/master";
+import { master, MasterItem } from "../../../utils/master";
 import InstanseSearch from "./InstanseSearch";
 import { KeywordPageLinkButton } from "./../keywordComponents/KeywordPageLinkButton";
 
@@ -40,7 +40,9 @@ const Search = ({
   const [focused, setFocused] = useState<boolean>(false);
   const [inputText, setInputText] = useState(" ");
   const [isOpenInstanseSearch, setIsOpenInstanseSearch] = useState(false);
-  const [instanseKeyword, setInstanseKeyword] = useState<Array<Master>>([]);
+  const [instanseKeyword, setInstanseKeyword] = useState<{
+    [key: string]: MasterItem[];
+  }>({});
 
   const filterListArr: Array<FilterItemType> = FILTER_ITEM_LABEL;
 
@@ -99,16 +101,19 @@ const Search = ({
     setInputText(value);
   };
 
-  const instanseSearch = () => {
+  const instanseSearch = useCallback(() => {
     if (inputText === " " || !inputText) {
       setIsOpenInstanseSearch(false);
       return;
     }
-    let filterObj: Array<Master> = seachInstanceSearch(master, inputText);
+    let filterObj: { [key: string]: MasterItem[] } = seachInstanceSearch(
+      master,
+      inputText
+    );
 
     setInstanseKeyword(filterObj);
     setIsOpenInstanseSearch(true);
-  };
+  }, [setIsOpenInstanseSearch, inputText]);
 
   return (
     <SearchArea>
@@ -156,7 +161,13 @@ const Search = ({
           </SearchFilterSelectWrap>
         </form>
       </SearchWarp>
-      {isOpenInstanseSearch && <InstanseSearch keyword={instanseKeyword} />}
+      {isOpenInstanseSearch && (
+        <InstanseSearch
+          keyword={instanseKeyword}
+          inputText={inputText}
+          setIsOpenInstanseSearch={setIsOpenInstanseSearch}
+        />
+      )}
     </SearchArea>
   );
 };
@@ -240,10 +251,11 @@ const SearchWarp = styled.div`
   margin: 32px 0 0;
   padding: 26px 26px 24px 0;
   border-radius: 5px;
-  /* border: 1px solid #f1f1f1; */
-  border: 1px solid #c4c4c4;
+  border: 1px solid #f1f1f1;
   border-radius: 5px;
   background-color: #fff;
+  box-shadow: 0px 0px 7px rgba(196, 195, 195, 0.25);
+  border: 1px solid #d5d5d5;
 `;
 
 type SearchBoxProps = {

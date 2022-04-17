@@ -1,19 +1,26 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { Master } from "../../../utils/master";
+import { MasterItem } from "../../../utils/master";
 import { useSearch } from "../hooks/useSearch";
 
 type Props = {
-  keyword: Array<Master>;
+  keyword: { [key: string]: MasterItem[] };
+  inputText: string;
+  setIsOpenInstanseSearch: (arg: boolean) => void;
 };
 
-const InstanseSearch = ({ keyword }: Props) => {
+const InstanseSearch = ({
+  keyword,
+  inputText,
+  setIsOpenInstanseSearch
+}: Props) => {
   const { searchNews } = useSearch();
 
-  const search = (item: Master) => {
-    const keyType = item.key;
+  const search = (item: MasterItem, key: string) => {
+    const keyType = key;
     const keyParam = item.paramValue;
     const exchange = item.exchange ? item.exchange : null;
+
     if (exchange) {
       searchNews(keyType, keyParam, exchange);
     } else {
@@ -21,22 +28,38 @@ const InstanseSearch = ({ keyword }: Props) => {
     }
   };
 
-  return (
-    <InstanseSearchDropDown>
-      {keyword.map((item: Master, index, arr) => {
-        let el = [];
-        if (index === 0 || arr[index - 1].key !== item.key) {
-          el.push(<h3>{item.key}</h3>);
-        }
+  function show() {
+    if (inputText === "") {
+      return;
+    }
+    let el: any = [];
+    Object.keys(keyword).map((key: string, index) => {
+      el.push(<h3 key={`${index}-${key}`}>{key}</h3>);
+      keyword[key].forEach((item: MasterItem, index) => {
+        const parts = item.name.split(new RegExp(`(${inputText})`, "gi"));
         el.push(
-          <div onClick={() => search(item)} key={`${index}-${item.paramValue}`}>
-            {item.name}
+          <div
+            onClick={() => search(item, key)}
+            key={`${index}-${item.paramValue}`}
+          >
+            {parts.map(part => {
+              return part.toLowerCase() === inputText.toLowerCase() ? (
+                <HighlightedText>{part}</HighlightedText>
+              ) : (
+                part
+              );
+            })}
           </div>
         );
-        return el;
-      })}
-    </InstanseSearchDropDown>
-  );
+      });
+    });
+    if (!el.length) {
+      setIsOpenInstanseSearch(false);
+    }
+    return el;
+  }
+
+  return <InstanseSearchDropDown>{show()}</InstanseSearchDropDown>;
 };
 
 export default InstanseSearch;
@@ -68,8 +91,7 @@ const InstanseSearchDropDown = styled.div`
       background: #f0fcfb;
     }
   }
-  .highlight {
-    font-weight: bold;
-    color: #ff0000;
-  }
+`;
+const HighlightedText = styled.span`
+  color: #48c0b7;
 `;

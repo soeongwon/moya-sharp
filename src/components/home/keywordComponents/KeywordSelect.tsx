@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import { useCallback, useState } from "react";
-import { category, Master, sortedSector, startup } from "../../../utils/master";
+import { category, MasterItem, sectors, startup } from "../../../utils/master";
 import TitleTabList, { Title } from "./TitleTabList";
 import SectorKeywordFindKey from "./SectorKeywordFindKey";
+import { divideSectorKey } from "../../../utils/divideSectorKey";
 
 type Props = {
   searchNews: (
@@ -15,6 +16,8 @@ type Props = {
 
 const KeywordSelect = ({ searchNews }: Props) => {
   const [currentTapTitle, setCurrentTabTitle] = useState<Title>("Category");
+
+  const sortedSector = divideSectorKey(sectors);
 
   const setTitle = useCallback(
     (title: Title) => {
@@ -29,7 +32,7 @@ const KeywordSelect = ({ searchNews }: Props) => {
     setFilterKeyInSector(key);
   };
 
-  const fetchNewsApi = (searchObj: Master, keyType: string) => {
+  const fetchNewsApi = (searchObj: MasterItem, keyType: string) => {
     if (!searchObj.exchange) {
       searchNews(keyType, searchObj.paramValue);
     } else {
@@ -49,7 +52,7 @@ const KeywordSelect = ({ searchNews }: Props) => {
 
           <KeywordListWrap>
             {sortedSector[filterKeyInSector].map(
-              (item: Master, index: number) => (
+              (item: MasterItem, index: number) => (
                 <KeywordListItem
                   key={`Sector-${item}-${index}`}
                   onClick={() => {
@@ -143,6 +146,9 @@ const KeywordSelectWrap = styled.div`
   margin-top: 14px;
   background: #fff;
   border-radius: 0px 0px 5px 5px;
+  box-shadow: 0px 0px 7px rgba(196, 195, 195, 0.25);
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
 `;
 
 const KeywordListContainer = styled.div`
