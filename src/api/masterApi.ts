@@ -8,3 +8,5 @@ async function masterApi() {
 }
 
 export { masterApi };
+
+console.log(masterApi())

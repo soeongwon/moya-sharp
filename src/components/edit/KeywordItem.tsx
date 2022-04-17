@@ -3,16 +3,17 @@ import { useAppDispatch } from "../../redux/hooks";
 import { addKeyword, deleteKeyword } from "../../redux/keyword/keywordsSlice";
 
 type Props = {
-  item: string;
+  names: any;
 };
 
-const KeywordItem = ({ item }: Props) => {
+const KeywordItem = ({ names }: Props) => {
   const dispatch = useAppDispatch();
-  const handleAdd = () => dispatch(addKeyword(item));
-  const handleDelete = () => dispatch(deleteKeyword(item));
+  const handleAdd = () => dispatch(addKeyword(names));
+  const handleDelete = () => dispatch(deleteKeyword(names));
+
   return (
     <KeyWordItemWrap>
-      <KeywordText onClick={handleAdd}>{item}</KeywordText>
+      <KeywordText onClick={handleAdd}>{names}</KeywordText>
       <DeleteBtn onClick={handleDelete}>
         <img src="/images/keyword-delete.svg" alt="삭제하기 버튼" />
       </DeleteBtn>

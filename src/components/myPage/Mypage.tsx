@@ -5,8 +5,11 @@ import SideNav from "./SideNav";
 import MembershipCard from "./MembershipCard";
 import PaymentsCard from "./PaymentsCard";
 import MyKeyword from "./MyKeyword";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const MyPage = () => {
+
   return (
     <Wrap>
       <Container>
@@ -23,7 +26,7 @@ const MyPage = () => {
               <MembershipCard />
               <PaymentsCard />
             </ContTop>
-            <MyKeyword />
+            <MyKeyword/>
             <EditKeywords>
               <Link to={"/edit"}>
                 키워드 편집
@@ -75,7 +78,8 @@ const EditKeywords = styled.button`
   position: absolute;
   border: 0;
   background-color: inherit;
-  bottom: 75px;
+  /* bottom: 75px; */
+  top: 460px;
   right: 0;
   cursor: pointer;
   a {
@@ -83,7 +87,7 @@ const EditKeywords = styled.button`
     font-size: 16px;
     line-height: 30px;
     display: inline;
-    color: #7a7a7a;
+    color: ${({ theme }) => theme.NewsDescription};
     text-decoration: none;
   }
   img {

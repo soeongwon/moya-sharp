@@ -2,29 +2,47 @@ import styled from "@emotion/styled";
 import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import MykeyWordArea from "./MykeyWordArea";
-import { useAppDispatch } from "../../redux/hooks";
-import { keywordList } from "../../utils/keywordList";
+import { sectors } from "../../utils/master";
+import { divideSectorKey } from "../../utils/divideSectorKey";
 
-const EditContainer = () => {
+type Props = {
+  searchNews: (
+    keyType: string,
+    keyParam: string,
+    exchange?: string,
+    orderBy?: "top" | "latest" | "popular"
+  ) => void;
+};
+
+const EditContainer = ({ searchNews }: Props) => {
+  const sectorKeys = Object.keys(sortedSector).sort();
+  const sortkeys: any = {};
+
+  const sectorKeywordList = sectorKeys.forEach(function (key) {
+    sortkeys[key] = sortedSector[key];
+  });
+
   return (
     <Wrap>
       <Container>
         <KeyWordTitle>My Keyword</KeyWordTitle>
         <MykeyWordArea />
         <KeywordListWrap>
-          {keywordList.map((item, index) => (
-            <KeywordList key={index}>
-              <SubTitle>{item.title}</SubTitle>
+          {Object.keys(sortkeys).map((item, index) => (
+            <KeywordList key={item}>
+              <SubTitle>{item}</SubTitle>
               <KeywordArea>
-                {item.data.map((item, index) => (
-                  <KeywordItem item={item} key={`mykeyword-${item}-${index}`} />
-                ))}
+                {Object.keys(sortkeys).map((o, index) =>
+                  sortkeys[o].map((o: any, index: number) =>
+                    o.name[0] === item ? (
+                      <KeywordItem names={o.name} key={index} />
+                    ) : null
+                  )
+                )}
+                {}
               </KeywordArea>
             </KeywordList>
           ))}
-          {/* {searchKeyword.map((item, index) => (
-            <div>{item.sub_name}</div>
-          ))} */}
         </KeywordListWrap>
       </Container>
     </Wrap>
@@ -33,8 +51,10 @@ const EditContainer = () => {
 
 export default EditContainer;
 
+const sortedSector = divideSectorKey(sectors);
+
 const Wrap = styled.main`
-  padding-top: 500px;
+  padding-top: 59px;
   min-height: 100vh;
 `;
 const KeywordList = styled.div`
@@ -62,6 +82,6 @@ const KeywordArea = styled.div`
   gap: 10px;
 `;
 
-function addKeyword(item: string): any {
-  throw new Error("Function not implemented.");
-}
+// function addKeyword(item: string): any {
+//   throw new Error("Function not implemented.");
+// }

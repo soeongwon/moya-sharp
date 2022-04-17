@@ -11,7 +11,7 @@ const HeaderSeachbar = () => {
     </SearchWrap>
   );
 };
-export default HeaderSeachbar
+export default HeaderSeachbar;
 const SearchWrap = styled.div`
   margin-left: 200px;
 `;
@@ -49,7 +49,7 @@ const Input = styled.input`
   &::placeholder {
     font-weight: 500;
     font-size: 15px;
-    color: #e1e1e1;
+    color: ${({ theme }) => theme.Overline};
     padding-left: 10px;
   }
 `;

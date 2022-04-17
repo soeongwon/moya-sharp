@@ -1,8 +1,11 @@
-import { call, put, delay, throttle } from "redux-saga/effects";
+import { put, throttle } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import { getNewList, SearchType } from "../../api/newsListApi";
 import { Action } from "redux-actions";
 import { fetchNews } from "../../api/newsApi";
+import * as Effects from "redux-saga/effects";
+
+const call: any = Effects.call;
 
 export const NEWSLIST_START = "NEWSLIST_START";
 export const NEWSLIST_SUCCESS = "NEWSLIST_SUCCESS";
@@ -50,7 +53,6 @@ export default function reducer(state: State = initialState, action: any) {
       };
 
     case NEWSLIST_SUCCESS:
-      // const test = state.data.push();
       return {
         loading: false,
         data: [...state.data, ...action.data.newsList],
@@ -124,18 +126,17 @@ function* getNewslistSaga(action: Action<SearchType>) {
       keyType === "category"
     ) {
       console.log("getNewslistSaga", action);
-      const data: data = yield call(
-        fetchNews,
+      const data: data = yield call(fetchNews, {
         keyType,
         paramValue,
         nextPageToken
-      );
+      });
       yield put(push(isExchange(action)));
       yield put(getNewslistSuccess(data));
     } else {
       const data: data = yield call(getNewList, {
         ...action.payload,
-        nextPageToken
+        ...(nextPageToken && { nextPageToken })
       });
       yield put(push(`/news/${paramValue}`));
       yield put(getNewslistSuccess(data));

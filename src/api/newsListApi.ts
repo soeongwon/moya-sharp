@@ -44,6 +44,5 @@ export async function getNewList(searchPayload: SearchType) {
     params.append("nextPageToken", searchPayload.nextPageToken);
   }
   const response = await api.get(NEWS_API_URL, { params });
-
   return response.data;
 }

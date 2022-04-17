@@ -56,6 +56,10 @@ color: rgba(255, 255, 255, 0.6);
     color: #fff;
     border: #48c0b7;
   }
+  li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    position: relative;
+  }
 `
 const Counts = styled.div`
   width: 42px;

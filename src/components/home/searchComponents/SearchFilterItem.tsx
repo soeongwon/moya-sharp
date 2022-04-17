@@ -10,7 +10,7 @@ type Props = {
   filterList: string[];
   setLanguage: (arg: string) => void;
   setTimeFilter: (arg: string) => void;
-  setCategories: (arg: string) => void;
+  setMediaType: (arg: string) => void;
   openFilterList: (
     index: number,
     event: React.MouseEvent<HTMLDivElement>
@@ -29,7 +29,7 @@ export const SearchFilterItem = ({
   filterList,
   setLanguage,
   setTimeFilter,
-  setCategories
+  setMediaType
 }: Props) => {
   const [defaultLanguage, setDefaultLanguage] = useState("English");
   const [defaultTimeFilter, setDefaultTimeFilter] = useState("한달");
@@ -50,7 +50,7 @@ export const SearchFilterItem = ({
   };
   const clickCategoryName = (categoryName: string) => {
     setDefaultCategory(categoryName);
-    setCategories(categoryName);
+    setMediaType(categoryName);
   };
 
   const setDefaultName = (filterItem: FilterItemType) => {

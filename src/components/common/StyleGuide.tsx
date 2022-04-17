@@ -246,6 +246,6 @@ const ColorPalette = styled.section`
     justify-content: center;
     width: 100%;
     padding: 30px 0;
-    background: ${({ theme }) => theme.BlueGreenColor};
+    background: ${({ theme }) => theme.primaryColor};
   }
 `;
