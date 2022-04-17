@@ -2,9 +2,8 @@ import styled from "@emotion/styled";
 import HomeComponent from "../components/home";
 import useNeedLogin from "../components/login/hooks/useNeedLogin";
 
-const Home = () => {
+const HomePage = () => {
   useNeedLogin();
-
   return (
     <HomeWrap>
       <InnerWrap className="Inner">
@@ -14,7 +13,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
 
 const HomeWrap = styled.main`
   position: relative;

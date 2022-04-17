@@ -3,6 +3,5 @@ import useBlockLoginUser from "../components/login/hooks/useBlockLoginUser";
 import { LoginContainer } from "../components/login/LoginContainer";
 
 export const Login = () => {
-  useBlockLoginUser();
-  return <LoginContainer />;
+  return null;
 };

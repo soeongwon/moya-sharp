@@ -138,7 +138,6 @@ function* getNewslistSaga(action: Action<SearchType>) {
         nextPageToken
       });
       yield put(push(`/news/${paramValue}`));
-
       yield put(getNewslistSuccess(data));
     }
   } catch (error) {

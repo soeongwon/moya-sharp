@@ -1,13 +1,14 @@
-import Home from "./pages/Home";
-import News from "./pages/News";
 import "./index.css";
-import Bookmark from "./components/myPage/Bookmark";
-import Mypage from "./pages/Mypage";
-import EditContainer from "./components/edit/EditContainer";
-import { Login } from "./pages/Login";
 import { Route, Switch } from "react-router-dom";
-import StyleGuide from "./components/common/StyleGuide";
 import { QueryParamProvider } from "use-query-params";
+import EditContainer from "./components/edit/EditContainer";
+import StyleGuide from "./components/common/StyleGuide";
+import Bookmark from "./components/myPage/Bookmark";
+import Mypage from "./pages/MypagePage";
+import Home from "./pages/HomePage";
+import News from "./pages/NewsPage";
+import LoginServicePage from "./pages/LoginServicePage";
+
 const AppRouter = () => {
   return (
     <QueryParamProvider ReactRouterRoute={Route}>
@@ -16,10 +17,11 @@ const AppRouter = () => {
         <Route exact path="/mypage/bookmark" component={Bookmark} />
         <Route exact path="/mypage" component={Mypage} />
         <Route exact path="/news/:query" component={News} />
-        <Route exact path="/login" component={Login} />
         <Route exact path="/news" component={News} />
         <Route exact path="/" component={Home} />
         <Route exact path="/style" component={StyleGuide} />
+        <Route exact path="/login" component={LoginServicePage} />
+        {/* <Route exact path="/login" component={Login} /> */}
       </Switch>
     </QueryParamProvider>
   );

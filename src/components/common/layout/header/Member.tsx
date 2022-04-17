@@ -2,10 +2,11 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import ModalDropDown from "../../DropDown/ModalDropDown";
-import LoginConfirmButton from "../../Confirm/LoginConfirmButton";
 import { useAppSelector } from "../../../../redux/hooks";
+import LogOutButton from "./LogOutButton";
 const Member = () => {
-  const { userId, isLogin } = useAppSelector(state => state.user);
+  const { isLogin } = useAppSelector(state => state.userLogin);
+
   return (
     <>
       <Wrap>
@@ -13,7 +14,8 @@ const Member = () => {
         <Profile>
           <i className="profile-icon"></i>
           <span className="user-name">
-            {isLogin ? `${userId} 님` : "회원님"}
+            {/* {isLogin ? `${userId} 님` : "회원님"} */}
+            회원님
           </span>
           <ModalDropDown>
             <li className="dropdown-item">
@@ -22,11 +24,7 @@ const Member = () => {
             <li className="dropdown-item">
               <Link to="/mypage">프로필</Link>
             </li>
-            <li className="dropdown-item">
-              <LoginConfirmButton message="로그아웃 하시겠습니까?">
-                로그아웃
-              </LoginConfirmButton>
-            </li>
+            <li className="dropdown-item">로그아웃</li>
           </ModalDropDown>
         </Profile>
       </Wrap>

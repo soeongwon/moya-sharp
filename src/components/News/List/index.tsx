@@ -9,7 +9,7 @@ import Container from "../../common/layout/Container";
 import ImageArticleList from "./ImageArticleList";
 import TextArticleList from "./TextArticleList";
 import ObserverView from "./ObserverView";
-
+import Spinner from "../common/Spinner";
 const List = () => {
   const { NewsFormats } = useNewsFormats();
   const { data, loading, nextPageToken, error } = useAppSelector(
@@ -47,7 +47,11 @@ const List = () => {
               <TextArticleList newListData={data} />
             )}
           </>
-          {loading && <div>....isLoading</div>}
+          {loading && (
+            <LoadingSpinnerWrap>
+              <Spinner></Spinner>
+            </LoadingSpinnerWrap>
+          )}
         </Container>
       </Wrap>
       {loading === false && nextPageToken && (
@@ -69,6 +73,10 @@ const List = () => {
 export default List;
 const Wrap = styled.section``;
 
+const LoadingSpinnerWrap = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 // useEffect(() => {
 //   console.log(nextPageToken, "넥스트토큰", data, "데이터");
 // }, [nextPageToken, data]);
