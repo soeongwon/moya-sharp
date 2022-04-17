@@ -12,7 +12,7 @@ import ObserverView from "./ObserverView";
 import Spinner from "../common/Spinner";
 const List = () => {
   const { NewsFormats } = useNewsFormats();
-  const { data, loading, nextPageToken, error } = useAppSelector(
+  const { data, loading, error } = useAppSelector(
     (state: RootState) => state.newsList
   );
   const dispatch = useAppDispatch();
@@ -25,7 +25,6 @@ const List = () => {
     mediaType: StringParam,
     exchange: StringParam
   });
-  const { keyType, orderBy } = query;
 
   useEffect(() => {
     dispatch(fetchNewList({ ...query }));
@@ -36,47 +35,33 @@ const List = () => {
   }, [dispatch, query]);
 
   return (
-    <>
-      <Wrap>
-        <Container>
-          <>
-            {NewsFormats === "Image" && data.length > 1 && (
-              <ImageArticleList newListData={data} />
-            )}
-            {NewsFormats === "Text" && data.length > 1 && (
-              <TextArticleList newListData={data} />
-            )}
-          </>
-          {loading && (
-            <LoadingSpinnerWrap>
-              <Spinner></Spinner>
-            </LoadingSpinnerWrap>
-          )}
-        </Container>
-      </Wrap>
-      {loading === false && nextPageToken && (
-        <ObserverView
-          options={{
-            threshold: 0.3,
-            rootMargin: "0px 0px 100px 0px",
-            trackVisibility: true,
-            delay: 2000,
-            skip: error ? true : false
-          }}
-          query={query}
-        />
-      )}
-    </>
+    <Wrap>
+      <Container>
+        <>
+          {NewsFormats === "Image" && <ImageArticleList newListData={data} />}
+          {NewsFormats === "Text" && <TextArticleList newListData={data} />}
+        </>
+      </Container>
+      <Spinner loading={loading}></Spinner>
+      <ObserverView
+        options={{
+          threshold: 0.3,
+          rootMargin: "0px 0px 100px 0px",
+          trackVisibility: true,
+          delay: 2000,
+          skip: error ? true : false
+        }}
+        query={query}
+      />
+    </Wrap>
   );
 };
 
 export default List;
 const Wrap = styled.section``;
 
-const LoadingSpinnerWrap = styled.div`
+const Test = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
-// useEffect(() => {
-//   console.log(nextPageToken, "넥스트토큰", data, "데이터");
-// }, [nextPageToken, data]);

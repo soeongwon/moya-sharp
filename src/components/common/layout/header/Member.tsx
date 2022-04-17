@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import ModalDropDown from "../../DropDown/ModalDropDown";
 import { useAppSelector } from "../../../../redux/hooks";
-import LogOutButton from "./LogOutButton";
+import ModalDropDown from "../../DropDown/ModalDropDown";
+
 const Member = () => {
   const { isLogin } = useAppSelector(state => state.userLogin);
-
   return (
     <>
       <Wrap>
@@ -85,10 +84,9 @@ const Profile = styled.div`
   }
   .dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: 54px;
     width: 183px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 0;
     box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
     border-radius: 5px;
     background-color: #fff;

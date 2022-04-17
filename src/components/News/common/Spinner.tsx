@@ -2,16 +2,25 @@
 import { keyframes, css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const Spinner = () => {
+const Spinner = ({ loading }: any) => {
   return (
-    <Loader
-      css={css`
-        animation: ${LoaderAnimation} 1s linear infinite;
-      `}
-    ></Loader>
+    loading && (
+      <LoadingSpinnerWrap>
+        <Loader
+          css={css`
+            animation: ${LoaderAnimation} 1s linear infinite;
+          `}
+        />
+      </LoadingSpinnerWrap>
+    )
   );
 };
 export default Spinner;
+
+const LoadingSpinnerWrap = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const Loader = styled.div`
   border: 10px solid #f3f3f3;

@@ -38,7 +38,7 @@ const LoginButton = ({ email, password }: any) => {
 
   return (
     <>
-      <LoginRequestButton onClick={handleLogin}>로그인</LoginRequestButton>;
+      <LoginRequestButton onClick={handleLogin}>로그인</LoginRequestButton>
     </>
   );
 };
