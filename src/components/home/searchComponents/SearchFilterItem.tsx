@@ -118,7 +118,7 @@ const DefaultValue = styled.div`
 const SelectList = styled.ul<SelecListProps>`
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   position: absolute;
-  top: 60px;
+  top: 94px;
   left: 0;
   width: 100%;
   max-height: 300px;
