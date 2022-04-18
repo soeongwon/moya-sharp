@@ -1,5 +1,6 @@
 import api from "./Api";
 
+
 //sector, category, startup api 호출
 
 const SEARCH_API_URL = "/search";

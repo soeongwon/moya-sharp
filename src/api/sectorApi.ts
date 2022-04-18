@@ -1,6 +1,5 @@
-// import axios from "axios";
 import api from "./Api";
-
+// import axios from "axios";
 const SEARCH_API_URL = "/search";
 
 async function fetchSectorKeyword(keyType: string, identifier: string) {

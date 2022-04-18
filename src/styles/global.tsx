@@ -2,6 +2,7 @@ import React from "react";
 import { Global, css } from "@emotion/react";
 
 const style = css`
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@100;300;500;600;700&display=swap");
   html,
   body,
   div,

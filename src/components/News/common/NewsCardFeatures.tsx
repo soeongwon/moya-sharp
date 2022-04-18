@@ -1,20 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useNewsCommon } from "../hooks/useNewCommon";
-
+import Bookmark from "../../common/Icon/Bookmark";
+import ShareIcon from "../../common/Icon/Share";
 const NewsCardFeatures = ({ handleTranslateActive, article }: any) => {
-  const { isBookmark, setIsbookmark, addBookmark, deleteBookmark } =
-    useNewsCommon();
-  function bookmarkEventbind(isBookmarked: boolean) {
-    setIsbookmark(!isBookmark);
-
-    if (isBookmarked) {
-      addBookmark(article);
-    } else {
-      deleteBookmark(article);
-    }
-  }
-
+  
   return (
     <Feautres>
       <button className="translate" onClick={handleTranslateActive}>
@@ -22,12 +11,9 @@ const NewsCardFeatures = ({ handleTranslateActive, article }: any) => {
       </button>
       <div>
         <Bookmark
-          isBookmark={isBookmark}
-          role="button"
-          className="bookmark"
-          onClick={() => bookmarkEventbind(!isBookmark)}
+          article={article}
         ></Bookmark>
-        <i role="button" className="share"></i>
+        <ShareIcon></ShareIcon>
       </div>
     </Feautres>
   );
@@ -51,28 +37,7 @@ const Feautres = styled.div`
   div {
     display: flex;
     height: 100%;
-    .share {
-      width: 40px;
-      height: 100%;
-      background-image: url("/images/icon-Share-outline.svg");
-      background-size: cover;
-      background-repeat: no-repeat;
-      cursor: pointer;
-    }
   }
 `;
-interface BookmarkProps {
-  isBookmark: boolean;
-}
 
-const Bookmark = styled.i<BookmarkProps>`
-  width: 40px;
-  height: 100%;
-  background-size: cover;
-  cursor: pointer;
-  background: ${({ isBookmark }) =>
-      isBookmark === true
-        ? "url(/images/icon-Bookmark-filled.svg)"
-        : "url(/images/icon-Bookmark-outline.svg)"}
-    no-repeat 4.5%;
-`;
+

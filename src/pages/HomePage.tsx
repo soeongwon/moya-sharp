@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import HomeComponent from "../components/home";
-import useNeedLogin from "../components/login/hooks/useNeedLogin";
+import HomeComponent from "../components/Home";
+
 
 const HomePage = () => {
-  useNeedLogin();
+
   return (
     <HomeWrap>
       <InnerWrap className="Inner">

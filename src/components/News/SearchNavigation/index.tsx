@@ -1,14 +1,13 @@
-import SearchKeywordContainer from "../../../components/home/SearchKeywordContainer";
 import styled from "@emotion/styled";
 import { useAppSelector } from "../../../redux/hooks";
 import TabList from "./TabList";
 import ConfirmButton from "../../common/ConfirmButton";
 import { useEffect, useState } from "react";
 import Container from "../../common/layout/Container";
+import SearchKeywordContainer from "../../Home/SearchKeywordContainer";
 
 const NavContainer = () => {
   const { isLogin } = useAppSelector(state => state.userLogin);
-  console.log(isLogin, "로그인");
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {

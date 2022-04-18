@@ -24,7 +24,7 @@ const LoadingSpinnerWrap = styled.div`
 
 const Loader = styled.div`
   border: 10px solid #f3f3f3;
-  border-top: 10px solid #3498db;
+  border-top: 10px solid #48c0b7;
   border-radius: 50%;
   width: 80px;
   height: 80px;

@@ -1,10 +1,13 @@
 import styled from "@emotion/styled";
 import Container from "../../common/layout/Container";
+import { useState } from "react";
 import { useNewsFormats } from "../hooks/useNewsFormat";
 import ListSortController from "./ListSortController";
+
 const ListFiterOption = () => {
-  const { changeToTextFormat, changeToImgFormat, clicked, handleTextSize } =
+  const { changeToTextFormat, changeToImgFormat, handleTextSize } =
     useNewsFormats();
+  const [isActive, setIsActive] = useState<boolean>(true);
 
   return (
     <section id="snb" role="navigation">
@@ -13,8 +16,20 @@ const ListFiterOption = () => {
           {/* <span className="result">Results of ‘Silver’</span> */}
           <ListSortController />
           <TextSizeControl onClick={handleTextSize} />
-          <ImageFormatViewBtn onClick={changeToImgFormat} icon={clicked} />
-          <TextFormatViewBtn icon={clicked} onClick={changeToTextFormat} />
+          <ImageFormatViewBtn role="button" onClick={changeToImgFormat}>
+            <HambugerIcon
+              onClick={() => setIsActive(true)}
+              role="button"
+              iconActive={isActive}
+            />
+          </ImageFormatViewBtn>
+          <TextFormatViewBtn role="button" onClick={changeToTextFormat}>
+            <GridIcon
+              onClick={() => setIsActive(false)}
+              role="button"
+              iconActive={isActive}
+            ></GridIcon>
+          </TextFormatViewBtn>
         </ListFeatures>
       </Container>
     </section>
@@ -53,31 +68,36 @@ const TextSizeControl = styled.div`
 `;
 
 type Props = {
-  icon: boolean;
+  iconActive: boolean;
 };
 
-const ImageFormatViewBtn = styled.div<Props>`
+const ImageFormatViewBtn = styled.div``;
+const HambugerIcon = styled.i<Props>`
+display: block;
   width: 40px;
   height: 40px;
   background-size: cover;
   background-repeat: no-repeat;
   cursor: pointer;
-  background: ${({ icon }) =>
-      icon === true
+  background: ${({ iconActive }) =>
+      iconActive
         ? "url(/images/icon-Grid-filled.svg)"
         : "url(/images/icon-Grid.svg)"}
     no-repeat 4.5%;
 `;
 
-const TextFormatViewBtn = styled.div<Props>`
+const GridIcon = styled.i<Props>`
+display: block;
   width: 40px;
   height: 40px;
-  background: ${({ icon }) =>
-      icon === true
-        ? "url(/images/icon-Grid-list.svg)"
-        : "url(/images/icon-hamburger-button.svg)"}
-    no-repeat 4.5%;
   background-size: cover;
   background-repeat: no-repeat;
   cursor: pointer;
+  background: ${({ iconActive }) =>
+      iconActive
+        ? "url(/images/icon-Grid-list.svg)"
+        : "url(/images/icon-hamburger-button.svg)"}
+    no-repeat 4.5%;
 `;
+
+const TextFormatViewBtn = styled.div``;

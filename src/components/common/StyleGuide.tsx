@@ -1,7 +1,11 @@
 import ModalDropDown from "./DropDown/ModalDropDown";
-import Button from "./Button";
+
 import styled from "@emotion/styled";
 import AlignmentDropDown from "./DropDown/AlignmentDropDown";
+import Grid from "./Icon/Grid";
+import HamBurger from "./Icon/Hamburger";
+import BookMarkIcon from "./Icon/Bookmark/BookMarkIcon";
+import Share from "./Icon/Share";
 
 const StyleGuide = () => {
   const optionList = [
@@ -78,7 +82,25 @@ const StyleGuide = () => {
               ></AlignmentDropDown>
             </div>
           </Drop>
-          <IconButton></IconButton>
+          <p className="title">Icon</p>
+          <Icon>
+            <div>
+              <p className="UiComponent-sub-title">Grid</p>
+              <Grid />
+            </div>
+            <div>
+              <p className="UiComponent-sub-title">BookMark</p>
+              <BookMarkIcon />
+            </div>
+            <div>
+              <p className="UiComponent-sub-title">HamBurger</p>
+              <HamBurger />
+            </div>
+            <div>
+              <p className="UiComponent-sub-title">Share</p>
+              <Share />
+            </div>
+          </Icon>
         </UiComponent>
       </Container1240>
     </Style>
@@ -296,5 +318,10 @@ const Drop = styled.section`
   display: flex;
   align-items: center;
   gap: 40px;
+  margin-bottom: 3rem !important;
 `;
-const IconButton = styled.section``;
+const Icon = styled.section`
+  display: flex;
+  gap: 0 20px;
+  margin-bottom: 3rem !important;
+`;

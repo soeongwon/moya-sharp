@@ -5,10 +5,7 @@ const MoyaLoginAPI = async ({ email, password }: any) => {
   params.append("userId", email);
   params.append("password", password);
 
-  const headers = {
-    "Access-Control-Allow-Credentials": true
-  };
-  const response = await api.post("/auth/login", params, { headers });
+  const response = await api.post("/auth/login", params);
   return response;
 };
 

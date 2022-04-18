@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import { useCallback, useState } from "react";
 import { category, MasterItem, sectors, startup } from "../../../utils/master";
 import TitleTabList, { Title } from "./TitleTabList";
-import SectorKeywordFindKey from "./SectorKeywordFindKey";
 import { divideSectorKey } from "../../../utils/divideSectorKey";
+import SectorKeywordFindKey from "./SectorKeywordFindKey";
 
 type Props = {
   searchNews: (

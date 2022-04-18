@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { FilterItemType } from "./Search";
+import { FilterItemType } from ".";
 
 type Props = {
   filterItem: FilterItemType;
@@ -132,7 +132,7 @@ const SelectList = styled.ul<SelecListProps>`
   top: 94px;
   left: 0;
   width: 100%;
-  max-height: 300px;
+  max-height: 200px;
   overflow-y: scroll;
   background: #ffffff;
   box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
@@ -148,8 +148,16 @@ const SelectItem = styled.li`
   padding-left: 20px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  /* border: 1px solid transparent;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: #000;
+  background-color: #fff; */
   &:hover {
-    background: rgba(72, 192, 183, 0.1);
+    background: rgba(72, 192, 183, 0.05);
+    /* border: 1px solid #48c0b7;
+    color: #48c0b7; */
   }
   transition: all 0.2s ease;
 `;

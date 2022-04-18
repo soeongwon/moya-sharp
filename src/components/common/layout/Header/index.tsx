@@ -1,15 +1,12 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useAppSelector } from "../../../redux/hooks";
-import Container from "./Container";
-import Member from "./header/Member";
-import NonMember from "./header/NonMember";
+import { useAppSelector } from "../../../../redux/hooks";
+import Container from "../Container";
+import Member from "./Member";
+import NonMember from "./NonMember";
 
-const GlobalHeader = () => {
-  const [scrolled, setScrolled] = useState(false);
+const Header = () => {
   const { isLogin } = useAppSelector(state => state.userLogin);
-  useEffect(() => {}, []);
 
   return (
     <Wrap id="fixed-bar" className="fixed-bar-box-shadow">
@@ -25,7 +22,7 @@ const GlobalHeader = () => {
   );
 };
 
-export default GlobalHeader;
+export default Header;
 
 const Wrap = styled.header`
   &.fixed-bar-box-shadow {

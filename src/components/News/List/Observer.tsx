@@ -7,7 +7,7 @@ interface Props {
   options: object;
   query: object;
 }
-const ObserverView = ({ options, query }: Props) => {
+const Observer = ({ options, query }: Props) => {
   const [ref, inView] = useInView(options);
   const { data, loading, nextPageToken } = useAppSelector(
     state => state.newsList
@@ -28,7 +28,7 @@ const ObserverView = ({ options, query }: Props) => {
     <InfinityScrollView ref={ref}>무한스크롤 탐지컴포넌트</InfinityScrollView>
   );
 };
-export default ObserverView;
+export default Observer;
 const InfinityScrollView = styled.div`
   font-size: 0;
 `;

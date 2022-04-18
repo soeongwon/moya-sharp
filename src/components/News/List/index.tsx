@@ -8,8 +8,9 @@ import { initAction, fetchNewList } from "../../../redux/news/newsListSlice";
 import Container from "../../common/layout/Container";
 import ImageArticleList from "./ImageArticleList";
 import TextArticleList from "./TextArticleList";
-import ObserverView from "./ObserverView";
 import Spinner from "../common/Spinner";
+import Observer from "./Observer";
+
 const List = () => {
   const { NewsFormats } = useNewsFormats();
   const { data, loading, error } = useAppSelector(
@@ -29,7 +30,6 @@ const List = () => {
   useEffect(() => {
     dispatch(fetchNewList({ ...query }));
     return () => {
-      console.log("destroyed");
       dispatch(initAction());
     };
   }, [dispatch, query]);
@@ -37,13 +37,11 @@ const List = () => {
   return (
     <Wrap>
       <Container>
-        <>
-          {NewsFormats === "Image" && <ImageArticleList newListData={data} />}
-          {NewsFormats === "Text" && <TextArticleList newListData={data} />}
-        </>
+        {NewsFormats === "Image" && <ImageArticleList newListData={data} />}
+        {NewsFormats === "Text" && <TextArticleList newListData={data} />}
       </Container>
       <Spinner loading={loading}></Spinner>
-      <ObserverView
+      <Observer
         options={{
           threshold: 0.3,
           rootMargin: "0px 0px 100px 0px",

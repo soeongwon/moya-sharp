@@ -8,7 +8,7 @@ import { categories } from "../../../utils/categories";
 import { seachInstanceSearch } from "../../../utils/seachInstanceSearch";
 import { master, MasterItem } from "../../../utils/master";
 import InstanseSearch from "./InstanseSearch";
-import { KeywordPageLinkButton } from "./../keywordComponents/KeywordPageLinkButton";
+import { KeywordPageLinkButton } from "../KeywordSelect/KeywordPageLinkButton";
 
 type Props = {
   setIsOpendKeywordList: (arg: boolean) => void;

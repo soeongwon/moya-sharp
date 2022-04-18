@@ -2,8 +2,8 @@ import { put, throttle } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import { getNewList, SearchType } from "../../api/newsListApi";
 import { Action } from "redux-actions";
-import { fetchNews } from "../../api/newsApi";
 import * as Effects from "redux-saga/effects";
+import { fetchNews } from "../../api/newsApi";
 
 const call: any = Effects.call;
 

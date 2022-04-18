@@ -3,9 +3,9 @@
 
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import Container from "./Container";
+import Container from "../Container";
 
-const GlobalFooter = () => {
+const Footer = () => {
   return (
     <Wrap>
       <Container>
@@ -59,7 +59,7 @@ const GlobalFooter = () => {
   );
 };
 
-export default GlobalFooter;
+export default Footer;
 
 const Wrap = styled.footer`
   height: 198px;

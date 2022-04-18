@@ -1,19 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { useNewsFormats } from "./../hooks/useNewsFormat";
 import { useEffect, useState } from "react";
 import NewsCardFeatures from "../common/NewsCardFeatures";
 import { NewsItemType } from "./ImageArticleList";
 import { postTranslateAxios } from "../../../api/tranlate";
 import changeTimeUnixToStandard from "../../../utils/moment/changeTimeUnixToStandard";
+import Spinner from "../common/Spinner";
+// import ArticleBody from "./ArticleBody";
 interface Props {
   brandImgUrl: string;
   brandName: string;
   brandUrl: string;
   description: string;
   imageUrl: string;
-  // mediaType,
   publishTime: string;
   title: string;
   url: string;
@@ -24,7 +24,6 @@ interface Props {
 const ImageArticle = ({
   brandImgUrl,
   brandName,
-  brandUrl,
   description,
   imageUrl,
   publishTime,
@@ -32,12 +31,13 @@ const ImageArticle = ({
   url,
   NewsListAnimation
 }: Props) => {
-  const { textSize } = useNewsFormats();
-  const [isActive, setIsActive] = useState<boolean>(false);
+  const [isTranslateActive, setIsTranslateActive] = useState<boolean>(false);
+  const [TranslateLoading, setTransLateLoading] = useState<boolean>(false);
   const [translate, setTranslate] = useState<string[]>([]);
-  const [titleTranslate, contentTranslate] = translate;
+  const [titleTranslate, descriptionTranslate] = translate;
+
   function handleTranslateActive() {
-    setIsActive(!isActive);
+    setIsTranslateActive(!isTranslateActive);
   }
   //cors 문제의 경우 이미지 안보여주기
   const imageFail = (event: any) => {
@@ -46,10 +46,17 @@ const ImageArticle = ({
   };
   useEffect(() => {
     //번역 버튼을 눌렀을 때 번역시작
-    if (isActive) {
-      // postTranslateAxios([title, description, setTranslate]);
+    if (isTranslateActive) {
+      setTransLateLoading(true);
+      const handleTransLate = async () => {
+        const response = await postTranslateAxios([title, description]);
+        setTransLateLoading(false);
+        setTranslate(response.data.translated);
+      };
+      handleTransLate();
     }
-  }, [description, isActive, title]);
+  }, [description, isTranslateActive, title]);
+
   return (
     <Wrap
       css={css`
@@ -65,21 +72,26 @@ const ImageArticle = ({
         <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
         <Title>
           <a href={`${url}`} target="_blank" rel="noreferrer">
-            {!isActive && title}
-            {isActive && titleTranslate}
+            {isTranslateActive ? titleTranslate : title}
           </a>
         </Title>
         <ArticleBody>
-          <p className={`${textSize === true ? "small" : "big"}`}>
-            {!isActive && description}
-            {isActive && contentTranslate}
-          </p>
+          {(function () {
+            if (isTranslateActive === false) return <p>{description}</p>;
+            else if (isTranslateActive && !TranslateLoading)
+              return <p>{descriptionTranslate}</p>;
+            else if (TranslateLoading === true)
+              return <Spinner loading={TranslateLoading} />;
+          })()}
         </ArticleBody>
         <ArticleFooter>
           <div className="Jounal-mark">
-            <img src={`${brandImgUrl}`} alt="기사1" onError={imageFail} />
+            {brandImgUrl && (
+              <img src={`${brandImgUrl}`} alt="기사1" onError={imageFail} />
+            )}
             <span>{brandName}</span>
           </div>
+
           <div className="article-time">
             {changeTimeUnixToStandard(publishTime)}
           </div>
@@ -111,25 +123,6 @@ const Figure = styled.figure`
   }
 `;
 
-const ArticleBody = styled.div`
-  p {
-    color: ${({ theme }) => theme.newsDescription};
-    font-family: NotoSans-Display;
-    font-size: 16px;
-    font-weight: normal;
-    font-stretch: normal;
-    line-height: 1.5rem;
-    letter-spacing: -0.16px;
-    padding-bottom: 19.5px;
-    border-bottom: 1px solid #dfdfdf;
-  }
-  .small {
-    font-size: 16px;
-  }
-  .big {
-    font-size: 32px;
-  }
-`;
 const Title = styled.h2`
   font-family: NotoSans-Display;
   font-size: 22px;
@@ -176,5 +169,25 @@ const ArticleFooter = styled.footer`
     letter-spacing: normal;
     text-align: left;
     color: #313131;
+  }
+`;
+
+const ArticleBody = styled.div`
+  p {
+    color: ${({ theme }) => theme.newsDescription};
+    font-family: NotoSans-Display;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 1.5rem;
+    letter-spacing: -0.16px;
+    padding-bottom: 19.5px;
+    border-bottom: 1px solid #dfdfdf;
+  }
+  .small {
+    font-size: 16px;
+  }
+  .big {
+    font-size: 32px;
   }
 `;
