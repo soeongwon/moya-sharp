@@ -34,9 +34,7 @@ export type SearchType = {
 export async function getNewList(searchPayload: SearchType) {
   const NEWS_API_URL = "/search";
   var params = new URLSearchParams();
-  const headers = {
-    "Access-Control-Allow-Credentials": true
-  };
+  
   for (let key in searchPayload) {
     params.append(key, searchPayload[key]);
   }

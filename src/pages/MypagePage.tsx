@@ -1,4 +1,4 @@
-import MyPage from "../components/myPage/Mypage"
+import MyPage from "../components/MyPage"
 
 const MypagePage = () => {
   return <MyPage />;

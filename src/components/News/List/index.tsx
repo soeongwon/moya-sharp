@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
+import { useEffect } from "react";
+import { fetchNewList } from "../../../redux/news/newsListSlice";
 import { useNewsFormats } from "../hooks/useNewsFormat";
 import { RootState } from "../../../redux/store";
 import { StringParam, useQueryParams } from "use-query-params";
-import { useEffect } from "react";
-import { initAction, fetchNewList } from "../../../redux/news/newsListSlice";
 import Container from "../../common/layout/Container";
 import ImageArticleList from "./ImageArticleList";
 import TextArticleList from "./TextArticleList";
@@ -16,6 +16,7 @@ const List = () => {
   const { data, loading, error } = useAppSelector(
     (state: RootState) => state.newsList
   );
+
   const dispatch = useAppDispatch();
   const [query] = useQueryParams({
     orderBy: StringParam,
@@ -28,12 +29,16 @@ const List = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchNewList({ ...query }));
-    return () => {
-      dispatch(initAction());
-    };
-  }, [dispatch, query]);
-
+    const isLoadFirst = !loading && data.length === 0;
+    function getFirstPageNewsList() {
+      if (isLoadFirst) {
+        dispatch(fetchNewList({ ...query }));
+        console.log("첫번째 페이지 데이터");
+      }
+    }
+    getFirstPageNewsList();
+  }, [data.length, dispatch, loading, query]);
+  console.log(data, "데이터");
   return (
     <Wrap>
       <Container>
@@ -41,25 +46,21 @@ const List = () => {
         {NewsFormats === "Text" && <TextArticleList newListData={data} />}
       </Container>
       <Spinner loading={loading}></Spinner>
-      <Observer
-        options={{
-          threshold: 0.3,
-          rootMargin: "0px 0px 100px 0px",
-          trackVisibility: true,
-          delay: 2000,
-          skip: error ? true : false
-        }}
-        query={query}
-      />
+      {!loading && (
+        <Observer
+          options={{
+            threshold: 0.3,
+            rootMargin: "0px 0px  0px 0px",
+            trackVisibility: true,
+            delay: 4000,
+            skip: error ? true : false
+          }}
+          query={query}
+        />
+      )}
     </Wrap>
   );
 };
 
 export default List;
 const Wrap = styled.section``;
-
-const Test = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;

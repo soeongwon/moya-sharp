@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { fetchNewList } from "../../../redux/news/newsListSlice";
+
 interface Props {
   options: object;
   query: object;
@@ -13,20 +14,17 @@ const Observer = ({ options, query }: Props) => {
     state => state.newsList
   );
   const dispatch = useAppDispatch();
-  const 무한스크롤조건 = !loading && inView;
+  const isLoadMore = !loading && inView && data.length !== 0;
 
   useEffect(() => {
     function getNextPageNewsList() {
-      if (무한스크롤조건 && data !== undefined) {
-        dispatch(fetchNewList({ ...query, nextPageToken }));
-      }
+      if (isLoadMore) dispatch(fetchNewList({ ...query, nextPageToken }));
+      console.log("다음 페이지 데이터");
     }
     getNextPageNewsList();
-  }, [dispatch, nextPageToken, query, 무한스크롤조건, data]);
+  }, [dispatch, isLoadMore, nextPageToken, query]);
 
-  return (
-    <InfinityScrollView ref={ref}>무한스크롤 탐지컴포넌트</InfinityScrollView>
-  );
+  return <InfinityScrollView ref={ref}>무한스크롤 탐지</InfinityScrollView>;
 };
 export default Observer;
 const InfinityScrollView = styled.div`

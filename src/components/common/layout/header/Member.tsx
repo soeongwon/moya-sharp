@@ -5,17 +5,13 @@ import { useAppSelector } from "../../../../redux/hooks";
 import ModalDropDown from "../../DropDown/ModalDropDown";
 
 const Member = () => {
-  const { isLogin } = useAppSelector(state => state.userLogin);
   return (
     <>
       <Wrap>
         <span className="MemberShip-join">지금 멤버십 가입</span>
         <Profile>
           <i className="profile-icon"></i>
-          <span className="user-name">
-            {/* {isLogin ? `${userId} 님` : "회원님"} */}
-            회원님
-          </span>
+          <span className="user-name">회원님</span>
           <ModalDropDown>
             <li className="dropdown-item">
               <Link to="/mypage">마이페이지</Link>
@@ -23,7 +19,9 @@ const Member = () => {
             <li className="dropdown-item">
               <Link to="/mypage">프로필</Link>
             </li>
-            <li className="dropdown-item">로그아웃</li>
+            <li className="dropdown-item">
+              <Link to="/">로그아웃</Link>
+            </li>
           </ModalDropDown>
         </Profile>
       </Wrap>

@@ -42,9 +42,9 @@ const InstanseSearch = ({
             onClick={() => search(item, key)}
             key={`${index}-${item.paramValue}`}
           >
-            {parts.map(part => {
+            {parts.map((part, index) => {
               return part.toLowerCase() === inputText.toLowerCase() ? (
-                <HighlightedText>{part}</HighlightedText>
+                <HighlightedText key={index}>{part}</HighlightedText>
               ) : (
                 part
               );
@@ -74,7 +74,6 @@ const InstanseSearchDropDown = styled.div`
   position: absolute;
   overflow: scroll;
   border-radius: 5px;
-
   h3 {
     padding: 10px 23px;
     color: ${({ theme }) => theme.primaryColor};
@@ -82,7 +81,6 @@ const InstanseSearchDropDown = styled.div`
     font-size: 16px;
     line-height: 30px;
   }
-
   div {
     padding: 11px 23px;
     cursor: pointer;

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import Modal from "../../edit/Modal";
+import Modal from "../../Edit/Modal";
 import { useState } from "react";
-import AddKeyword from "../../edit/AddKeyword";
+import AddKeyword from "../../Edit/AddKeyword";
 import { useAppSelector } from "../../../redux/hooks";
 import { useNewsTabList } from "../hooks/useNewsTabList";
 
