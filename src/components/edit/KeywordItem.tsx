@@ -3,7 +3,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { addKeyword, deleteKeyword } from "../../redux/keyword/keywordsSlice";
 
 type Props = {
-  names: any;
+  names: string;
 };
 
 const KeywordItem = ({ names }: Props) => {
