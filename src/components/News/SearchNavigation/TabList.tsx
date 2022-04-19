@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import Modal from "../../edit/Modal";
+import Modal from "../../Edit/Modal";
 import { useState } from "react";
-import AddKeyword from "../../edit/AddKeyword";
+import AddKeyword from "../../Edit/AddKeyword";
 import { useAppSelector } from "../../../redux/hooks";
 import { useNewsTabList } from "../hooks/useNewsTabList";
 
@@ -85,7 +85,7 @@ const List = styled.ul`
     box-sizing: border-box;
     font-size: 16px;
     font-weight: 400;
-    color: #7a7a7a;
+    color: ${({ theme }) => theme.newsDescription};
     background-color: #f4f4f4;
     border-top: 5px solid transparent;
     cursor: pointer;
@@ -104,10 +104,10 @@ const List = styled.ul`
       transform: translate(0, 41px);
     }
     &.focused {
-      border-top: 5px solid ${props => props.theme.BlueGreenColor};
+      border-top: 5px solid ${props => props.theme.primaryColor};
       font-weight: 600;
       background-color: #fff;
-      color: ${props => props.theme.BlueGreenColor};
+      color: ${props => props.theme.primaryColor};
     }
   }
 `;
@@ -124,7 +124,7 @@ const TabAddBtn = styled.li`
   color: #fff;
   outline: none;
   border: none;
-  background-color: ${props => props.theme.BlueGreenColor};
+  background-color: ${props => props.theme.primaryColor};
   box-sizing: border-box;
   border-radius: 0px 5px 0px 0px;
   padding-left: 14px;

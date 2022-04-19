@@ -1,10 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { changeMoment } from "./ImageArticle";
+import { useState } from "react";
 import NewsCardFeatures from "../common/NewsCardFeatures";
-
+import changeTimeUnixToStandard from "../../../utils/moment/changeTimeUnixToStandard";
 interface Props {
   brandName: string;
   brandUrl: string;
@@ -28,56 +26,34 @@ const TextArticle = ({
 }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [translateText, setTranslateText] = useState<string[]>([
-    title,
-    description
-  ]);
-  const [newsTitle, newsDescription] = translateText;
+
   function showContent() {
     setIsOpen(!isOpen);
   }
-  useEffect(() => {
-    //뉴스기사 번역 API 송출
-    if (isActive) {
-      const postTranslateAxios = async () => {
-        const TranslateAxiosBody = {
-          token: "sysmetic1234",
-          targetLists: [newsTitle, newsDescription]
-        };
-        const response = await axios.post(
-          "https://api.moya.ai/translate_moya",
-          TranslateAxiosBody
-        );
-        setTranslateText(response.data.translated);
-        return response;
-      };
-      postTranslateAxios();
-    }
-    return () => setIsActive(false);
-  }, [isActive, newsDescription, newsTitle]);
+
   //번역 on,off
-  function handleTranslateActive() {
-    setIsActive(!isActive);
-  }
+  function handleTranslateActive() {}
   return (
     <Wrap>
       <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
       <Title>
         <a href={`${url}`} target="_blank" rel="noreferrer">
-          {newsTitle}
+          {title}
         </a>
       </Title>
       <ArticleFooter>
         <div className="logo">
           <img src={`${imageUrl}`} alt="기사1" />
           {brandName}
-          <div className="article-time">{changeMoment(publishTime)}</div>
+          <div className="article-time">
+            {changeTimeUnixToStandard(publishTime)}
+          </div>
         </div>
         <i className="nav-btn" role="button" onClick={showContent}>
           미리 보기
         </i>
       </ArticleFooter>
-      {isOpen === true ? <ArticleBody> {newsDescription}</ArticleBody> : null}
+      {isOpen === true ? <ArticleBody> {description}</ArticleBody> : null}
     </Wrap>
   );
 };
@@ -96,7 +72,7 @@ const Title = styled.h2`
   margin-bottom: 14px;
   a {
     text-decoration: none;
-    color: #1d1d1d;
+    color: ${({ theme }) => theme.newsTitle};
   }
 `;
 
@@ -157,7 +133,7 @@ const ArticleFooter = styled.footer`
   }
 `;
 const ArticleBody = styled.p`
-  color: #7a7a7a;
+    color: ${({ theme }) => theme.newsDescription};
   font-family: NotoSans-Display;
   font-size: 16px;
   font-weight: normal;

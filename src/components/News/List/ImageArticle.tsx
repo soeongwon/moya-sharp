@@ -1,104 +1,100 @@
+/** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-
-import { useNewsFormats } from "./../hooks/useNewsFormat";
-import moment from "moment";
+import { css } from "@emotion/react";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import NewsCardFeatures from "../common/NewsCardFeatures";
 import { NewsItemType } from "./ImageArticleList";
-
+import { postTranslateAxios } from "../../../api/tranlate";
+import changeTimeUnixToStandard from "../../../utils/moment/changeTimeUnixToStandard";
+import Spinner from "../common/Spinner";
+// import ArticleBody from "./ArticleBody";
 interface Props {
   brandImgUrl: string;
   brandName: string;
   brandUrl: string;
   description: string;
   imageUrl: string;
-  // mediaType,
   publishTime: string;
   title: string;
   url: string;
   article: NewsItemType;
-}
-
-export function changeMoment(publishTime: string) {
-  const changeTime = moment(publishTime).fromNow(); // 15 minutes ago
-  return changeTime;
+  NewsListAnimation: any;
 }
 
 const ImageArticle = ({
   brandImgUrl,
   brandName,
-  brandUrl,
   description,
   imageUrl,
   publishTime,
   title,
   url,
-  article
+  NewsListAnimation
 }: Props) => {
-  const { textSize } = useNewsFormats();
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [translateText, setTranslateText] = useState<string[]>([
-    title,
-    description
-  ]);
-  const [newsTitle, newsDescription] = translateText;
-  useEffect(() => {
-    //뉴스기사 번역 API 송출
-    if (isActive) {
-      const postTranslateAxios = async () => {
-        const TranslateAxiosBody = {
-          token: "sysmetic1234",
-          targetLists: [newsTitle, newsDescription]
-        };
-        const response = await axios.post(
-          "https://api.moya.ai/translate_moya",
-          TranslateAxiosBody
-        );
-        setTranslateText(response.data.translated);
-        return response;
-      };
-      postTranslateAxios();
-    }
-    return () => setIsActive(false);
-  }, [isActive, newsDescription, newsTitle]);
-  //번역 on,off
+  const [isTranslateActive, setIsTranslateActive] = useState<boolean>(false);
+  const [TranslateLoading, setTransLateLoading] = useState<boolean>(false);
+  const [translate, setTranslate] = useState<string[]>([]);
+  const [titleTranslate, descriptionTranslate] = translate;
+
   function handleTranslateActive() {
-    setIsActive(!isActive);
+    setIsTranslateActive(!isTranslateActive);
   }
-  //cors 문제의 경우에는 대체이미지 제공
+  //cors 문제의 경우 이미지 안보여주기
   const imageFail = (event: any) => {
     const url = event.currentTarget;
-    url.src = `/images/img-error.png`;
+    return (url.style.display = "none");
   };
+  useEffect(() => {
+    //번역 버튼을 눌렀을 때 번역시작
+    if (isTranslateActive) {
+      setTransLateLoading(true);
+      const handleTransLate = async () => {
+        const response = await postTranslateAxios([title, description]);
+        setTransLateLoading(false);
+        setTranslate(response.data.translated);
+      };
+      handleTransLate();
+    }
+  }, [description, isTranslateActive, title]);
+
   return (
-    <Wrap>
+    <Wrap
+      css={css`
+        animation: ${NewsListAnimation} 1s ease-in-out;
+      `}
+    >
       <Inner>
-        {imageUrl !== null ? (
-          <Figure>
-            <img src={`${imageUrl}`} onError={imageFail} alt="기사1" />
-          </Figure>
-        ) : null}
-        <NewsCardFeatures
-          handleTranslateActive={handleTranslateActive}
-          article={article}
-        />
+        <Figure>
+          {imageUrl && (
+            <img src={`${imageUrl}`} onError={imageFail} alt="기사" />
+          )}
+        </Figure>
+        <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
         <Title>
           <a href={`${url}`} target="_blank" rel="noreferrer">
-            {newsTitle}
+            {isTranslateActive ? titleTranslate : title}
           </a>
         </Title>
         <ArticleBody>
-          <p className={`${textSize === true ? "small" : "big"}`}>
-            {newsDescription}
-          </p>
+          {(function () {
+            if (isTranslateActive === false) return <p>{description}</p>;
+            else if (isTranslateActive && !TranslateLoading)
+              return <p>{descriptionTranslate}</p>;
+            else if (TranslateLoading === true)
+              return <Spinner loading={TranslateLoading} />;
+          })()}
         </ArticleBody>
         <ArticleFooter>
           <div className="Jounal-mark">
-            <img src={`${brandImgUrl}`} alt="기사1" />
+            {brandImgUrl && (
+              <img src={`${brandImgUrl}`} alt="기사1" onError={imageFail} />
+            )}
             <span>{brandName}</span>
           </div>
-          <div className="article-time">{changeMoment(publishTime)}</div>
+
+          <div className="article-time">
+            {changeTimeUnixToStandard(publishTime)}
+          </div>
         </ArticleFooter>
       </Inner>
     </Wrap>
@@ -109,7 +105,6 @@ export default ImageArticle;
 
 const Wrap = styled.article`
   display: inline-block;
-  width: 400px;
   box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   margin-bottom: 22px;
@@ -121,32 +116,13 @@ const Inner = styled.div`
   padding-right: 20px;
 `;
 const Figure = styled.figure`
+  width: 360px;
   img {
-    width: 360px;
-    height: 300px;
+    width: inherit;
     margin: 0;
   }
 `;
 
-const ArticleBody = styled.div`
-  p {
-    color: #7a7a7a;
-    font-family: NotoSans-Display;
-    font-size: 16px;
-    font-weight: normal;
-    font-stretch: normal;
-    line-height: 1.5rem;
-    letter-spacing: -0.16px;
-    padding-bottom: 19.5px;
-    border-bottom: 1px solid #dfdfdf;
-  }
-  .small {
-    font-size: 16px;
-  }
-  .big {
-    font-size: 32px;
-  }
-`;
 const Title = styled.h2`
   font-family: NotoSans-Display;
   font-size: 22px;
@@ -154,7 +130,7 @@ const Title = styled.h2`
   margin-bottom: 14px;
   a {
     text-decoration: none;
-    color: #1d1d1d;
+    color: ${({ theme }) => theme.newsTitle};
   }
 `;
 
@@ -193,5 +169,25 @@ const ArticleFooter = styled.footer`
     letter-spacing: normal;
     text-align: left;
     color: #313131;
+  }
+`;
+
+const ArticleBody = styled.div`
+  p {
+    color: ${({ theme }) => theme.newsDescription};
+    font-family: NotoSans-Display;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 1.5rem;
+    letter-spacing: -0.16px;
+    padding-bottom: 19.5px;
+    border-bottom: 1px solid #dfdfdf;
+  }
+  .small {
+    font-size: 16px;
+  }
+  .big {
+    font-size: 32px;
   }
 `;
