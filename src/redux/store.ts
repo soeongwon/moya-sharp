@@ -9,6 +9,7 @@ import createSagaMiddleware from "redux-saga";
 import { rootSaga } from "./rootSaga";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import history from "../utils/history";
+import loginReducer from "./user/loginSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
@@ -18,6 +19,7 @@ export const store = configureStore({
     keywords: keywordListReducer,
     user: userReducer,
     bookmark: bookmarkReducer,
+    userLogin: loginReducer,
     router: connectRouter(history)
   },
   middleware: [sagaMiddleware, routerMiddleware(history)]

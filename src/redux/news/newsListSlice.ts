@@ -1,9 +1,9 @@
-import { put, throttle } from "redux-saga/effects";
+import { put, takeLatest } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import { getNewList, SearchType } from "../../api/newsListApi";
 import { Action } from "redux-actions";
-import { fetchNews } from "../../api/newsApi";
 import * as Effects from "redux-saga/effects";
+import { fetchNews } from "../../api/newsApi";
 
 const call: any = Effects.call;
 
@@ -108,16 +108,7 @@ function isExchange(action: Action<SearchType>) {
 }
 
 function* getNewslistSaga(action: Action<SearchType>) {
-  const {
-    // orderBy,
-    keyType,
-    paramValue,
-    // language,
-    // timeFilter,
-    // mediaType,
-    // exchange
-    nextPageToken
-  } = action.payload;
+  const { keyType, paramValue, nextPageToken } = action.payload;
   try {
     yield put(getNewslistStart());
     if (
@@ -139,7 +130,6 @@ function* getNewslistSaga(action: Action<SearchType>) {
         ...(nextPageToken && { nextPageToken })
       });
       yield put(push(`/news/${paramValue}`));
-
       yield put(getNewslistSuccess(data));
     }
   } catch (error) {
@@ -161,5 +151,5 @@ export function fetchNewList(payload: any) {
 }
 
 export function* newsListSaga() {
-  yield throttle(5000, NEWSLIST_SAGA_START, getNewslistSaga);
+  yield takeLatest(NEWSLIST_SAGA_START, getNewslistSaga);
 }

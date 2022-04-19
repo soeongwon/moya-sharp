@@ -1,4 +1,4 @@
-import { NewsItemType } from "../components/News/List/ImageArticleList";
+import { NewsItemType } from "../components/news/list/ImageArticleList";
 // import api from "./Api";
 import axios from "axios";
 

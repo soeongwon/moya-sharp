@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ConfirmButton from "../../ConfirmButton";
-import LoginConfirmButton from "../../Confirm/LoginConfirmButton";
+import LoginConfirmButton from "../../confirm/loginConfirmButton";
 const NonMember = () => {
   return (
     <Wrap>

@@ -1,20 +1,19 @@
-import SearchKeywordContainer from "../../../components/home/SearchKeywordContainer";
 import styled from "@emotion/styled";
 import { useAppSelector } from "../../../redux/hooks";
-import TabList from "./TabList";
 import ConfirmButton from "../../common/ConfirmButton";
 import { useEffect, useState } from "react";
 import Container from "../../common/layout/Container";
+import SearchKeywordContainer from "../../home/SearchKeywordContainer";
+import TabList from "./TabList";
 
-const NavContainer = () => {
-  const { isLogin } = useAppSelector(state => state.user);
+const SearchNavigation = () => {
+  const { isLogin } = useAppSelector(state => state.userLogin);
   const [scrolled, setScrolled] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
-      if (!scrolled && window.scrollY > 300) {
+      if (!scrolled && window.scrollY > 390) {
         setScrolled(true);
-      } else if (scrolled && window.scrollY < 300) {
+      } else if (scrolled && window.scrollY < 390) {
         setScrolled(false);
       }
     };
@@ -26,7 +25,7 @@ const NavContainer = () => {
     };
   }, [scrolled]);
   return (
-    <Wrap>
+    <Wrap className={scrolled ? "fix-wrap mb-100" : "fix-wrap"}>
       <Area className={scrolled ? "fix-container scrolled" : "fix-container"}>
         {isLogin && (
           <Container>
@@ -51,11 +50,14 @@ const NavContainer = () => {
 };
 //
 
-export default NavContainer;
+export default SearchNavigation;
 const Wrap = styled.section`
   position: relative;
+  height: 345px;
+  &.fix-wrap.mb-100 {
+    margin-bottom: 100px;
+  }
 `;
-
 const Area = styled.div`
   &.fix-container {
     height: 345px;
@@ -67,6 +69,7 @@ const Area = styled.div`
     );
     padding-top: 40px;
     box-sizing: border-box;
+    z-index: 400;
   }
   &.fix-container.scrolled {
     position: fixed;
@@ -99,7 +102,7 @@ const TabAddBtn = styled.button`
     color: #fff;
     outline: none;
     border: none;
-    background-color: ${props => props.theme.BlueGreenColor};
+    background-color: ${props => props.theme.primaryColor};
     box-sizing: border-box;
     border-radius: 5px 5px 0px 0px;
     padding-left: 14px;

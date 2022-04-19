@@ -8,17 +8,14 @@ export const useNewsFormats = () => {
   const dispatch = useAppDispatch();
 
   const { NewsFormats } = useAppSelector((state: RootState) => state.formats);
-  const [clicked, setClicked] = useState<boolean>(true);
   const [textSize, setTextSize] = useState<boolean>(true);
 
   const changeToImgFormat = (event: MouseEvent<HTMLElement>): void => {
     dispatch(album());
-    setClicked(true);
   };
 
   const changeToTextFormat = (event: MouseEvent<HTMLElement>): void => {
     dispatch(text());
-    setClicked(false);
   };
 
   const handleTextSize = () => setTextSize(!textSize);
@@ -27,8 +24,6 @@ export const useNewsFormats = () => {
     NewsFormats,
     changeToTextFormat,
     changeToImgFormat,
-    setClicked,
-    clicked,
     textSize,
     handleTextSize
   };

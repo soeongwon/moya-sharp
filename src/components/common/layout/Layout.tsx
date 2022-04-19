@@ -1,7 +1,7 @@
 import React, { ReactChildren, ReactChild } from "react";
 import styled from "@emotion/styled";
-import GlobalHeader from "./GlobalHeader";
-import GlobalFooter from "./GlobalFooter";
+import GlobalHeader from "./Header";
+import GlobalFooter from "./Footer";
 // import { useLocation } from "react-router-dom";
 
 interface AuxProps {

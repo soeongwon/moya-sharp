@@ -1,7 +1,7 @@
 import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { createBookmarkApi } from "../../api/bookmarkApi";
-import { NewsItemType } from "../../components/News/List/ImageArticleList";
+import { NewsItemType } from "../../components/news/list/ImageArticleList";
 
 type bookmarkInitialState = {
   bookmarkListData: Array<NewsItemType>;

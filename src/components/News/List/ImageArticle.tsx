@@ -1,19 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { useNewsFormats } from "./../hooks/useNewsFormat";
+import { NewsItemType } from "./ImageArticleList";
 import { useEffect, useState } from "react";
 import NewsCardFeatures from "../common/NewsCardFeatures";
-import { NewsItemType } from "./ImageArticleList";
 import { postTranslateAxios } from "../../../api/tranlate";
 import changeTimeUnixToStandard from "../../../utils/moment/changeTimeUnixToStandard";
+import Spinner from "../common/Spinner";
+
+// import ArticleBody from "./ArticleBody";
 interface Props {
   brandImgUrl: string;
   brandName: string;
   brandUrl: string;
   description: string;
   imageUrl: string;
-  // mediaType,
   publishTime: string;
   title: string;
   url: string;
@@ -24,7 +25,6 @@ interface Props {
 const ImageArticle = ({
   brandImgUrl,
   brandName,
-  brandUrl,
   description,
   imageUrl,
   publishTime,
@@ -32,10 +32,11 @@ const ImageArticle = ({
   url,
   NewsListAnimation
 }: Props) => {
-  const { textSize } = useNewsFormats();
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [translate, setTranslate] = useState<string[]>([]);
-  const [titleTranslate, contentTranslate] = translate;
+  const [titleTranslate, descriptionTranslate] = translate;
+
   function handleTranslateActive() {
     setIsActive(!isActive);
   }
@@ -44,12 +45,20 @@ const ImageArticle = ({
     const url = event.currentTarget;
     return (url.style.display = "none");
   };
+
   useEffect(() => {
     //번역 버튼을 눌렀을 때 번역시작
     if (isActive) {
-      // postTranslateAxios([title, description, setTranslate]);
+      setIsLoading(true);
+      const handleTransLate = async () => {
+        const response = await postTranslateAxios([title, description]);
+        setIsLoading(false);
+        setTranslate(response.data.translated);
+      };
+      handleTransLate();
     }
   }, [description, isActive, title]);
+
   return (
     <Wrap
       css={css`
@@ -65,21 +74,31 @@ const ImageArticle = ({
         <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
         <Title>
           <a href={`${url}`} target="_blank" rel="noreferrer">
-            {!isActive && title}
-            {isActive && titleTranslate}
+            {isActive ? titleTranslate : title}
           </a>
         </Title>
         <ArticleBody>
-          <p className={`${textSize === true ? "small" : "big"}`}>
-            {!isActive && description}
-            {isActive && contentTranslate}
-          </p>
+          {isActive === false && (
+            <p className="description default">{description}</p>
+          )}
+          {isActive && !isLoading && (
+            <p className="description translate">{descriptionTranslate}</p>
+          )}
+          {isLoading && (
+            <Spinner
+              className="description translate--loading"
+              loading={isLoading}
+            />
+          )}
         </ArticleBody>
         <ArticleFooter>
           <div className="Jounal-mark">
-            <img src={`${brandImgUrl}`} alt="기사1" onError={imageFail} />
+            {brandImgUrl && (
+              <img src={`${brandImgUrl}`} alt="기사1" onError={imageFail} />
+            )}
             <span>{brandName}</span>
           </div>
+
           <div className="article-time">
             {changeTimeUnixToStandard(publishTime)}
           </div>
@@ -111,25 +130,6 @@ const Figure = styled.figure`
   }
 `;
 
-const ArticleBody = styled.div`
-  p {
-    color: #7a7a7a;
-    font-family: NotoSans-Display;
-    font-size: 16px;
-    font-weight: normal;
-    font-stretch: normal;
-    line-height: 1.5rem;
-    letter-spacing: -0.16px;
-    padding-bottom: 19.5px;
-    border-bottom: 1px solid #dfdfdf;
-  }
-  .small {
-    font-size: 16px;
-  }
-  .big {
-    font-size: 32px;
-  }
-`;
 const Title = styled.h2`
   font-family: NotoSans-Display;
   font-size: 22px;
@@ -137,7 +137,7 @@ const Title = styled.h2`
   margin-bottom: 14px;
   a {
     text-decoration: none;
-    color: #1d1d1d;
+    color: ${({ theme }) => theme.newsTitle};
   }
 `;
 
@@ -176,5 +176,25 @@ const ArticleFooter = styled.footer`
     letter-spacing: normal;
     text-align: left;
     color: #313131;
+  }
+`;
+
+const ArticleBody = styled.div`
+  p {
+    color: ${({ theme }) => theme.newsDescription};
+    font-family: NotoSans-Display;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 1.5rem;
+    letter-spacing: -0.16px;
+    padding-bottom: 19.5px;
+    border-bottom: 1px solid #dfdfdf;
+  }
+  .small {
+    font-size: 16px;
+  }
+  .big {
+    font-size: 32px;
   }
 `;

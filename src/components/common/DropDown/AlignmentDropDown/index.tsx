@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useRef, useState, useEffect, MouseEvent } from "react";
 import { Menu } from "./Menu";
+
 interface Props {
   optionList: object[];
   currentOption: string;
@@ -50,7 +51,7 @@ export default AlignmentDropDown;
 
 const DropDown = styled.div`
   position: relative;
-  z-index: 1000;
+  z-index: 100;
 `;
 const CurrentOption = styled.div`
   width: 160px;

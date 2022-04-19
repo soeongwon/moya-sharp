@@ -4,7 +4,7 @@ import {
   deleteBookmark
 } from "../../../redux/bookmark/bookmarkSlice";
 import { useAppDispatch } from "../../../redux/hooks";
-import { NewsItemType } from "../List/ImageArticleList";
+import { NewsItemType } from "../list/ImageArticleList";
 
 export const useNewsCommon = () => {
   const [isBookmark, setIsbookmark] = useState<boolean>(false);

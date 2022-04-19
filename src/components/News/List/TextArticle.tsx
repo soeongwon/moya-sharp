@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { postTranslateAxios } from "../../../api/tranlate";
 import NewsCardFeatures from "../common/NewsCardFeatures";
 import changeTimeUnixToStandard from "../../../utils/moment/changeTimeUnixToStandard";
+import Spinner from "../common/Spinner";
+
 interface Props {
   brandName: string;
   brandUrl: string;
@@ -26,24 +29,47 @@ const TextArticle = ({
 }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [translate, setTranslate] = useState<string[]>([]);
+  const [titleTranslate, descriptionTranslate] = translate;
+
+  function handleTranslateActive() {
+    setIsActive(!isActive);
+  }
+  //cors 문제의 경우 이미지 안보여주기
+  const imageFail = (event: any) => {
+    const url = event.currentTarget;
+    return (url.style.display = "none");
+  };
+
+  useEffect(() => {
+    //번역 버튼을 눌렀을 때 번역시작
+    if (isActive) {
+      setIsLoading(true);
+      const handleTransLate = async () => {
+        const response = await postTranslateAxios([title, description]);
+        setIsLoading(false);
+        setTranslate(response.data.translated);
+      };
+      handleTransLate();
+    }
+  }, [description, isActive, title]);
 
   function showContent() {
     setIsOpen(!isOpen);
   }
 
-  //번역 on,off
-  function handleTranslateActive() {}
   return (
     <Wrap>
       <NewsCardFeatures handleTranslateActive={handleTranslateActive} />
       <Title>
         <a href={`${url}`} target="_blank" rel="noreferrer">
-          {title}
+          {isActive ? titleTranslate : title}
         </a>
       </Title>
       <ArticleFooter>
         <div className="logo">
-          <img src={`${imageUrl}`} alt="기사1" />
+          <img src={`${imageUrl}`} alt="기사1" onError={imageFail} />
           {brandName}
           <div className="article-time">
             {changeTimeUnixToStandard(publishTime)}
@@ -53,7 +79,22 @@ const TextArticle = ({
           미리 보기
         </i>
       </ArticleFooter>
-      {isOpen === true ? <ArticleBody> {description}</ArticleBody> : null}
+      {isOpen === true ? (
+        <ArticleBody>
+          {isActive === false && (
+            <p className="description default">{description}</p>
+          )}
+          {isActive && !isLoading && (
+            <p className="description translate">{descriptionTranslate}</p>
+          )}
+          {isLoading && (
+            <Spinner
+              className="description translate--loading"
+              loading={isLoading}
+            />
+          )}
+        </ArticleBody>
+      ) : null}
     </Wrap>
   );
 };
@@ -72,7 +113,7 @@ const Title = styled.h2`
   margin-bottom: 14px;
   a {
     text-decoration: none;
-    color: #1d1d1d;
+    color: ${({ theme }) => theme.newsTitle};
   }
 `;
 
@@ -133,7 +174,7 @@ const ArticleFooter = styled.footer`
   }
 `;
 const ArticleBody = styled.p`
-  color: #7a7a7a;
+  color: ${({ theme }) => theme.newsDescription};
   font-family: NotoSans-Display;
   font-size: 16px;
   font-weight: normal;

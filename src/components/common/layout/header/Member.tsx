@@ -1,20 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import ModalDropDown from "../../DropDown/ModalDropDown";
-import LoginConfirmButton from "../../Confirm/LoginConfirmButton";
 import { useAppSelector } from "../../../../redux/hooks";
+import ModalDropDown from "../../dropDown/modalDropDown";
+
 const Member = () => {
-  const { userId, isLogin } = useAppSelector(state => state.user);
   return (
     <>
       <Wrap>
         <span className="MemberShip-join">지금 멤버십 가입</span>
         <Profile>
           <i className="profile-icon"></i>
-          <span className="user-name">
-            {isLogin ? `${userId} 님` : "회원님"}
-          </span>
+          <span className="user-name">회원님</span>
           <ModalDropDown>
             <li className="dropdown-item">
               <Link to="/mypage">마이페이지</Link>
@@ -23,9 +20,7 @@ const Member = () => {
               <Link to="/mypage">프로필</Link>
             </li>
             <li className="dropdown-item">
-              <LoginConfirmButton message="로그아웃 하시겠습니까?">
-                로그아웃
-              </LoginConfirmButton>
+              <Link to="/">로그아웃</Link>
             </li>
           </ModalDropDown>
         </Profile>
@@ -40,7 +35,7 @@ const Wrap = styled.div`
   color: #575757;
   .MemberShip-join {
     font-size: 14px;
-    margin-right: 22px;
+    margin-right: 10px;
     cursor: pointer;
     color: #575757;
   }
@@ -87,10 +82,9 @@ const Profile = styled.div`
   }
   .dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: 54px;
     width: 183px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 0;
     box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
     border-radius: 5px;
     background-color: #fff;

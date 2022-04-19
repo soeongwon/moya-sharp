@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
 import axios from "axios";
 import { useAppSelector } from "../../redux/hooks";
-import { NewsItemType } from "../News/List/ImageArticleList";
+import { NewsItemType } from "../news/list/ImageArticleList";
 
 interface Airline {
   id: number;
@@ -107,7 +107,7 @@ const BookmarkList = styled.ul`
   h2 {
     font-weight: 600;
     font-size: 22px;
-    color: #1d1d1d;
+    color: ${({ theme }) => theme.newsTitle};
     margin-bottom: 11px;
   }
   li + li {

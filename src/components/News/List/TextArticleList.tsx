@@ -15,5 +15,4 @@ const TextArticleList = ({ newListData }: any) => {
 export default TextArticleList;
 const TextArticleView = styled.div`
   width: 100%;
-  padding-bottom: 280px;
 `;
