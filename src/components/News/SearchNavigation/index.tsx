@@ -1,19 +1,20 @@
+import SearchKeywordContainer from "../../../components/home/SearchKeywordContainer";
 import styled from "@emotion/styled";
 import { useAppSelector } from "../../../redux/hooks";
+import TabList from "./TabList";
 import ConfirmButton from "../../common/ConfirmButton";
 import { useEffect, useState } from "react";
 import Container from "../../common/layout/Container";
-import TabList from "./TabList";
-import SearchKeywordContainer from "../../home/SearchKeywordContainer";
 
 const NavContainer = () => {
   const { isLogin } = useAppSelector(state => state.user);
   const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
-      if (!scrolled && window.scrollY > 390) {
+      if (!scrolled && window.scrollY > 300) {
         setScrolled(true);
-      } else if (scrolled && window.scrollY < 390) {
+      } else if (scrolled && window.scrollY < 300) {
         setScrolled(false);
       }
     };
@@ -25,7 +26,7 @@ const NavContainer = () => {
     };
   }, [scrolled]);
   return (
-    <Wrap className={scrolled ? "fix-wrap mb-100" : "fix-wrap"}>
+    <Wrap>
       <Area className={scrolled ? "fix-container scrolled" : "fix-container"}>
         {isLogin && (
           <Container>
@@ -53,11 +54,8 @@ const NavContainer = () => {
 export default NavContainer;
 const Wrap = styled.section`
   position: relative;
-  height: 345px;
-  &.fix-wrap.mb-100 {
-    margin-bottom: 100px;
-  }
 `;
+
 const Area = styled.div`
   &.fix-container {
     height: 345px;
@@ -69,7 +67,6 @@ const Area = styled.div`
     );
     padding-top: 40px;
     box-sizing: border-box;
-    z-index: 400;
   }
   &.fix-container.scrolled {
     position: fixed;
@@ -102,7 +99,7 @@ const TabAddBtn = styled.button`
     color: #fff;
     outline: none;
     border: none;
-    background-color: ${props => props.theme.primaryColor};
+    background-color: ${props => props.theme.BlueGreenColor};
     box-sizing: border-box;
     border-radius: 5px 5px 0px 0px;
     padding-left: 14px;

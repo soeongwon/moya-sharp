@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import List from "./list";
-import ListFiterOption from "./listFilterOption";
-import SearchNavigation from "./searchNavigation";
+import List from "./List";
+import SearchNavigation from "./SearchNavigation";
+import ListFiterOption from "./ListFilterOption";
+
 const News = () => {
   return (
     <>
