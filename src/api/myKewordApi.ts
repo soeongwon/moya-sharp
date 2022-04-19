@@ -1,12 +1,11 @@
-import api from "./Api";
 import axios from "axios";
-import { useEffect } from "react";
+
+
 
 export type KeywordType = {
   termType: string;
   typeId: string;
 }
-
 
 const KEYWORD_API_URL = "/preferTerms/reports"
 

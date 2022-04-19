@@ -7,35 +7,36 @@ export type KeywordsItemType = {
   termType: string;
   typeId: string;
   names: string;
-}
+};
+
+  interface Keyword {
+    data: string;
+  }
 
 const MyKeyword = () => {
-
   const userTabList = useAppSelector(state => state.keywords);
 
   return (
     <KeywordsWarp>
       <h3>마이키워드</h3>
-      {
-        userTabList.map((userTab) => (
-          <Keywords>{userTab.data}</Keywords>
-        ))
-      }
+      {userTabList.map(userTab => (
+        <Keywords>{userTab.data}</Keywords>
+      ))}
     </KeywordsWarp>
-  )
-}
+  );
+};
 
 export default MyKeyword;
 
 const KeywordsWarp = styled.div`
-  margin-top: 40px;  
-  
+  margin-top: 40px;
+
   h3 {
     font-weight: 600;
     font-size: 20px;
     margin-bottom: 20px;
   }
-`
+`;
 
 const Keywords = styled.button`
   display: inline-block;
@@ -43,7 +44,7 @@ const Keywords = styled.button`
   border: solid 1px #48c0b7;
   background-color: #fff;
   border-radius: 5px;
-  color: #3b788b;
+  color: ${({ theme }) => theme.myKeyword};
   font-size: 20px;
   font-weight: 600;
   line-height: 30px;
@@ -53,4 +54,4 @@ const Keywords = styled.button`
   :hover {
     background-color: rgba(72, 192, 183, 0.04);
   }
-`
+`;

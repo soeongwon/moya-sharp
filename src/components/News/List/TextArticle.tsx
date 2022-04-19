@@ -72,7 +72,7 @@ const Title = styled.h2`
   margin-bottom: 14px;
   a {
     text-decoration: none;
-    color: #1d1d1d;
+    color: ${({ theme }) => theme.newsTitle};
   }
 `;
 
@@ -133,7 +133,7 @@ const ArticleFooter = styled.footer`
   }
 `;
 const ArticleBody = styled.p`
-  color: #7a7a7a;
+    color: ${({ theme }) => theme.newsDescription};
   font-family: NotoSans-Display;
   font-size: 16px;
   font-weight: normal;

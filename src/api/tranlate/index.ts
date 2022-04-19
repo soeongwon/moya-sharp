@@ -1,11 +1,10 @@
 import axios from "axios";
 
-type Prameter = [newsTitle: string, newsDescription: string, setTranslate: any];
+type Prameter = [newsTitle: string, newsDescription: string];
 
 export const postTranslateAxios = async ([
   newsTitle,
-  newsDescription,
-  setTranslate
+  newsDescription
 ]: Prameter) => {
   const TranslateAxiosBody = {
     token: "sysmetic1234",
@@ -15,6 +14,5 @@ export const postTranslateAxios = async ([
     "https://api.moya.ai/translate_moya",
     TranslateAxiosBody
   );
-  await setTranslate(response.data.translated);
   return response;
 };

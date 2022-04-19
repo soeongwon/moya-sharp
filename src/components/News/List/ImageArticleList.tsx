@@ -51,6 +51,5 @@ export default ImageArticleList;
 const ImageArticleView = styled.div`
   column-count: 3;
   column-gap: 20px;
-  padding-bottom: 280px;
   column-width: 400px;
 `;
