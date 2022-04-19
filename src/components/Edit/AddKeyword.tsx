@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import Container from "../common/layout/Container";
 import KeywordItem from "./KeywordItem";
 import { useAppSelector } from "../../redux/hooks";
-import { RootState } from "../../redux/store";
 
 const AddKeyword = () => {
   const userTabList = useAppSelector(state => state.keywords);
@@ -17,7 +16,10 @@ const AddKeyword = () => {
         <KeyWordTitle>My Keyword</KeyWordTitle>
         <MyKeywordInner>
           {userTabList.map(userTab => (
-            <KeywordItem key={`mykeyword-${userTab.data}`} names={userTab.data} />
+            <KeywordItem
+              key={`mykeyword-${userTab.data}`}
+              names={userTab.data}
+            />
           ))}
         </MyKeywordInner>
       </Container>

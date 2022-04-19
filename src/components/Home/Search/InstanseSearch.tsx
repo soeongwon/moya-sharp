@@ -33,7 +33,7 @@ const InstanseSearch = ({
       return;
     }
     let el: any = [];
-    Object.keys(keyword).map((key: string, index) => {
+    Object.keys(keyword).forEach((key: string, index) => {
       el.push(<h3 key={`${index}-${key}`}>{key}</h3>);
       keyword[key].forEach((item: MasterItem, index) => {
         const parts = item.name.split(new RegExp(`(${inputText})`, "gi"));

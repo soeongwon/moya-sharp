@@ -9,10 +9,6 @@ const EditContainer = () => {
   const sectorKeys = Object.keys(sortedSector).sort();
   const sortkeys: any = {};
 
-  const sectorKeywordList = sectorKeys.forEach(function (key) {
-    sortkeys[key] = sortedSector[key];
-  });
- 
   return (
     <Wrap>
       <Container>
@@ -23,10 +19,11 @@ const EditContainer = () => {
             <KeywordList key={index}>
               <SubTitle>{item}</SubTitle>
               <KeywordArea>
-                {Object.keys(sortkeys).map((item) =>
+                {Object.keys(sortkeys).map(item =>
                   sortkeys[item].map((items: any, index2: number) =>
-                    items.name[0] === sectorKeys[index] ?
-                      <KeywordItem names={items.name} key={index2} /> : null
+                    items.name[0] === sectorKeys[index] ? (
+                      <KeywordItem names={items.name} key={index2} />
+                    ) : null
                   )
                 )}
               </KeywordArea>

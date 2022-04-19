@@ -1,30 +1,27 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import KeywordItem from "./KeywordItem";
- 
 
 const MykeyWordArea = () => {
-  const myKeywords = useAppSelector(
-    (state: RootState) => state.keywords
-  );
-  const [edited, setEdited] = useState(false)
+  const myKeywords = useAppSelector((state: RootState) => state.keywords);
+  const [edited, setEdited] = useState(false);
 
-  const btnText = edited ? '저장' : '편집'
-  
+  const btnText = edited ? "저장" : "편집";
+
   const onClickEditButton = () => {
-    edited ? setEdited(false) : setEdited(true)
-  }
+    edited ? setEdited(false) : setEdited(true);
+  };
 
   return (
     <Wrap>
       <MyKeywordInner>
         {myKeywords.map((item, index) => (
-          <KeywordItem key={`mykeyword-${index}`} names={item.data}/>
+          <KeywordItem key={`mykeyword-${index}`} names={item.data} />
         ))}
       </MyKeywordInner>
-     <EditButton onClick={onClickEditButton}>{btnText}</EditButton>
+      <EditButton onClick={onClickEditButton}>{btnText}</EditButton>
     </Wrap>
   );
 };
@@ -46,7 +43,7 @@ const EditButton = styled.button`
 
 const MyKeywordInner = styled.div`
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 0 10px;
   width: calc(100% - 95px);
   height: 120px;
