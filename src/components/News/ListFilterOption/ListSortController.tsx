@@ -1,5 +1,5 @@
-import AlignmentDropDown from "../../common/DropDown/AlignmentDropDown";
 import { StringParam, useQueryParams } from "use-query-params";
+import AlignmentDropDown from "../../common/DropDown/AlignmentDropDown/index";
 const ListSortController = () => {
   const [query, setQuery] = useQueryParams({
     orderBy: StringParam,

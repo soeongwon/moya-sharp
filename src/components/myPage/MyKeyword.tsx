@@ -9,12 +9,12 @@ export type KeywordsItemType = {
   names: string;
 };
 
+const MyKeyword = () => {
+  const userTabList = useAppSelector(state => state.keywords);
+
   interface Keyword {
     data: string;
   }
-
-const MyKeyword = () => {
-  const userTabList = useAppSelector(state => state.keywords);
 
   return (
     <KeywordsWarp>
