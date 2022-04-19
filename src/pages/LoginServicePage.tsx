@@ -1,6 +1,9 @@
 import LoginService from "../components/LoginService";
+import useBlockLoginUser from "../components/LoginService/hooks/useBlockLoginUser";
 
 const LoginServicePage = () => {
+  useBlockLoginUser();
+
   return (
     <main>
       <LoginService></LoginService>
@@ -8,4 +11,4 @@ const LoginServicePage = () => {
   );
 };
 
-export default LoginServicePage
+export default LoginServicePage;

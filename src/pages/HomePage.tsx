@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
 import HomeComponent from "../components/Home";
 
-
 const HomePage = () => {
-
   return (
     <HomeWrap>
       <InnerWrap className="Inner">

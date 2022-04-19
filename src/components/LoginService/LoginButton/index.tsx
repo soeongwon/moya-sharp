@@ -17,9 +17,6 @@ const LoginButton = ({ email, password }: any) => {
     const response = await MoyaLoginAPI({ email, password }).then(function (
       response
     ) {
-      
-      console.log(response, "전체");
-      console.log(response.data, "로그인 결과");
       return response.data;
     });
 
