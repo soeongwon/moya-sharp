@@ -34,6 +34,7 @@ export const SearchFilterItem = ({
   const [defaultLanguage, setDefaultLanguage] = useState("English");
   const [defaultTimeFilter, setDefaultTimeFilter] = useState("한달");
   const [defaultCategory, setDefaultCategory] = useState("ALL");
+  const [defaultRretrieveTime, setDefaultRretrieveTime] = useState("5분");
 
   useEffect(() => {
     setLanguage(defaultLanguage); // api에 현재 디폴트 상태 셋팅하기
@@ -53,6 +54,10 @@ export const SearchFilterItem = ({
     setMediaType(categoryName);
   };
 
+  const clickRretrieveTime = (time: string) => {
+    setDefaultRretrieveTime(time);
+  };
+
   const setDefaultName = (filterItem: FilterItemType) => {
     if (filterItem.label === "언어") {
       return defaultLanguage;
@@ -60,8 +65,8 @@ export const SearchFilterItem = ({
       return defaultTimeFilter;
     } else if (filterItem.label === "언론사") {
       return defaultCategory;
-    } else {
-      return filterItem.defaultValue;
+    } else if (filterItem.label === "새로고침 속도") {
+      return defaultRretrieveTime;
     }
   };
   return (
@@ -88,6 +93,12 @@ export const SearchFilterItem = ({
           } else if (filterItem.label === "언론사") {
             return (
               <SelectItem key={item} onClick={() => clickCategoryName(item)}>
+                {item}
+              </SelectItem>
+            );
+          } else if (filterItem.label === "새로고침 속도") {
+            return (
+              <SelectItem key={item} onClick={() => clickRretrieveTime(item)}>
                 {item}
               </SelectItem>
             );
