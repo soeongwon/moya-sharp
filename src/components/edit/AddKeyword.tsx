@@ -5,7 +5,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 
 const AddKeyword = () => {
-  const myKeywords = useAppSelector((state: RootState) => state.keywords);
+  const userTabList = useAppSelector(state => state.keywords);
 
   return (
     <Wrap>
@@ -16,9 +16,9 @@ const AddKeyword = () => {
         <KeywordLine />
         <KeyWordTitle>My Keyword</KeyWordTitle>
         <MyKeywordInner>
-          {/* {myKeywords.map(item => (
-            <KeywordItem key={`mykeyword-${item.data}`} item={item.data} />
-          ))} */}
+          {userTabList.map(userTab => (
+            <KeywordItem key={`mykeyword-${userTab.data}`} names={userTab.data} />
+          ))}
         </MyKeywordInner>
       </Container>
     </Wrap>
