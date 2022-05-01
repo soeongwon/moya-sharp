@@ -1,5 +1,4 @@
 import api from "./Api";
-
 export type NewsType = {
   additionalData: {};
   assetTags: [];
@@ -29,17 +28,20 @@ export type SearchType = {
   mediaType: string;
   exchange?: string;
   [propsName: string]: any;
+  nextPageToken: string | null;
 };
 
 export async function getNewList(searchPayload: SearchType) {
   const NEWS_API_URL = "/search";
   var params = new URLSearchParams();
-
+  
   for (let key in searchPayload) {
     params.append(key, searchPayload[key]);
   }
 
+  if (searchPayload.nextPageToken) {
+    params.append("nextPageToken", searchPayload.nextPageToken);
+  }
   const response = await api.get(NEWS_API_URL, { params });
-
   return response.data;
 }

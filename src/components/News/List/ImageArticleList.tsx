@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import ImageArticle from "./ImageArticle";
 export type NewsItemType = {
   assetTags: string;
@@ -13,18 +16,40 @@ export type NewsItemType = {
   title: string;
   url: string;
 };
+const Opacity = keyframes`
+  0%  {
+    opacity: 0;
+  }
 
-const ImageArticleList = ({ newListData }: any) => {
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+  `;
+interface Props {
+  newListData: [];
+}
+
+const ImageArticleList = ({ newListData }: Props) => {
   return (
-    <>
+    <ImageArticleView>
       {newListData.map((article: NewsItemType, index: number) => (
         <ImageArticle
           key={`${index}-${article.newsId}`}
           {...article}
           article={article}
+          NewsListAnimation={Opacity}
         />
       ))}
-    </>
+    </ImageArticleView>
   );
 };
 export default ImageArticleList;
+const ImageArticleView = styled.div`
+  column-count: 3;
+  column-gap: 20px;
+  column-width: 400px;
+`;

@@ -1,10 +1,6 @@
-import AlignmentDropDown from "../../common/DropDown/AlignmentDropDown";
 import { StringParam, useQueryParams } from "use-query-params";
-import { useEffect } from "react";
-import { fetchNewList } from "../../../redux/news/newsListSlice";
-import { useAppDispatch } from "../../../redux/hooks";
+import AlignmentDropDown from "../../common/DropDown/AlignmentDropDown/index";
 const ListSortController = () => {
-  const dispatch = useAppDispatch();
   const [query, setQuery] = useQueryParams({
     orderBy: StringParam,
     keyType: StringParam,
@@ -14,13 +10,16 @@ const ListSortController = () => {
     mediaType: StringParam,
     exchange: StringParam
   });
-  const { orderBy, keyType, paramValue } = query;
+  // const { orderBy, keyType, paramValue } = query;
 
-  useEffect(() => {
-    if (keyType !== undefined) {
-      dispatch(fetchNewList({ ...query }));
-    }
-  }, [keyType, orderBy, paramValue, dispatch, query]);
+  // useEffect(() => {
+  //   if (keyType !== undefined) {
+  //     dispatch(fetchNewList({ ...query }));
+  //   }
+  //   return () => {
+  //     dispatch(initAction());
+  //   };
+  // }, [keyType, orderBy, paramValue, dispatch, query]);
 
   function sortTopNews() {
     setQuery({

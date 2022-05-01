@@ -50,7 +50,8 @@ export const DropDown = styled.div`
   }
   .dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: 93%;
+    left: -114px;
     width: 183px;
     box-shadow: 0px 4px 7px rgba(196, 195, 195, 0.25);
     border-radius: 5px;

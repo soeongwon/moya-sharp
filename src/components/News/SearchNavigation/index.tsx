@@ -1,20 +1,19 @@
-import Nav from "../../../containers/home/SearchFormContainer";
 import styled from "@emotion/styled";
 import { useAppSelector } from "../../../redux/hooks";
 import TabList from "./TabList";
 import ConfirmButton from "../../common/ConfirmButton";
 import { useEffect, useState } from "react";
 import Container from "../../common/layout/Container";
+import SearchKeywordContainer from "../../Home/SearchKeywordContainer";
 
 const NavContainer = () => {
-  const { isLogin } = useAppSelector(state => state.user);
+  const { isLogin } = useAppSelector(state => state.userLogin);
   const [scrolled, setScrolled] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
-      if (!scrolled && window.scrollY > 130) {
+      if (!scrolled && window.scrollY > 390) {
         setScrolled(true);
-      } else if (scrolled && window.scrollY < 30) {
+      } else if (scrolled && window.scrollY < 390) {
         setScrolled(false);
       }
     };
@@ -26,17 +25,17 @@ const NavContainer = () => {
     };
   }, [scrolled]);
   return (
-    <Wrap>
+    <Wrap className={scrolled ? "fix-wrap mb-100" : "fix-wrap"}>
       <Area className={scrolled ? "fix-container scrolled" : "fix-container"}>
         {isLogin && (
           <Container>
-            {!scrolled && <Nav />}
+            {!scrolled && <SearchKeywordContainer />}
             <TabList />
           </Container>
         )}
         {!isLogin && (
           <Container>
-            {!scrolled && <Nav />}
+            {!scrolled && <SearchKeywordContainer />}
             <TabAddBtn role="button">
               <ConfirmButton message="회원 전용입니다. 로그인 하시겠습니까?">
                 <i>+</i>
@@ -54,8 +53,11 @@ const NavContainer = () => {
 export default NavContainer;
 const Wrap = styled.section`
   position: relative;
+  height: 345px;
+  &.fix-wrap.mb-100 {
+    margin-bottom: 100px;
+  }
 `;
-
 const Area = styled.div`
   &.fix-container {
     height: 345px;
@@ -67,6 +69,7 @@ const Area = styled.div`
     );
     padding-top: 40px;
     box-sizing: border-box;
+    z-index: 400;
   }
   &.fix-container.scrolled {
     position: fixed;
@@ -76,7 +79,6 @@ const Area = styled.div`
     height: 60px;
     background: #fff;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
-    padding-top: 0;
   }
 `;
 
@@ -100,7 +102,7 @@ const TabAddBtn = styled.button`
     color: #fff;
     outline: none;
     border: none;
-    background-color: ${props => props.theme.BlueGreenColor};
+    background-color: ${props => props.theme.primaryColor};
     box-sizing: border-box;
     border-radius: 5px 5px 0px 0px;
     padding-left: 14px;

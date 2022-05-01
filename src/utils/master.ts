@@ -1,59 +1,37 @@
 import { masterApi } from "../api/masterApi";
-import { Master } from "../components/home/InstanseKeyword";
 
-export type MasterObj = {
-  category: Array<Master>;
-  commodities: Array<Master>;
-  events: Array<Master>;
-  fx: Array<Master>;
-  index: Array<Master>;
-  macrotopic: Array<Master>;
-  sectors: Array<Master>;
-  startup: Array<Master>;
-  tickers: Array<Master>;
-  topics: Array<Master>;
-  [arg: string]: Array<Master>;
+export type MasterItem = {
+  exchange?: string;
+  name: string;
+  paramValue: string;
 };
-export let master: MasterObj;
-export let category: Array<Master> = [];
-export let sector: Array<Master> = [];
-export let sectorKey: SectorKey = {};
-export let startup: Array<Master> = [];
+
+export type MasterListObj = {
+  category: Array<MasterItem>;
+  commodities: Array<MasterItem>;
+  events: Array<MasterItem>;
+  fx: Array<MasterItem>;
+  index: Array<MasterItem>;
+  macrotopic: Array<MasterItem>;
+  sectors: Array<MasterItem>;
+  startup: Array<MasterItem>;
+  tickers: Array<MasterItem>;
+  topics: Array<MasterItem>;
+  [arg: string]: Array<MasterItem>;
+};
+
+export let master: MasterListObj;
+export let category: Array<MasterItem> = [];
+export let sectors: Array<MasterItem> = [];
+export let startup: Array<MasterItem> = [];
+export let tickers: Array<MasterItem> = [];
 
 export async function fetchMaster() {
-  let res: MasterObj = await masterApi();
-  // master = addKeyToMasterObj(res);
+  let res: MasterListObj = await masterApi();
   master = res;
   category = res.category;
   startup = res.startup;
-  sector = res.sectors;
-  sectorKey = divideSectorKey(res.sectors);
-  return { master, category, startup, sector, sectorKey };
-}
+  sectors = res.sectors;
 
-type AddedKeyTypeMaster = {
-  [arg: string]: string;
-};
-
-function addKeyToMasterObj(res: MasterObj) {
-  for (let key in res) {
-    res[key].forEach((obj: AddedKeyTypeMaster) => (obj.keyType = key));
-  }
-  return res;
-}
-
-type SectorKey = {
-  [arg: string]: Array<Master>;
-};
-
-function divideSectorKey(sector: Array<Master>) {
-  let sectorKey: SectorKey = {};
-  for (let i = 0; i < sector.length; i++) {
-    if (i === 0 || sector[i].name[0] !== sector[i - 1].name[0]) {
-      sectorKey[sector[i].name[0]] = [sector[i]];
-    } else {
-      sectorKey[sector[i].name[0]].push(sector[i]);
-    }
-  }
-  return sectorKey;
+  return { master, category, startup, sectors };
 }
